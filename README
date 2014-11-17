@@ -66,3 +66,11 @@ License
 
 PythonCAD is distributed under the terms of the
 GNU General Public License (GPL).
+
+Modifications
+=============
+
+Csega is intended to modify the original module, which was written
+for Python 2 and has not been maintained since two years at least,
+to convert the whole source to Python 3 compatible with the additional
+goal to convert from PyQt4 to PyQt5 dependency.
