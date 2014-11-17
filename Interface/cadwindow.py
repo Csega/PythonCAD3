@@ -28,7 +28,7 @@ sip.setapi('QString', 2)
 import os
 import sys
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
    
 import cadwindow_rc
 
@@ -141,14 +141,14 @@ class CadWindowMdi(QtGui.QMainWindow):
        
     def setForceDirection(self):
         if self.forceDirectionStatus.isChecked():
-            print "abilita"
+            print("abilita")
             self.scene.forceDirection=True
             self.forceDirectionStatus.setFocus(False)
         else:
             self.scene.forceDirection=False
 
     def setSnapStatus(self):
-        print "status"
+        print("status")
         pass
         
     def setGrid(self):
@@ -658,7 +658,7 @@ class CadWindowMdi(QtGui.QMainWindow):
             self.critical("You need to have an active document to perform this command")
         #checks if scene has selected items and lauches them direclty to the Icommand if it's first prompt it's "give me entities"
         if len(self.scene.selectedItems())>0:
-            print 'selezioneesiste'
+            print("selezioneesiste")
             if  self.scene.activeKernelCommand.activeException()==ExcMultiEntity:
                 qtItems=[item for item in self.scene.selectedItems() if isinstance(item, BaseEntity)]
                 self.scene.activeICommand.addMauseEvent(point=None,
@@ -704,14 +704,14 @@ class CadWindowMdi(QtGui.QMainWindow):
                 self.resize(settings.value("size").toSize()) # self.resize(settings.value("size", QtCore.QSize(800, 600)).toSize())
                 self.move(settings.value("pos").toPoint())   # self.move(settings.value("pos", QtCore.QPoint(400, 300)).toPoint())+
             except:    
-                print "Warning: unable to set the previews values"
+                print("Warning: unable to set the previews values")
         settings.endGroup()
         
         settings.beginGroup("CadWindowState")
         try:
             self.restoreState(settings.value('State').toByteArray())
         except:
-            print "Warning: Unable to set state"
+            print("Warning: Unable to set state")
         settings.endGroup()
 
     def writeSettings(self):
