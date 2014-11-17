@@ -5,7 +5,7 @@
 import sip
 sip.setapi('QString', 2)
 #
-from PyQt5.QtWidgets import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 #
 import sys
 import os
