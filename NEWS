@@ -1,7 +1,13 @@
 NEWS
 ====
+The project has been forked on Nov 17, 2014:
+* New maintainer: Csega
+* New repository: https://github.com/Csega/PythonCAD3
+* Goal 1: make it compatible with Python 3
+* Goal 2: make it compatible with PyQt5
+
 Release DS1-R37, Sep  22, 2009:
-* New Mantainer Matteo Boscolo 
+* New Maintainer Matteo Boscolo 
 * New Repository in www.Sourceforge.net/projects/pythoncad
 * New Pan & Dynamic Zoom
 * New  Snap System (With One shot snap :point/tangent/perpendicular/midpoint/endpoint)
