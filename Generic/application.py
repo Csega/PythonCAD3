@@ -28,10 +28,10 @@ import shutil
 if __name__=="__main__":
     sys.path.append(os.path.join(os.getcwd(), 'Kernel'))
 #
-from Kernel.pycadevent          import PyCadEvent
-from Kernel.exception           import *
-from Kernel.document            import *
-from Kernel.Command             import *
+from Kernel.pycadevent import PyCadEvent
+from Kernel.exception import *
+from Kernel.document import *
+from Kernel.Command import *
 
 
 class Application(object):
@@ -166,7 +166,7 @@ class Application(object):
             self.closeDocument(oldFileName)
             shutil.copy2(oldFileName,newFileName)
             return self.openDocument(newFileName)
-        raise EntityMissing, "No document open in the application unable to perform the saveAs comand"
+        raise EntityMissing("No document open in the application unable to perform the saveAs comand")
     
     def closeDocument(self, fileName):
         """
@@ -181,7 +181,7 @@ class Application(object):
             else:
                 self.setActiveDocument(None)
         else:
-            raise IOError, "Unable to remove the file %s"%str(fileName)
+            raise IOError("Unable to remove the file %s"%str(fileName))
         self.afterCloseDocumentEvent(self)
     
     def getActiveDocument(self):
