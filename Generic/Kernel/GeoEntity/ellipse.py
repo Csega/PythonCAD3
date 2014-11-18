@@ -29,12 +29,12 @@
 import math
 
 
-from Kernel.GeoUtil.tolerance              import *
-from Kernel.GeoUtil.util                   import *
-from Kernel.GeoEntity.point                import Point
-from Kernel.GeoEntity.segment              import Segment
-from Kernel.GeoEntity.cline                import CLine
-from Kernel.GeoEntity.geometricalentity    import *
+from Kernel.GeoUtil.tolerance import *
+from Kernel.GeoUtil.util import *
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.segment import Segment
+from Kernel.GeoEntity.cline import CLine
+from Kernel.GeoEntity.geometricalentity import *
 
 class Ellipse(GeometricalEntity):
     """
@@ -44,7 +44,7 @@ class Ellipse(GeometricalEntity):
         horizontalRadius_axis:
         verticalRadius_axis:
     """
-    def __init__(self,kw):
+    def __init__(self, kw):
         """
             Initialize a Arc/Circle.
             kw['ELLIPSE_0'] center must be a point 
@@ -52,19 +52,21 @@ class Ellipse(GeometricalEntity):
             kw['ELLIPSE_2'] vradius ax
         """
         argDescription={
-                        "ELLIPSE_0":Point,
-                        "ELLIPSE_1":(float, int), 
-                        "ELLIPSE_2":(float, int)
+                        "ELLIPSE_0": Point,
+                        "ELLIPSE_1": (float, int), 
+                        "ELLIPSE_2": (float, int)
                         }
-        _horizontalRadius=kw['ELLIPSE_1']
-        _verticalRadius=kw['ELLIPSE_2']
+        _horizontalRadius = kw['ELLIPSE_1']
+        _verticalRadius = kw['ELLIPSE_2']
         #if _verticalRadius > _horizontalRadius:
-        #    kw['ELLIPSE_2']=get_float(_horizontalRadius)
-        #    kw['ELLIPSE_1']=get_float(_verticalRadius)
-        GeometricalEntity.__init__(self,kw, argDescription)
+        #    kw['ELLIPSE_2'] = get_float(_horizontalRadius)
+        #    kw['ELLIPSE_1'] = get_float(_verticalRadius)
+        GeometricalEntity.__init__(self, kw, argDescription)
+    
     @property
     def info(self):
         return "Ellipse: Center: %s, horizontalRadius: %s, verticalRadius:%s "%(str(self.center), str(self.horizontalRadius), str(self.verticalRadius))        
+    
     def __eq__(self, obj):
         """
             Compare one ellipse to another for equality.
@@ -82,7 +84,7 @@ class Ellipse(GeometricalEntity):
         """
             Compare one ellipse to another for equality.
         """
-        return not self==object
+        return not self == object
 
     def getCenter(self):
         """
@@ -114,14 +116,14 @@ class Ellipse(GeometricalEntity):
         """
         _val = get_float(val)
         if _val < 0.0:
-            raise ValueError, "Invalid horizontalRadius axis value: %g" % _val
+            raise ValueError("Invalid horizontalRadius axis value: %g" % _val)
         if _val < self.verticalRadius:
-            self.self['ELLIPSE_1']=self.verticalRadius
-            self.verticalRadius=_val
+            self.self['ELLIPSE_1'] = self.verticalRadius
+            self.verticalRadius = _val
         else:
-            self['ELLIPSE_1']=_val
+            self['ELLIPSE_1'] = _val
             
-    horizontalRadius= property(gethorizontalRadiusAxis, sethorizontalRadiusAxis, None,
+    horizontalRadius = property(gethorizontalRadiusAxis, sethorizontalRadiusAxis, None,
                           "Ellipse horizontalRadius axis")
 
     def getverticalRadiusAxis(self):
@@ -138,12 +140,12 @@ class Ellipse(GeometricalEntity):
         """
         _val = get_float(val)
         if _val < 0.0:
-            raise ValueError, "Invalid verticalRadius axis value: %g" % _val
+            raise ValueError("Invalid verticalRadius axis value: %g" % _val)
         if _val > self.horizontalRadius:
-            self['ELLIPSE_2']=self.horizontalRadius
-            self.horizontalRadius=_val
+            self['ELLIPSE_2'] = self.horizontalRadius
+            self.horizontalRadius = _val
         else:
-            self['ELLIPSE_2']=_val
+            self['ELLIPSE_2'] = _val
             
     verticalRadius = property(getverticalRadiusAxis, setverticalRadiusAxis, None,
                           "Ellipse verticalRadius axis")
@@ -179,15 +181,15 @@ class Ellipse(GeometricalEntity):
         """
         _a = self.horizontalRadius
         _b = self.verticalRadius
-        _h = math.pow((_a - _b), 2)/math.pow((_a + _b), 2)
+        _h = math.pow((_a - _b), 2) / math.pow((_a + _b), 2)
         _3h = 3.0 * _h
-        return math.pi * (_a + _b) * (1.0 + _3h/(10.0 + math.sqrt(4.0 - _3h)))
+        return math.pi * (_a + _b) * (1.0 + _3h / (10.0 + math.sqrt(4.0 - _3h)))
 
 #
 # measure r from focus
 #
-# x = c + r*cos(theta)
-# y = r*sin(theta)
+# x = c + r * cos(theta)
+# y = r * sin(theta)
 #
 # c = sqrt(a^2 - b^2)
 #
@@ -204,19 +206,19 @@ class Ellipse(GeometricalEntity):
         """
             get the sympy object in this case a ellipse
         """
-        _cp=self.center.getSympy()
-        return geoSympy.Ellipse(_cp,mainSympy.Rational(str(self.horizontalRadius*.5)),mainSympy.Rational(str(self.verticalRadius*.5)))
+        _cp = self.center.getSympy()
+        return geoSympy.Ellipse(_cp, mainSympy.Rational(str(self.horizontalRadius * .5)), mainSympy.Rational(str(self.verticalRadius * .5)))
         
     def setFromSympy(self, sympyEllipse):    
         """
             update the points cord from a sympyobject only avaiable for circle
         """
         self.center.setFromSympy(sympyEllipse[0])
-        self.horizontalRadius=float(sympyEllipse[1])
-        self.verticalRadius=float(sympyEllipse[2])
+        self.horizontalRadius = float(sympyEllipse[1])
+        self.verticalRadius = float(sympyEllipse[2])
         
     def __str__(self):
-        msg="Ellipse: Center %s , horizontalRadius Axi=%s, Mino Axi=%s"%(
+        msg = "Ellipse: Center %s , horizontalRadius Axi = %s, Mino Axi = %s"%(
             str(self.center), str(self.horizontalRadius), str(self.verticalRadius))
         return msg
         
@@ -225,6 +227,6 @@ class Ellipse(GeometricalEntity):
             perform the mirror of the line
         """
         if not isinstance(mirrorRef, (CLine, Segment)):
-            raise TypeError, "mirrorObject must be Cline Segment or a tuple of points"
+            raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
         self.center.mirror(mirrorRef)
