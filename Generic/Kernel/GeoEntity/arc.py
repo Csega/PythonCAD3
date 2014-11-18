@@ -26,18 +26,18 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoEntity.point                import Point
-from Kernel.GeoEntity.segment              import Segment
-from Kernel.GeoEntity.cline                import CLine
-from Kernel.GeoUtil.geolib                 import Vector
-from Kernel.GeoEntity.geometricalentity    import *
-from Kernel.GeoUtil.util                   import *
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.segment import Segment
+from Kernel.GeoEntity.cline import CLine
+from Kernel.GeoUtil.geolib import Vector
+from Kernel.GeoEntity.geometricalentity import *
+from Kernel.GeoUtil.util import *
 
-_dtr = math.pi/180.0
-_rtd = 180.0/math.pi
+_dtr = math.pi / 180.0
+_rtd = 180.0 / math.pi
 
-pi_2=math.pi*2.0
-pi2=math.pi/2.0
+pi_2 = math.pi * 2.0
+pi2 = math.pi / 2.0
 
 class Arc(GeometricalEntity):
     """
