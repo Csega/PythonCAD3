@@ -30,33 +30,33 @@ import time
 
 
 #***************************************************Kernel Import
-from Kernel.pycadevent              import PyCadEvent
-from Kernel.initsetting             import *
+from Kernel.pycadevent import PyCadEvent
+from Kernel.initsetting import *
 from Kernel.ExternalFormat.externalformat  import ExtFormat
 from Kernel.ExternalFormat.Dxf.dxf  import Dxf
-from Kernel.exception               import *
-from Kernel.settings                import *
-from Kernel.entity                  import Entity
-from Kernel.composedentity          import ComposedEntity
-from Kernel.layertree               import LayerTree
-from Kernel.layer                   import Layer
+from Kernel.exception import *
+from Kernel.settings import *
+from Kernel.entity import Entity
+from Kernel.composedentity import ComposedEntity
+from Kernel.layertree import LayerTree
+from Kernel.layer import Layer
 
 #***************************************************Db Import
-from Kernel.Db.undodb               import UndoDb
-from Kernel.Db.entitydb             import EntityDb
-from Kernel.Db.basedb               import BaseDb
-from Kernel.Db.relationdb           import RelationDb
+from Kernel.Db.undodb import UndoDb
+from Kernel.Db.entitydb import EntityDb
+from Kernel.Db.basedb import BaseDb
+from Kernel.Db.relationdb import RelationDb
 
 
 #****************************************************Entity Import
-from Kernel.GeoEntity.geometricalentity       import GeometricalEntity, GeometricalEntityComposed
-from Kernel.GeoEntity.point        import Point
-from Kernel.GeoEntity.segment      import Segment
-from Kernel.GeoEntity.arc          import Arc
-from Kernel.GeoEntity.ellipse      import Ellipse
-from Kernel.GeoEntity.polyline     import Polyline
-from Kernel.GeoEntity.style        import Style
-from Kernel.GeoEntity.entityutil   import *
+from Kernel.GeoEntity.geometricalentity import GeometricalEntity, GeometricalEntityComposed
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.segment import Segment
+from Kernel.GeoEntity.arc import Arc
+from Kernel.GeoEntity.ellipse import Ellipse
+from Kernel.GeoEntity.polyline import Polyline
+from Kernel.GeoEntity.style import Style
+from Kernel.GeoEntity.entityutil import *
 
 #   Define the log 
 LEVELS = {'PyCad_Debug':    logging.DEBUG,
@@ -112,7 +112,7 @@ class Document(BaseDb):
         try:
             self.__LayerTree=LayerTree(self)
         except StructuralError:
-            raise StructuralError, 'Unable to create LayerTree structure'
+            raise StructuralError('Unable to create LayerTree structure')
         self.__logger.debug('Done inizialization')
     
     def getMainStyle(self):
@@ -231,7 +231,7 @@ class Document(BaseDb):
         if not isinstance(entity,SUPPORTED_ENTITYS):
             msg="SaveEntity : Type %s not supported from pythoncad kernel"%type(entity)
             self.__logger.warning(msg)
-            raise TypeError ,msg
+            raise TypeError(msg)
         try:
             _obj=None
             #self.__UndoDb.suspendCommit()
@@ -249,7 +249,7 @@ class Document(BaseDb):
             elif isinstance(entity,Entity): # This is used if case of update of the entity
                 _obj=self._savePyCadEnt(entity)
             else:
-                raise StructuralError, "Entity %s not allowed to be Saved"%str(type(entity))
+                raise StructuralError("Entity %s not allowed to be Saved"%str(type(entity)))
             if not self.__bulkCommit:
                 #self.__UndoDb.reactiveCommit()
                 #self.__EntityDb.reactiveCommit()
@@ -259,7 +259,7 @@ class Document(BaseDb):
             return _obj
         except:
             msg="Unexpected error: %s "%str(sys.exc_info()[0])
-            raise StructuralError, msg
+            raise StructuralError(msg)
             
     def _saveComposedEntity(self, entity):
         """
@@ -410,7 +410,7 @@ class Document(BaseDb):
                 stlName=_styleObj[_styleObj.keys()[0]].getName()
                 if stlName==name:
                    return sto 
-        raise EntityMissing, "Miss entity style in db id: <%s> name : <%s>"%(str(id), str(name))
+        raise EntityMissing("Miss entity style in db id: <%s> name : <%s>"%(str(id), str(name)))
 
     def getActiveStyle(self):
         """
@@ -429,10 +429,10 @@ class Document(BaseDb):
         """
         self.__logger.debug('setActiveStyle')
         if id==None and name==None:
-            raise EntityMissing,"Unable to retive the Style object"
+            raise EntityMissing("Unable to retive the Style object")
         styleObject=self.getStyle(id, name)
         if styleObject==None:
-            raise EntityMissing,"Unable to retive the Style object"
+            raise EntityMissing("Unable to retive the Style object")
         self.__activeStyleObj=styleObject
 
     def getStyleList(self):
@@ -455,7 +455,7 @@ class Document(BaseDb):
             self.__EntityDb.performCommit()
             self.undoRedoEvent(self, None)
         except UndoDb:
-            raise UndoDb, "Generical problem to perform undo"
+            raise UndoDb("Generical problem to perform undo")
 
     def reDo(self):
         """
@@ -468,7 +468,7 @@ class Document(BaseDb):
             self.__EntityDb.performCommit()
             self.undoRedoEvent(self, None)
         except UndoDb:
-            raise UndoDb, "Generical problem to perform reDo"
+            raise UndoDb("Generical problem to perform reDo")
 
     def clearUnDoHistory(self):
         """
@@ -555,7 +555,7 @@ class Document(BaseDb):
             make the hide/unhide of an entity
         """
         if entity is None and entityId is None:
-            raise EntityMissing, "All function attribut are null"
+            raise EntityMissing("All function attribut are null")
         activeEnt=None
         if entity != None:
             activeEnt=self.__EntityDb.getEntityEntityId(entity.getId())
