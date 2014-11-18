@@ -1,10 +1,3 @@
-"""
-TODO: QtCore.qRegisterResourceData(0x01, qt_resource_struct, qt_resource_name, qt_resource_data)
-SIGNATURE CHANGED SINCE PYQT4!!!
-Or:
-http://stackoverflow.com/questions/1619574/problems-using-pyqts-resource-system
-http://pyqt.sourceforge.net/Docs/pyqtdeploy/pyrcc.html
-"""
 # -*- coding: utf-8 -*-
 
 # Resource object code
