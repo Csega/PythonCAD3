@@ -55,7 +55,7 @@ if the function is called without arguments.
         if not isinstance(tol, float):
             tol = float(t)
         if tol < 0.0:
-            raise ValueError, "Tolerance must be greater than 0: " + `tol`
+            raise ValueError("Tolerance must be greater than 0: " + str(tol))
         self.__tolerance = tol
         
     def setTolerance(self, t=None):
@@ -75,7 +75,7 @@ This function returns the old tolerance value.
         if not isinstance(tol, float):
             tol = float(t)
         if tol < 0.0:
-            raise ValueError, "Tolerance must be greater than 0: " + `tol`
+            raise ValueError("Tolerance must be greater than 0: " + str(tol))
         self.__tolerance = tol
         return old_tol
 
@@ -109,7 +109,7 @@ will share the same tolerance value.
 
     __tolerance = TOL
     
-    def setTolerance(cls, t=None):
+    def setTolerance(cls, t = None):
         """Set the tolerance value.
 
 Optional argument t must be a float, and itmust be
@@ -125,7 +125,7 @@ This function returns the old tolerance value.
         if not isinstance(_t, float):
             _t = float(t)
         if _t < 0.0:
-            raise ValueError, "Tolerance must be greater than 0: " + `_t`
+            raise ValueError("Tolerance must be greater than 0: " + str(_t))
         cls.__tolerance = _t
         return old_tol
 
@@ -143,13 +143,13 @@ Return the current tolerance.
 def toltest(tol):
     """Test that a tolerance value is valid.
 
-toltest(tol)
+    toltest(tol)
 
-The argument "tol" should be a float.
+    The argument "tol" should be a float.
     """
     _t = tol
     if not isinstance(_t, float):
         _t = float(tol)
     if _t < TOL:
-        raise ValueError, "Invalid tolerance: %g" % _t
+        raise ValueError("Invalid tolerance: %g" % _t)
     return _t
