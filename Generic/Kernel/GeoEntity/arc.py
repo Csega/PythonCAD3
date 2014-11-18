@@ -71,7 +71,7 @@ class Arc(GeometricalEntity):
             self.endAngle=pi_2
             __isCircle=True
         if not get_float(self.radius) > 0.0:
-            raise ValueError, "Invalid radius" 
+            raise ValueError("Invalid radius" )
         
         self.startAngle = self.startAngle
         self.endAngle= self.endAngle
@@ -122,7 +122,7 @@ class Arc(GeometricalEntity):
             Set the center Point of the Arc.
         """
         if not isinstance(point, self.arguments['ARC_0'] ):
-            raise TypeError, "Wrong argument type Need a Point"
+            raise TypeError("Wrong argument type Need a Point")
         self['ARC_0']=point
 
     center = property(getCenter, setCenter, None, "Arc center")
@@ -140,7 +140,7 @@ class Arc(GeometricalEntity):
         """
         _r = get_float(radius)
         if not _r > 0.0:
-            raise ValueError, "Invalid radius: %g" % _r
+            raise ValueError("Invalid radius: %g" % _r)
         self['ARC_1']=_r
 
     radius = property(getRadius, setRadius, None, "Arc radius")
@@ -319,10 +319,10 @@ class Arc(GeometricalEntity):
         _ymin = get_float(ymin)
         _xmax = get_float(xmax)
         if _xmax < _xmin:
-            raise ValueError, "Illegal values: xmax < xmin"
+            raise ValueError("Illegal values: xmax < xmin")
         _ymax = get_float(ymax)
         if _ymax < _ymin:
-            raise ValueError, "Illegal values: ymax < ymin"
+            raise ValueError("Illegal values: ymax < ymin")
         test_boolean(fully)
         _xc, _yc = self.center.getCoords()
         _r = self.radius
@@ -469,7 +469,7 @@ class Arc(GeometricalEntity):
             perform the mirror of the line
         """
         if not isinstance(mirrorRef, (CLine, Segment)):
-            raise TypeError, "mirrorObject must be Cline Segment or a tuple of points"
+            raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
         startPoint, endPoint=self.getEndpoints()
         self.center.mirror(mirrorRef)
@@ -483,7 +483,7 @@ class Arc(GeometricalEntity):
             Return the circle intersection with the line x,y passing through the
             center
         """
-        print "call getQuadrant"
+        print("call getQuadrant")
         x, y=self.center.getCoords()
         p1=Point(x, y+self.radius)
         p2=Point(x-self.radius, y)
