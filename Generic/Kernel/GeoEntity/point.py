@@ -71,7 +71,7 @@ class Point(GeometricalEntity):
             way to find the distance between two Point objects.
         """
         if not isinstance(p, Point):
-            raise TypeError("Invalid type for Point subtraction: " + type(p))
+            raise TypeError("Invalid type for Point subtraction: " + str(type(p)))
         _px, _py = p.getCoords()
         return math.hypot((self.__x - _px), (self.__y - _py))
 

@@ -33,21 +33,21 @@ def get_float(val):
     _v = val
     if not isinstance(_v, float):
         if not isinstance(_v, (int, long)):
-            raise TypeError("Invalid non-numeric type: " + type(_v))
+            raise TypeError("Invalid non-numeric type: " + str(type(_v)))
         _v = float(val)
     return _v
 
 def test_boolean(val):
     if hasattr(types, 'BooleanType'):
         if not isinstance(val, types.BooleanType):
-            raise TypeError("Invalid non-boolean type: " + type(val))
+            raise TypeError("Invalid non-boolean type: " + str(type(val)))
     else:
         if val is not True and val is not False:
-            raise TypeError("Invalid non-boolean type: " + type(val))
+            raise TypeError("Invalid non-boolean type: " + str(type(val)))
 
 def tuple_to_two_floats(t):
     if not isinstance(t, tuple):
-        raise TypeError("Argument must be a tuple: " + type(t))
+        raise TypeError("Argument must be a tuple: " + str(type(t)))
     if len(t) != 2:
         raise ValueError("Tuple must hold exactly two objects: " + str(t))
     _obj1, _obj2 = t
@@ -57,7 +57,7 @@ def tuple_to_two_floats(t):
 
 def tuple_to_three_floats(t):
     if not isinstance(t, tuple):
-        raise TypeError("Argument must be a tuple: " + type(t))
+        raise TypeError("Argument must be a tuple: " + str(type(t)))
     if len(t) != 3:
         raise ValueError("Tuple must hold exactly three objects: " + str(t))
     _obj1, _obj2, _obj3 = t
@@ -281,7 +281,7 @@ def to_unicode(obj, encoding='utf-8'):
         if not isinstance(obj, unicode):
             obj = obj.replace('\x00', '').decode(encoding, 'ignore').encode(encoding)
         return obj
-    raise TypeError("Invalid object type : " + type(obj))
+    raise TypeError("Invalid object type : " + str(type(obj)))
 
 def getRandomString(lengh = None):
     """
