@@ -28,11 +28,11 @@ from __future__ import generators
 import math
 
 
-from Kernel.GeoEntity.geometricalentity    import *
-from Kernel.GeoUtil.tolerance              import *
-from Kernel.GeoUtil.util                   import *
-from Kernel.GeoEntity.point                import Point
-from Kernel.GeoUtil.geolib                 import Vector
+from Kernel.GeoEntity.geometricalentity import *
+from Kernel.GeoUtil.tolerance import *
+from Kernel.GeoUtil.util import *
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoUtil.geolib import Vector
 
 class CLine(GeometricalEntity):
     """
@@ -46,11 +46,12 @@ class CLine(GeometricalEntity):
             CLINE_0=Point: First Point object where the line passes through
             CLINE_1=Point: Second Point object where the line passes through
         """
-        argDescription={"CLINE_0":Point, "CLINE_1":Point}
-        GeometricalEntity.__init__(self,kw, argDescription)
+        argDescription = {"CLINE_0": Point, "CLINE_1": Point}
+        GeometricalEntity.__init__(self, kw, argDescription)
 
     def __str__(self):
         return "Construction line through point %s at %s " % (self.p1, self.p2)   
+    
     @property
     def info(self):
         return "CLine: %s, %s"%(str(self.p1), str(self.p2))
@@ -59,17 +60,17 @@ class CLine(GeometricalEntity):
         """
             rotate the acline for a given angle
         """    
-        self.p1=GeometricalEntity.rotate(self, rotationPoint,self.p1, angle )
-        self.p2=GeometricalEntity.rotate(self, rotationPoint,self.p2, angle )
+        self.p1 = GeometricalEntity.rotate(self, rotationPoint, self.p1, angle )
+        self.p2 = GeometricalEntity.rotate(self, rotationPoint, self.p2, angle )
 
     def isVertical(self):
-        x1, y1=self.p1.getCoords()
-        x2, y2=self.p1.getCoords()
+        x1, y1 = self.p1.getCoords()
+        x2, y2 = self.p1.getCoords()
         return abs(y1 - y2) < 1e-10
 
     def isHorizontal(self):
-        x1, y1=self.p1.getCoords()
-        x2, y2=self.p1.getCoords()
+        x1, y1 = self.p1.getCoords()
+        x2, y2 = self.p1.getCoords()
         return abs(x1 - x2) < 1e-10
 
     def getP1(self):
@@ -77,20 +78,20 @@ class CLine(GeometricalEntity):
 
     def setP1(self, p):
         if not isinstance(p, Point):
-            raise TypeError, "Unexpected type for point: " + `type(p)`
-        self['CLINE_0']=p
+            raise TypeError("Unexpected type for point: " + str(type(p)))
+        self['CLINE_0'] = p
         
-    p1=property(getP1, setP1, None, "Set the location of the first point of the line")
+    p1 = property(getP1, setP1, None, "Set the location of the first point of the line")
 
     def getP2(self):
         return self['CLINE_1']
 
     def setP2(self, p):
         if not isinstance(p, Point):
-            raise TypeError, "Unexpected type for point: " + `type(p)`
-        self['CLINE_1']=p
+            raise TypeError("Unexpected type for point: " + str(type(p)))
+        self['CLINE_1'] = p
         
-    p2=property(getP2, setP2, None, "Set the location of the first point of the line")
+    p2 = property(getP2, setP2, None, "Set the location of the first point of the line")
 
     def getKeypoints(self):
         """
@@ -114,8 +115,8 @@ class CLine(GeometricalEntity):
         """
             get the sympy object
         """
-        _sp1=self.p1.getSympy()
-        _sp2=self.p2.getSympy()
+        _sp1 = self.p1.getSympy()
+        _sp2 = self.p2.getSympy()
         return geoSympy.Line(_sp1, _sp2)
         
     def setFromSympy(self, sympySegment):    
@@ -124,6 +125,7 @@ class CLine(GeometricalEntity):
         """
         self.p1.setFromSympy(sympySegment[0])
         self.p2.setFromSympy(sympySegment[1])
+    
     @property
     def vector(self):
         """
@@ -135,24 +137,24 @@ class CLine(GeometricalEntity):
         """
             perform the mirror of the line
         """
-        from Kernel.GeoEntity.segment              import Segment
+        from Kernel.GeoEntity.segment import Segment
         if not isinstance(mirrorRef, (CLine, Segment)):
-            raise TypeError, "mirrorObject must be Cline Segment or a tuple of points"
+            raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
         self.p1.mirror(mirrorRef)
         self.p2.mirror(mirrorRef)
 
 def intersect_region(acl, xmin, ymin, xmax, ymax):
     if not isinstance(acl, CLine):
-        raise TypeError, "Argument not an CLine: " + `type(acl)`
+        raise TypeError("Argument not an CLine: " + str(type(acl)))
     _xmin = get_float(xmin)
     _ymin = get_float(ymin)
     _xmax = get_float(xmax)
     if _xmax < _xmin:
-        raise ValueError, "Illegal values: xmax < xmin"
+        raise ValueError("Illegal values: xmax < xmin")
     _ymax = get_float(ymax)
     if _ymax < _ymin:
-        raise ValueError, "Illegal values: ymax < ymin"
+        raise ValueError("Illegal values: ymax < ymin")
     _x, _y = acl.getLocation().getCoords()
     _x1 = _y1 = _x2 = _y2 = None
     if acl.isVertical() and _xmin < _x < _xmax:
@@ -176,7 +178,7 @@ def intersect_region(acl, xmin, ymin, xmax, ymax):
         #
         _yt = (_slope * _xmin) + _yint
         if _ymin < _yt < _ymax:
-            # print "hit at y for x=xmin"
+            # print("hit at y for x=xmin")
             _x1 = _xmin
             _y1 = _yt
         #
@@ -184,7 +186,7 @@ def intersect_region(acl, xmin, ymin, xmax, ymax):
         #
         _yt = (_slope * _xmax) + _yint
         if _ymin < _yt < _ymax:
-            # print "hit at y for x=xmax"
+            # print("hit at y for x=xmax")
             if _x1 is None:
                 _x1 = _xmax
                 _y1 = _yt
@@ -195,9 +197,9 @@ def intersect_region(acl, xmin, ymin, xmax, ymax):
             #
             # find x for y = ymin
             #
-            _xt = (_ymin - _yint)/_slope
+            _xt = (_ymin - _yint) / _slope
             if _xmin < _xt < _xmax:
-                # print "hit at x for y=ymin"
+                # print("hit at x for y = ymin")
                 if _x1 is None:
                     _x1 = _xt
                     _y1 = _ymin
@@ -210,7 +212,7 @@ def intersect_region(acl, xmin, ymin, xmax, ymax):
             #
             _xt = (_ymax - _yint)/_slope
             if _xmin < _xt < _xmax:
-                # print "hit at x for y=ymax"
+                # print("hit at x for y=ymax")
                 if _x1 is None:
                     _x1 = _xt
                     _y1 = _ymax
