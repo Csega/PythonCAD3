@@ -163,22 +163,22 @@ class Segment(GeometricalEntity):
         """
             Return the middle point of the segment
         """
-        _p1,_p2=self.getEndpoints()
-        _x1=get_float(_p1.x)
-        _x2=get_float(_p2.x)
-        _y1=get_float(_p1.y)
-        _y2=get_float(_p2.y)
-        _deltax=abs(_x1-_x2)/2.0
-        _deltay=abs(_y1-_y2)/2.0
-        if(_x1<_x2):
-            retX=_x1+_deltax
+        _p1,_p2 = self.getEndpoints()
+        _x1 = get_float(_p1.x)
+        _x2 = get_float(_p2.x)
+        _y1 = get_float(_p1.y)
+        _y2 = get_float(_p2.y)
+        _deltax = abs(_x1 - _x2) / 2.0
+        _deltay = abs(_y1 - _y2) / 2.0
+        if(_x1 < _x2):
+            retX = _x1 + _deltax
         else:
-            retX=_x2+_deltax
-        if(_y1<_y2):
-            retY=_y1+_deltay
+            retX = _x2 + _deltax
+        if(_y1 < _y2):
+            retY = _y1 + _deltay
         else:
-            retY=_y2+_deltay
-        return Point(retX,retY)
+            retY = _y2 + _deltay
+        return Point(retX, retY)
         #return Point((_x1+_x2)/2.0,(_y1+_y2)/2.0) <<<<why not like this? it seems to work too
 
     def getProjection(self, point):
