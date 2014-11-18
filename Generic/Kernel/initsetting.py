@@ -24,49 +24,49 @@
 #
 # Command List
 #
-from Kernel.Command                     import *
-from Kernel.Command.segmentcommand      import SegmentCommand
-from Kernel.Command.arccommand          import ArcCommand
-from Kernel.Command.pointcommand        import PointCommand
-from Kernel.Command.ellipsecommand      import EllipseCommand
-from Kernel.Command.polylinecommand     import PolylineCommand
-#from Kernel.Command.aclinecommand       import ACLineCommand
-from Kernel.Command.ccirclecommand      import CCircleCommand
-from Kernel.Command.textcommand         import TextCommand
-from Kernel.Command.chamfercommand      import ChamferCommand
-from Kernel.Command.filletcommand       import FilletCommand
-from Kernel.Command.bisectorcommand     import BisectorCommand
-from Kernel.Command.rectanglecommand    import RectangleCommand
-from Kernel.Command.polygoncommand      import PolygonCommand
-from Kernel.Command.copycommand         import CopyCommand
-from Kernel.Command.movecommand         import MoveCommand
-from Kernel.Command.mirrorcommand       import MirrorCommand
-from Kernel.Command.rotatecommand       import RotateCommand
-from Kernel.Command.trimcommand         import TrimCommand
-from Kernel.Command.deletecommand       import DeleteCommand
+from Kernel.Command import *
+from Kernel.Command.segmentcommand import SegmentCommand
+from Kernel.Command.arccommand import ArcCommand
+from Kernel.Command.pointcommand import PointCommand
+from Kernel.Command.ellipsecommand import EllipseCommand
+from Kernel.Command.polylinecommand import PolylineCommand
+#from Kernel.Command.aclinecommand import ACLineCommand
+from Kernel.Command.ccirclecommand import CCircleCommand
+from Kernel.Command.textcommand import TextCommand
+from Kernel.Command.chamfercommand import ChamferCommand
+from Kernel.Command.filletcommand import FilletCommand
+from Kernel.Command.bisectorcommand import BisectorCommand
+from Kernel.Command.rectanglecommand import RectangleCommand
+from Kernel.Command.polygoncommand import PolygonCommand
+from Kernel.Command.copycommand import CopyCommand
+from Kernel.Command.movecommand import MoveCommand
+from Kernel.Command.mirrorcommand import MirrorCommand
+from Kernel.Command.rotatecommand import RotateCommand
+from Kernel.Command.trimcommand import TrimCommand
+from Kernel.Command.deletecommand import DeleteCommand
 #
 # Entity List
 #
-from Kernel.GeoEntity.point        import Point 
-from Kernel.GeoEntity.segment      import Segment 
-from Kernel.GeoEntity.arc          import Arc
-from Kernel.GeoEntity.ellipse      import Ellipse
-from Kernel.GeoEntity.polyline     import Polyline
-from Kernel.GeoEntity.style        import Style 
-from Kernel.GeoEntity.cline        import CLine
-from Kernel.GeoEntity.ccircle      import CCircle
-from Kernel.GeoEntity.text         import Text
+from Kernel.GeoEntity.point import Point 
+from Kernel.GeoEntity.segment import Segment 
+from Kernel.GeoEntity.arc import Arc
+from Kernel.GeoEntity.ellipse import Ellipse
+from Kernel.GeoEntity.polyline import Polyline
+from Kernel.GeoEntity.style import Style 
+from Kernel.GeoEntity.cline import CLine
+from Kernel.GeoEntity.ccircle import CCircle
+from Kernel.GeoEntity.text import Text
 
-from Kernel.GeoComposedEntity.chamfer   import Chamfer
-from Kernel.GeoComposedEntity.fillet    import Fillet
-from Kernel.GeoComposedEntity.bisector  import Bisector
+from Kernel.GeoComposedEntity.chamfer import Chamfer
+from Kernel.GeoComposedEntity.fillet import Fillet
+from Kernel.GeoComposedEntity.bisector import Bisector
 #
 # db Ent
 #
-from Kernel.settings            import *
-from Kernel.entity              import Entity
-from Kernel.layer               import Layer
-from Kernel.composedentity      import ComposedEntity
+from Kernel.settings import *
+from Kernel.entity import Entity
+from Kernel.layer import Layer
+from Kernel.composedentity import ComposedEntity
 #
 # Default LAyer
 # 
@@ -155,8 +155,8 @@ PYTHONCAD_COLOR={
     'black'                 :(0,0,0),
     'blanchedalmond'        :(255,235,205),
     'blue'                  :(0,0,255),
-    'blueviolet'            :(138,043,226),
-    'brown'                 :(165,042,042),
+    'blueviolet'            :(138,43,226),
+    'brown'                 :(165,42,42),
     'burlywood'             :(222,184,135),
     'cadetblue'             :(95,158,160),
     'chartreuse'            :(127,255,0),
@@ -227,7 +227,7 @@ PYTHONCAD_COLOR={
     'lightsteelblue'        :(176,196,222),
     'lightyellow'           :(255,255,224),
     'lime'                  :(0,255,0),
-    'limegreen'             :(50,205,050),
+    'limegreen'             :(50,205,50),
     'linen'                 :(250,240,230),
     'magenta'               :(255,0,255),
     'maroon'                :(128,0,0),
@@ -240,7 +240,7 @@ PYTHONCAD_COLOR={
     'mediumspringgreen'     :(0,250,154),
     'mediumturquoise'       :(72,209,204),
     'mediumvioletred'       :(199,21,133),
-    'midnightblue'          :(025,25,112),
+    'midnightblue'          :(25,25,112),
     'mintcream'             :(245,255,250),
     'mistyrose'             :(255,228,225),
     'moccasin'              :(255,228,181),
@@ -258,7 +258,7 @@ PYTHONCAD_COLOR={
     'palevioletred'         :(219,112,147),
     'papayawhip'            :(255,239,213),
     'peachpuff'             :(255,218,185),
-    'peru'                  :(205,133,063),
+    'peru'                  :(205,133,63),
     'pink'                  :(255,192,203),
     'plum'                  :(221,160,221),
     'powderblue'            :(176,224,230),
@@ -289,7 +289,7 @@ PYTHONCAD_COLOR={
     'wheat'                 :(245,222,179),
     'white'                 :(255,255,255),
     'whitesmok'             :(255,255,0),
-    'yellowgreen'           :(154,205,050)}
+    'yellowgreen'           :(154,205,50)}
 
 PYTHONCAD_HIGLITGT_COLOR=PYTHONCAD_COLOR['tomato']
 PYTHONCAD_PREVIEW_COLOR=PYTHONCAD_COLOR['steelblue']
