@@ -57,7 +57,7 @@ class Vector:
         """
         return math.sqrt(pow(self.X, 2) + pow(self.Y, 2))
     
-	def __eq__(self, vector):
+    def __eq__(self, vector):
         """
             the 2 vector are equal
         """ 
@@ -68,28 +68,28 @@ class Vector:
         else:
             return False
     
-	@property
+    @property
     def point(self):
         """
               Return The Point 
         """
         return Point(self.X, self.Y)
     
-	@property
+    @property
     def x(self):
         """
             return the x value of the vector
         """
         return self.X
     
-	@property
+    @property
     def y(self):
         """
             return the y value of the vector
         """
         return self.Y
     
-	def dot(self, vector):
+    def dot(self, vector):
         """
             Compute The Dot Product
         """
@@ -99,7 +99,7 @@ class Vector:
         v1 = vector.point.getCoords()
         som = 0
         for a, b in zip(v0, v1):
-          som + = a * b
+          som += a * b
         return som  
         
     def cross(self, vector):
@@ -129,7 +129,7 @@ class Vector:
         ang = math.acos(dot)
         return ang
     
-	@property
+    @property
     def absAng(self):
         """
             return the angle from the cartesian reference
