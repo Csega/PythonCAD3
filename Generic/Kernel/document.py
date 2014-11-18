@@ -503,7 +503,7 @@ class Document(BaseDb):
             self.performCommit()
         except:
             self.__EntityDb.decreseRevisionIndex()
-            print "Unable to perform the release operation"
+            print("Unable to perform the release operation")
         finally:
             self.stopMassiveCreation()
 
