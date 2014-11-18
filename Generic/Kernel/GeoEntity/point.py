@@ -25,8 +25,8 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoEntity.geometricalentity  import *
-from Kernel.GeoUtil.util                 import *
+from Kernel.GeoEntity.geometricalentity import *
+from Kernel.GeoUtil.util import *
 
 
 
@@ -45,17 +45,17 @@ class Point(GeometricalEntity):
         GeometricalEntity.__init__(self, None, None)
         if isinstance(x, tuple):
             if y is not None:
-                raise SyntaxError, "Invalid call to Point()"
+                raise SyntaxError("Invalid call to Point()")
             _x, _y = tuple_to_two_floats(x)
         elif y is not None:
             _x = float(x)
             _y = float(y)
-        elif isinstance(x,Point):
-            _x,_y=x.getCoords()
+        elif isinstance(x, Point):
+            _x,_y = x.getCoords()
         else:
-            #print "Debug : x[%s] y[%s]"%(str(x),str(y))
-            #print "Debug : type x %s"%str(type(x))
-            raise SyntaxError, "Invalid call to Point()."
+            #print("Debug : x[%s] y[%s]"%(str(x),str(y)))
+            #print("Debug : type x %s"%str(type(x)))
+            raise SyntaxError("Invalid call to Point().")
         self.__x = _x
         self.__y = _y
 
@@ -71,7 +71,7 @@ class Point(GeometricalEntity):
             way to find the distance between two Point objects.
         """
         if not isinstance(p, Point):
-            raise TypeError, "Invalid type for Point subtraction: " + `type(p)`
+            raise TypeError("Invalid type for Point subtraction: " + 'type(p)')
         _px, _py = p.getCoords()
         return math.hypot((self.__x - _px), (self.__y - _py))
 
@@ -115,7 +115,7 @@ class Point(GeometricalEntity):
             if isinstance(obj, tuple):
                 x, y = tuple_to_two_floats(obj)
             else:
-                raise TypeError,"Invalid Argument obj: Point or tuple Required"
+                raise TypeError("Invalid Argument obj: Point or tuple Required")
         else:
             x,y = obj.getCoords()
         return Point(self.__x+x, self.__y+y)
@@ -208,10 +208,10 @@ class Point(GeometricalEntity):
         _ymin = get_float(ymin)
         _xmax = get_float(xmax)
         if _xmax < _xmin:
-            raise ValueError, "Illegal values: xmax < xmin"
+            raise ValueError("Illegal values: xmax < xmin")
         _ymax = get_float(ymax)
         if _ymax < _ymin:
-            raise ValueError, "Illegal values: ymax < ymin"
+            raise ValueError("Illegal values: ymax < ymin")
         test_boolean(fully)
         _x = self.__x
         _y = self.__y
@@ -228,7 +228,7 @@ class Point(GeometricalEntity):
             if isinstance(obj, tuple):
                 _x, _y = tuple_to_two_floats(obj)
             else:
-                raise TypeError,"Invalid Argument point: Point or Tuple Required"
+                raise TypeError("Invalid Argument point: Point or Tuple Required")
         else:
             x,y=obj.getCoords()
         xDist=x-self.__x
@@ -278,7 +278,7 @@ class Point(GeometricalEntity):
         from Kernel.GeoEntity.segment            import Segment
         from Kernel.GeoUtil.geolib               import Vector
         if not isinstance(mirrorRef, (CLine, Segment)):
-            raise TypeError, "mirrorObject must be Cline Segment or a tuple of points"
+            raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
         centerMirror=mirrorRef.getProjection(self)
         vCenter=Vector(self, centerMirror )
