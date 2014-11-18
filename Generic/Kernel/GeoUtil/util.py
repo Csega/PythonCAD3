@@ -27,29 +27,29 @@ import string
 from math import fmod, pi
 import types
 
-from Kernel.GeoUtil.tolerance       import TOL
+from Kernel.GeoUtil.tolerance import TOL
 
 def get_float(val):
     _v = val
     if not isinstance(_v, float):
         if not isinstance(_v, (int, long)):
-            raise TypeError, "Invalid non-numeric type: " + `type(_v)`
+            raise TypeError("Invalid non-numeric type: " + type(_v))
         _v = float(val)
     return _v
 
 def test_boolean(val):
     if hasattr(types, 'BooleanType'):
         if not isinstance(val, types.BooleanType):
-            raise TypeError, "Invalid non-boolean type: " + `type(val)`
+            raise TypeError("Invalid non-boolean type: " + type(val))
     else:
         if val is not True and val is not False:
-            raise TypeError, "Invalid non-boolean type: " + `type(val)`
+            raise TypeError("Invalid non-boolean type: " + type(val))
 
 def tuple_to_two_floats(t):
     if not isinstance(t, tuple):
-        raise TypeError, "Argument must be a tuple: " + `type(t)`
+        raise TypeError("Argument must be a tuple: " + type(t))
     if len(t) != 2:
-        raise ValueError, "Tuple must hold exactly two objects: " + str(t)
+        raise ValueError("Tuple must hold exactly two objects: " + str(t))
     _obj1, _obj2 = t
     _x = get_float(_obj1)
     _y = get_float(_obj2)
@@ -57,9 +57,9 @@ def tuple_to_two_floats(t):
 
 def tuple_to_three_floats(t):
     if not isinstance(t, tuple):
-        raise TypeError, "Argument must be a tuple: " + `type(t)`
+        raise TypeError("Argument must be a tuple: " + type(t))
     if len(t) != 3:
-        raise ValueError, "Tuple must hold exactly three objects: " + str(t)
+        raise ValueError("Tuple must hold exactly three objects: " + str(t))
     _obj1, _obj2, _obj3 = t
     _x = get_float(_obj1)
     _y = get_float(_obj2)
@@ -72,8 +72,8 @@ def make_angle(angle):
         The argument angle should be a float. Additionally the argument
         is expected to be in radians.
     """
-    pi_2=math.pi/2
-    pi_3=3*pi_2
+    pi_2 = math.pi / 2
+    pi_3 = 3 * pi_2
     _angle = get_float(angle)
     if _angle < -pi_2 or _angle > pi_2:
         _fa = fmod(_angle, math.pi)
@@ -111,8 +111,8 @@ def make_c_angle_rad(angle):
     """
         return the angle from 0 to 2*pi
     """
-    while angle>pi*2:
-        angle=angle-pi*2
+    while angle > pi * 2:
+        angle = angle - pi * 2
     return angle
         
     
@@ -139,10 +139,10 @@ that xmin < xmax and ymin < ymax.
     _ymin = get_float(ymin)
     _xmax = get_float(xmax)
     if _xmax < _xmin:
-        raise ValueError, "Invalid values: xmax < xmin"
+        raise ValueError("Invalid values: xmax < xmin")
     _ymax = get_float(ymax)
     if _ymax < _ymin:
-        raise ValueError, "Invalid values: ymax < ymin"
+        raise ValueError("Invalid values: ymax < ymin")
     return _xmin, _ymin, _xmax, _ymax
     
 def degrees(value):
@@ -169,7 +169,7 @@ def radians(value):
 # map x/y coordinates to a (x1, y1)->(x2, y2) segment
 #
 
-def map_coords(x, y, x1, y1, x2, y2, tol=TOL):
+def map_coords(x, y, x1, y1, x2, y2, tol = TOL):
     """
 map_coords(x, y, x1, y1, x2, y2[, tol])
     """
@@ -188,7 +188,7 @@ map_coords(x, y, x1, y1, x2, y2[, tol])
     _sqlen = pow((_x2 - _x1), 2) + pow((_y2 - _y1), 2)
     if _sqlen < 1e-10: # coincident points
         return None
-    _r = ((_x - _x1)*(_x2 - _x1) + (_y - _y1)*(_y2 - _y1))/_sqlen
+    _r = ((_x - _x1) * (_x2 - _x1) + (_y - _y1) * (_y2 - _y1)) / _sqlen
     if _r < 0.0:
         _r = 0.0
     if _r > 1.0:
@@ -216,10 +216,10 @@ in_region(x1, y1, x2, y2, xmin, ymin, xmax, ymax)
     _ymin = get_float(ymin)
     _xmax = get_float(xmax)
     if _xmax < _xmin:
-        raise ValueError, "Illegal values: xmax < xmin"
+        raise ValueError("Illegal values: xmax < xmin")
     _ymax = get_float(ymax)
     if _ymax < _ymin:
-        raise ValueError, "Illegal values: ymax < ymin"
+        raise ValueError("Illegal values: ymax < ymin")
     if not ((_x1 < _xmin) or
             (_x1 > _xmax) or
             (_y1 < _ymin) or
@@ -250,10 +250,10 @@ in_region(x1, y1, x2, y2, xmin, ymin, xmax, ymax)
     # p3 = (x1, y1)
     # p4 = (x2, y2)
     #
-    _d = ((_xmax - _xmin)*(_y2 - _y1)) - ((_ymin - _ymax)*(_x2 - _x1))
+    _d = ((_xmax - _xmin) * (_y2 - _y1)) - ((_ymin - _ymax) * (_x2 - _x1))
     if abs(_d) > 1e-10:
-        _n = ((_ymax - _y1)*(_x2 - _x1)) - ((_xmin - _x1)*(_y2 - _y1))
-        _r = _n/_d
+        _n = ((_ymax - _y1) * (_x2 - _x1)) - ((_xmin - _x1) * (_y2 - _y1))
+        _r = _n / _d
         if 0.0 < _r < 1.0:
             return True
     #
@@ -279,17 +279,17 @@ def to_unicode(obj, encoding='utf-8'):
     """
     if isinstance(obj, basestring):
         if not isinstance(obj, unicode):
-            obj =obj.replace('\x00', '').decode(encoding, 'ignore').encode(encoding)
+            obj = obj.replace('\x00', '').decode(encoding, 'ignore').encode(encoding)
         return obj
-    raise TypeError, "Invalid object type : " + `type(obj)`
+    raise TypeError("Invalid object type : " + type(obj))
 
-def getRandomString(lengh=None):
+def getRandomString(lengh = None):
     """
         get a random name 
     """
     random.seed(14)
-    if lengh==None:
-        lengh=10
+    if lengh == None:
+        lengh = 10
     d = [random.choice(string.letters) for x in range(lengh)]
     return "".join(d)
 
@@ -298,42 +298,42 @@ def getSegmentNearestPoint(segment, p):
     """
         get the segment nearest end point
     """
-    ps1, ps2=segment.getEndpoints()
-    dist1=ps1.dist(p)
-    dist2=ps2.dist(p)
-    if (dist1-dist2<TOL):
+    ps1, ps2 = segment.getEndpoints()
+    dist1 = ps1.dist(p)
+    dist2 = ps2.dist(p)
+    if (dist1 - dist2 < TOL):
         return ps1
-    elif(dist1>dist2):
+    elif(dist1 > dist2):
         return ps2
     else:
         return ps1
            
-def updateSegment(objSegment,objPoint, objInterPoint):
+def updateSegment(objSegment, objPoint, objInterPoint):
         """
             Return a segment with trimed to the intersection point
         """
-        from Kernel.GeoEntity.segment       import Segment
-        from Kernel.GeoEntity.point         import Point
-        from Kernel.GeoUtil.geolib          import Vector
+        from Kernel.GeoEntity.segment import Segment
+        from Kernel.GeoEntity.point import Point
+        from Kernel.GeoUtil.geolib import Vector
         
-        objProjection=objSegment.getProjection(objPoint)
+        objProjection = objSegment.getProjection(objPoint)
         _p1 , _p2 = objSegment.getEndpoints()       
-        if not (_p1==objInterPoint or _p2==objInterPoint):
-            pickIntVect=Vector(objInterPoint,objProjection).mag()                    
-            p1IntVect=Vector(objInterPoint,_p1).mag() 
-            if(pickIntVect==p1IntVect):
-                arg={"SEGMENT_0":_p1,"SEGMENT_1":objInterPoint}
+        if not (_p1 == objInterPoint or _p2 == objInterPoint):
+            pickIntVect = Vector(objInterPoint,objProjection).mag()                    
+            p1IntVect = Vector(objInterPoint,_p1).mag() 
+            if(pickIntVect == p1IntVect):
+                arg = {"SEGMENT_0": _p1, "SEGMENT_1": objInterPoint}
                 return Segment(arg)
-            p2IntVect=Vector(objInterPoint,_p2).mag()
-            if(pickIntVect==p2IntVect):
-                arg={"SEGMENT_0":objInterPoint,"SEGMENT_1":_p2}
+            p2IntVect = Vector(objInterPoint,_p2).mag()
+            if(pickIntVect == p2IntVect):
+                arg = {"SEGMENT_0": objInterPoint,"SEGMENT_1": _p2}
                 return Segment(arg)
-        ldist=objProjection.dist(_p1)
-        if ldist>objProjection.dist(_p2):
-            arg={"SEGMENT_0":_p1,"SEGMENT_1":objInterPoint}
+        ldist = objProjection.dist(_p1)
+        if ldist > objProjection.dist(_p2):
+            arg = {"SEGMENT_0": _p1,"SEGMENT_1": objInterPoint}
             return Segment(arg)
         else:
-            arg={"SEGMENT_0":objInterPoint,"SEGMENT_1":_p2}
+            arg = {"SEGMENT_0": objInterPoint,"SEGMENT_1": _p2}
             return Segment(arg)
 
 def getIdPoint(value):
@@ -341,5 +341,5 @@ def getIdPoint(value):
         imput must be 10@0,0
         return id,Point
     """
-    id, p=value.split('@')
+    id, p = value.split('@')
     return id, p
