@@ -30,7 +30,7 @@ import sys
 
 from PyQt5 import QtCore, QtGui
    
-import cadwindow_rc
+from . import cadwindow_rc
 
 from Generic.application            import Application
 
