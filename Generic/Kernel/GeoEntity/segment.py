@@ -26,11 +26,11 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoUtil.util                    import *
-from Kernel.GeoUtil.geolib                  import Vector
-from Kernel.GeoEntity.point                 import Point
-from Kernel.GeoEntity.cline                 import CLine
-from Kernel.GeoEntity.geometricalentity     import *
+from Kernel.GeoUtil.util import *
+from Kernel.GeoUtil.geolib import Vector
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.cline import CLine
+from Kernel.GeoEntity.geometricalentity import *
 
 
 class Segment(GeometricalEntity):
@@ -44,12 +44,12 @@ class Segment(GeometricalEntity):
             kw['SEGMENT_1'] must be a point 
         """
         argDescription={
-                        "SEGMENT_0":Point,
-                        "SEGMENT_1":Point
+                        "SEGMENT_0": Point,
+                        "SEGMENT_1": Point
                         }
-        GeometricalEntity.__init__(self,kw, argDescription)
-        if self.p1.dist(self.p2)<0.000001:
-            print "distance =0", self
+        GeometricalEntity.__init__(self, kw, argDescription)
+        if self.p1.dist(self.p2) < 0.000001:
+            print("distance = 0", self)
             #raise StructuralError("Wrong point imput distance between point mast be >0.000001") 
                 
     
@@ -111,9 +111,9 @@ class Segment(GeometricalEntity):
             Set the first endpoint Point of the Segment.
         """
         if not isinstance(p, Point):
-            raise TypeError, "Invalid P1 endpoint type: " + `type(p)`
+            raise TypeError("Invalid P1 endpoint type: " + str(type(p)))
         if p is self.p2:
-            raise ValueError, "Segments cannot have identical endpoints."
+            raise ValueError("Segments cannot have identical endpoints.")
         _pt = self.p1
         if _pt is not p:
             self["SEGMENT_0"] = p
@@ -131,9 +131,9 @@ class Segment(GeometricalEntity):
             Set the second endpoint Point of the Segment.
         """
         if not isinstance(p, Point):
-            raise TypeError, "Invalid P2 endpoint type: " + `type(p)`
+            raise TypeError("Invalid P2 endpoint type: " + str(type(p)))
         if p is self.p1:
-            raise ValueError, "Segments cannot have identical endpoints."
+            raise ValueError("Segments cannot have identical endpoints.")
         _pt = self.p2
         if _pt is not p:
             self["SEGMENT_1"] = p
@@ -181,18 +181,18 @@ class Segment(GeometricalEntity):
         return Point(retX,retY)
         #return Point((_x1+_x2)/2.0,(_y1+_y2)/2.0) <<<<why not like this? it seems to work too
 
-    def getProjection(self,point):
+    def getProjection(self, point):
         """
             get Projection of the point x,y in the line
         """
-        p1=self.p1
-        p2=self.p2
-        v=Vector(p1,p2)
-        v1=Vector(p1,point)
-        pjPoint=v.map(v1.point).point
-        return p1+pjPoint
+        p1 = self.p1
+        p2 = self.p2
+        v = Vector(p1, p2)
+        v1 = Vector(p1, point)
+        pjPoint = v.map(v1.point).point
+        return p1 + pjPoint
 
-    def mapCoords(self, x, y, tol=0.001):
+    def mapCoords(self, x, y, tol = 0.001):
         """
             Return the nearest Point on the Segment to a coordinate pair.
             The function has two required arguments:
@@ -212,7 +212,7 @@ class Segment(GeometricalEntity):
         _x2, _y2 = self.p2.getCoords()
         return map_coords(_x, _y, _x1, _y1, _x2, _y2, _t)
 
-    def inRegion(self, xmin, ymin, xmax, ymax, fully=False):
+    def inRegion(self, xmin, ymin, xmax, ymax, fully = False):
         """
             Return whether or not a Segment exists within a region.
             The four arguments define the boundary of an area, and the
@@ -225,10 +225,10 @@ class Segment(GeometricalEntity):
         _ymin = get_float(ymin)
         _xmax = get_float(xmax)
         if _xmax < _xmin:
-            raise ValueError, "Illegal values: xmax < xmin"
+            raise ValueError("Illegal values: xmax < xmin")
         _ymax = get_float(ymax)
         if _ymax < _ymin:
-            raise ValueError, "Illegal values: ymax < ymin"
+            raise ValueError("Illegal values: ymax < ymin")
         test_boolean(fully)
         _x1, _y1 = self.p1.getCoords()
         _x2, _y2 = self.p2.getCoords()
@@ -258,10 +258,10 @@ class Segment(GeometricalEntity):
         _ymin = get_float(ymin)
         _xmax = get_float(xmax)
         if _xmax < _xmin:
-            raise ValueError, "Illegal values: xmax < xmin"
+            raise ValueError("Illegal values: xmax < xmin")
         _ymax = get_float(ymax)
         if _ymax < _ymin:
-            raise ValueError, "Illegal values: ymax < ymin"
+            raise ValueError("Illegal values: ymax < ymin")
         _x1, _y1 = self.p1.getCoords()
         _x2, _y2 = self.p2.getCoords()
         #
@@ -335,23 +335,23 @@ class Segment(GeometricalEntity):
         """
         _cp1 = self.p1.clone()
         _cp2 = self.p2.clone()
-        args={"SEGMENT_0":_cp1, "SEGMENT_1":_cp2}
+        args={"SEGMENT_0": _cp1, "SEGMENT_1": _cp2}
         return Segment(args)
 
     def getSympy(self):
         """
             get the sympy object
         """
-        _sp1=self.p1.getSympy()
-        _sp2=self.p2.getSympy()
+        _sp1 = self.p1.getSympy()
+        _sp2 = self.p2.getSympy()
         return geoSympy.Segment(_sp1, _sp2)
     
     def getSympyLine(self):    
         """
             Get The simpy line
         """
-        _sp1=self.p1.getSympy()
-        _sp2=self.p2.getSympy()
+        _sp1 = self.p1.getSympy()
+        _sp2 = self.p2.getSympy()
         return geoSympy.Line(_sp1, _sp2) 
         
     def setFromSympy(self, sympySegment):    
@@ -372,7 +372,7 @@ class Segment(GeometricalEntity):
             perform the mirror of the line
         """
         if not isinstance(mirrorRef, (CLine, Segment)):
-            raise TypeError, "mirrorObject must be Cline Segment or a tuple of points"
+            raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
         self.p1.mirror(mirrorRef)
         self.p2.mirror(mirrorRef)
