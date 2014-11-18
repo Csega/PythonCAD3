@@ -32,18 +32,18 @@ from PyQt5 import QtCore, QtGui
    
 from . import cadwindow_rc
 
-from Generic.application            import Application
+from Generic.application import Application
 
-from Interface.LayerIntf.layerdock  import LayerDock
-from Interface.cadscene             import CadScene
-from Interface.cadview              import CadView
-from Interface.idocument            import IDocument
-from Interface.CmdIntf.cmdintf      import CmdIntf
-from Interface.Entity.base          import BaseEntity
-from Interface.Command.icommand     import ICommand
-from Interface.cadinitsetting       import *
-from Kernel.exception               import *  
-from Kernel.initsetting             import * #SNAP_POINT_ARRAY, ACTIVE_SNAP_POINT
+from Interface.LayerIntf.layerdock import LayerDock
+from Interface.cadscene import CadScene
+from Interface.cadview import CadView
+from Interface.idocument import IDocument
+from Interface.CmdIntf.cmdintf import CmdIntf
+from Interface.Entity.base import BaseEntity
+from Interface.Command.icommand import ICommand
+from Interface.cadinitsetting import *
+from Kernel.exception import *  
+from Kernel.initsetting import * #SNAP_POINT_ARRAY, ACTIVE_SNAP_POINT
 
 from Interface.caddialogs import *
 
