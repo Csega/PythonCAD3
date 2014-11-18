@@ -27,13 +27,13 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoUtil.tolerance              import *
-from Kernel.GeoUtil.util                   import *
-from Kernel.GeoEntity.geometricalentity    import *
-from Kernel.GeoEntity.point                import Point
-from Kernel.GeoEntity.segment              import Segment
-from Kernel.GeoEntity.cline                import CLine
-from Kernel.GeoUtil.geolib                 import Vector
+from Kernel.GeoUtil.tolerance import *
+from Kernel.GeoUtil.util import *
+from Kernel.GeoEntity.geometricalentity import *
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.segment import Segment
+from Kernel.GeoEntity.cline import CLine
+from Kernel.GeoUtil.geolib import Vector
 
 class CCircle(GeometricalEntity):
     """
@@ -42,20 +42,21 @@ class CCircle(GeometricalEntity):
         center: A Point object
         radius: The CCircle's radius
     """
-    def __init__(self,kw):
+    def __init__(self, kw):
         """
             Initialize a CCircle.
             kw['ARC_0'] center must be a point 
             kw['ARC_1'] radius must be a valid float
         """
         argDescription={
-                        "CCIRCLE_0":Point,
-                        "CCIRCLE_1":(float, int)
+                        "CCIRCLE_0": Point,
+                        "CCIRCLE_1": (float, int)
                         }
-        GeometricalEntity.__init__(self,kw, argDescription)
+        GeometricalEntity.__init__(self, kw, argDescription)
         
         if not get_float(self.radius) > 0.0:
-            raise ValueError, "Invalid radius" 
+            raise ValueError("Invalid radius")
+    
     @property
     def info(self):
         return "CCircle: Center: %s, Radius:%ss"%(str(self.center), str(self.radius))
@@ -106,7 +107,7 @@ class CCircle(GeometricalEntity):
             two float values.
         """
         if not isinstance(point, Point):
-            raise TypeError, "Invalid center point: " + `type(point)`
+            raise TypeError("Invalid center point: " + str(type(point)))
        
         self['CCIRCLE_0'] = point
 
@@ -125,7 +126,7 @@ class CCircle(GeometricalEntity):
         """
         _r = get_float(radius)
         if not _r > 0.0:
-            raise ValueError, "Invalid radius: %g" % _r
+            raise ValueError("Invalid radius: %g" % _r)
         self['CCIRCLE_1'] = _r
 
     radius = property(getRadius, setRadius, None, "CCircle radius")
@@ -142,7 +143,7 @@ class CCircle(GeometricalEntity):
         """
         return math.pi * pow(self.radius, 2)
 
-    def mapCoords(self, x, y, tol=TOL):
+    def mapCoords(self, x, y, tol = TOL):
         """
             Return the nearest Point on the CCircle to a coordinate pair.
             The function has two required arguments:
@@ -172,7 +173,7 @@ class CCircle(GeometricalEntity):
             return (_cx + _xoff), (_cy + _yoff)
         return None
     
-    def GetTangentPoint(self,x,y,outx,outy):
+    def GetTangentPoint(self, x, y, outx, outy):
         """
             Get the tangent from an axternal point
             args:
@@ -181,62 +182,63 @@ class CCircle(GeometricalEntity):
             return:
                 a tuple(x,y,x1,xy) that define the tangent line
         """
-        firstPoint=Point(x,y)
-        fromPoint=Point(outx,outy)
-        twoPointDistance=self.center.Dist(fromPoint)
-        if(twoPointDistance<self.radius):
-            return None,None
-        originPoint=Point(0.0,0.0)        
-        tanMod=math.sqrt(pow(twoPointDistance,2)-pow(self.radius,2))
-        tgAngle=math.asin(self.radius/twoPointDistance)
+        firstPoint = Point(x, y)
+        fromPoint = Point(outx, outy)
+        twoPointDistance = self.center.Dist(fromPoint)
+        if(twoPointDistance < self.radius):
+            return None, None
+        originPoint = Point(0.0, 0.0)        
+        tanMod = math.sqrt(pow(twoPointDistance, 2) - pow(self.radius, 2))
+        tgAngle = math.asin(self.radius / twoPointDistance)
         #Compute the x versor
-        xPoint=point.Point(1.0,0.0)
-        xVector=Vector(originPoint,xPoint)
-        twoPointVector=Vector(fromPoint,self.center)
-        rightAngle=twoPointVector.Ang(xVector)                
-        cx,cy=self.center.getCoords()        
-        if(outy>cy): #stupid situation 
-            rightAngle=-rightAngle
-        posAngle=rightAngle+tgAngle
-        negAngle=rightAngle-tgAngle
+        xPoint = point.Point(1.0, 0.0)
+        xVector = Vector(originPoint, xPoint)
+        twoPointVector = Vector(fromPoint, self.center)
+        rightAngle = twoPointVector.Ang(xVector)                
+        cx, cy = self.center.getCoords()        
+        if(outy > cy): #stupid situation 
+            rightAngle =- rightAngle
+        posAngle = rightAngle + tgAngle
+        negAngle = rightAngle - tgAngle
         #Compute the Positive Tangent
-        xCord=math.cos(posAngle)
-        yCord=math.sin(posAngle)
-        dirPoint=Point(xCord,yCord)#Versor that point at the tangentPoint
-        ver=Vector(originPoint,dirPoint)
+        xCord = math.cos(posAngle)
+        yCord = math.sin(posAngle)
+        dirPoint = Point(xCord, yCord)#Versor that point at the tangentPoint
+        ver = Vector(originPoint, dirPoint)
         ver.Mult(tanMod)
-        tangVectorPoint=ver.Point()
-        posPoint=Point(tangVectorPoint+(outx,outy))
+        tangVectorPoint = ver.Point()
+        posPoint = Point(tangVectorPoint + (outx, outy))
         #Compute the Negative Tangent
-        xCord=math.cos(negAngle)
-        yCord=math.sin(negAngle)
-        dirPoint=Point(xCord,yCord)#Versor that point at the tangentPoint
-        ver=Vector(originPoint,dirPoint)
+        xCord = math.cos(negAngle)
+        yCord = math.sin(negAngle)
+        dirPoint = Point(xCord, yCord) #Versor that point at the tangentPoint
+        ver = Vector(originPoint, dirPoint)
         ver.Mult(tanMod)
-        tangVectorPoint=ver.Point()
-        negPoint=Point(tangVectorPoint+(outx,outy))
-        if firstPoint.Dist(posPoint)<firstPoint.Dist(negPoint):
+        tangVectorPoint = ver.Point()
+        negPoint = Point(tangVectorPoint + (outx, outy))
+        if firstPoint.Dist(posPoint) < firstPoint.Dist(negPoint):
             return posPoint.getCoords()     
         else:
             return negPoint.getCoords() 
            
-    def GetRadiusPointFromExt(self,x,y):
+    def GetRadiusPointFromExt(self, x, y):
         """
             get The intersecrion point from the line(x,y,cx,cy) and the circle
         """
         _cx, _cy = self.center.getCoords()
         _r = self.radius
-        centerPoint=Point(_cx,_cy)
-        outPoint=Point(x,y)
-        vector=Vector(outPoint,centerPoint)
-        vNorm=vector.Norm()
-        newNorm=abs(vNorm-_r)
-        magVector=vector.Mag()
+        centerPoint = Point(_cx, _cy)
+        outPoint = Point(x, y)
+        vector = Vector(outPoint, centerPoint)
+        vNorm = vector.Norm()
+        newNorm = abs(vNorm - _r)
+        magVector = vector.Mag()
         magVector.Mult(newNorm)
-        newPoint=magVector.Point()
-        intPoint=Point(outPoint+newPoint)
+        newPoint = magVector.Point()
+        intPoint = Point(outPoint + newPoint)
         return intPoint.getCoords()  
-    def inRegion(self, xmin, ymin, xmax, ymax, fully=False):
+    
+    def inRegion(self, xmin, ymin, xmax, ymax, fully = False):
         """
             Return whether or not an CCircle exists within a region.
 
@@ -249,10 +251,10 @@ class CCircle(GeometricalEntity):
         _ymin = get_float(ymin)
         _xmax = get_float(xmax)
         if _xmax < _xmin:
-            raise ValueError, "Illegal values: xmax < xmin"
+            raise ValueError("Illegal values: xmax < xmin")
         _ymax = get_float(ymax)
         if _ymax < _ymin:
-            raise ValueError, "Illegal values: ymax < ymin"
+            raise ValueError("Illegal values: ymax < ymin")
         util.test_boolean(fully)
         _xc, _yc = self.center.getCoords()
         _r = self.radius
@@ -325,14 +327,14 @@ class CCircle(GeometricalEntity):
             update the points cord from a sympyobject only avaiable for circle
         """
         self.center.setFromSympy(sympyCircle[0])
-        self.radius=float(sympyCircle[1])
+        self.radius = float(sympyCircle[1])
     
     def mirror(self, mirrorRef):
         """
             perform the mirror of the line
         """
         if not isinstance(mirrorRef, (CLine, Segment)):
-            raise TypeError, "mirrorObject must be Cline Segment or a tuple of points"
+            raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
         self.center.mirror(mirrorRef)
         
