@@ -40,74 +40,74 @@ class Chamfer(ObjectJoint):
             "OBJECTJOINT_5" distance1   :Real distance from intersection point to chamfer
             "OBJECTJOINT_6" distance2   :Real distance from intersection point to chamfer
         """
-        argDes={"OBJECTJOINT_5":(float, int), 
-                "OBJECTJOINT_6":(float, int)}
+        argDes={"OBJECTJOINT_5": (float, int), 
+                "OBJECTJOINT_6": (float, int)}
         ObjectJoint.__init__(self, kw, argDes)
         
         for dis in (self.distance1, self.distance2):
-            if dis<0.0:
-                raise StructuralError, "Distance parameter must be greater then 0"
-        self.segment=self._UpdateChamferSegment()
+            if dis < 0.0:
+                raise StructuralError("Distance parameter must be greater then 0")
+        self.segment = self._UpdateChamferSegment()
     
     def setConstructionElements(self, kw):    
         """
             set the construction elements
         """
         for k in kw:
-            self[k]=kw[k]
+            self[k] = kw[k]
         
     def _UpdateChamferSegment(self):           
         """
             Recompute the Chamfer segment
         """
-        obj1, pc1=self._updateSegment(self.obj1,self.distance1, self.pointClick1 )
-        obj2, pc2=self._updateSegment(self.obj2,self.distance2, self.pointClick2 )
-        if self.trimModeKey[self.trimMode]!=self.trimModeKey["NO_TRIM"]:
-            if self.trimModeKey[self.trimMode]==self.trimModeKey["FIRST"] or self.trimModeKey[self.trimMode]==self.trimModeKey["BOTH"]:
-                self.obj1=obj1
-            if self.trimModeKey[self.trimMode]==self.trimModeKey["SECOND"] or self.trimModeKey[self.trimMode]==self.trimModeKey["BOTH"]:
-                self.obj2=obj2
-        arg={"SEGMENT_0":pc1, "SEGMENT_1":pc2}
-        seg=Segment(arg)
+        obj1, pc1 = self._updateSegment(self.obj1,self.distance1, self.pointClick1 )
+        obj2, pc2 = self._updateSegment(self.obj2,self.distance2, self.pointClick2 )
+        if self.trimModeKey[self.trimMode] != self.trimModeKey["NO_TRIM"]:
+            if self.trimModeKey[self.trimMode] == self.trimModeKey["FIRST"] or self.trimModeKey[self.trimMode] == self.trimModeKey["BOTH"]:
+                self.obj1 = obj1
+            if self.trimModeKey[self.trimMode] == self.trimModeKey["SECOND"] or self.trimModeKey[self.trimMode] == self.trimModeKey["BOTH"]:
+                self.obj2 = obj2
+        arg = {"SEGMENT_0": pc1, "SEGMENT_1": pc2}
+        seg = Segment(arg)
         return seg
     
-    def _updateSegment(self, obj,distance,  clickPoint=None):
+    def _updateSegment(self, obj,distance,  clickPoint = None):
         """
             recalculate the segment for the chamfer
             and give the point for the chamfer
         """
-        ip=self._intersectionPoints[0]
+        ip = self._intersectionPoints[0]
         if isinstance(obj, Segment):
-            p1, p2=obj.getEndpoints()
-            if p1==ip:
-                mvPoint=p1
-                stPoint=p2
-            elif p2==ip:
-                mvPoint=p2
-                stPoint=p1
+            p1, p2 = obj.getEndpoints()
+            if p1 == ip:
+                mvPoint = p1
+                stPoint = p2
+            elif p2 == ip:
+                mvPoint = p2
+                stPoint = p1
             elif clickPoint:
-                dist1=clickPoint.dist(p1)
-                dist2=clickPoint.dist(p2)
-                if dist1<dist2:
-                    mvPoint=p1
-                    stPoint=p2  
+                dist1 = clickPoint.dist(p1)
+                dist2 = clickPoint.dist(p2)
+                if dist1 < dist2:
+                    mvPoint = p1
+                    stPoint = p2  
                 else:
-                    mvPoint=p2
-                    stPoint=p1           
+                    mvPoint = p2
+                    stPoint = p1           
             else:
-                dist1=ip.dist(p1)
-                dist2=ip.dist(p2)
-                if dist1<dist2:
-                    mvPoint=p1
-                    stPoint=p2  
+                dist1 = ip.dist(p1)
+                dist2 = ip.dist(p2)
+                if dist1 < dist2:
+                    mvPoint = p1
+                    stPoint = p2  
                 else:
-                    mvPoint=p2
-                    stPoint=p1   
+                    mvPoint = p2
+                    stPoint = p1   
                     
-            v=Vector(mvPoint,stPoint).mag()
+            v = Vector(mvPoint,stPoint).mag()
             v.mult(distance)
-            ePoint=ip+v.point
-            arg={"SEGMENT_0":ePoint, "SEGMENT_1":stPoint}
+            ePoint = ip + v.point
+            arg = {"SEGMENT_0": ePoint, "SEGMENT_1": stPoint}
             return Segment(arg), ePoint
             
         
@@ -115,13 +115,13 @@ class Chamfer(ObjectJoint):
         """
             retutn the construction element of the object
         """
-        outElement=(self._obj1 , 
-                    self._obj2 ,
-                    self.distance1, 
-                    self.distance2, 
-                    self.pointClick1, 
-                    self.pointClick2
-                    )
+        outElement = (self._obj1, 
+                      self._obj2,
+                      self.distance1, 
+                      self.distance2, 
+                      self.pointClick1, 
+                      self.pointClick2
+                     )
         return outElement
 
     def getLength(self):
@@ -137,10 +137,11 @@ class Chamfer(ObjectJoint):
         """
             change the value of the distance1
         """
-        if distance<=TOL:
+        if distance <= TOL:
             raise StructuralError, "Distance could be greater then 0"
-        self["OBJECTJOINT_5"]=distance
+        self["OBJECTJOINT_5"] = distance
         self._UpdateChamferSegment()
+    
     def getDistance1(self):
         """
             return the distance from intersection point to chanfer start
@@ -151,17 +152,18 @@ class Chamfer(ObjectJoint):
         """
             change the value of the distance1
         """
-        if distance<=TOL:
-            raise StructuralError, "Distance could be greater then 0"
-        self["OBJECTJOINT_6"]=distance
+        if distance <= TOL:
+            raise StructuralError("Distance could be greater then 0")
+        self["OBJECTJOINT_6"] = distance
         self._UpdateChamferSegment()
+    
     def getDistance2(self):
         """
             return the distance from intersection point to chanfer start
         """
         return self["OBJECTJOINT_6"]
-    distance1=property(getDistance1, setDistance1, None, "set the first distance") 
-    distance2=property(getDistance2, setDistance2, None, "set the second distance") 
+    distance1 = property(getDistance1, setDistance1, None, "set the first distance") 
+    distance2 = property(getDistance2, setDistance2, None, "set the second distance") 
 
     def clone(self):
         """
@@ -169,16 +171,16 @@ class Chamfer(ObjectJoint):
             I do not why somone whant to clone a chamfer ..
             But Tis is the functionality .. :-)
         """
-        newChamfer=Chamfer(self._obj1 , 
-                    self._obj2 ,
-                    self.distance1, 
-                    self.distance2, 
-                    self.pointClick1, 
-                    self.pointClick2)
+        newChamfer = Chamfer(self._obj1 , 
+                     self._obj2 ,
+                     self.distance1, 
+                     self.distance2, 
+                     self.pointClick1, 
+                     self.pointClick2)
         return newChamfer
 
     def getReletedComponent(self):
         """
             return the element to be written in the db and used for renderin
         """
-        return self.obj1 , self.obj2 ,self.segment
+        return self.obj1, self.obj2, self.segment
