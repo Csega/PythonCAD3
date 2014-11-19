@@ -26,32 +26,32 @@ def decodePoint(value, previusPoint=None):
     """
         this static method decode an imput and return a point(mm,mm)
     """
-    value=str(value).lower()
+    value = str(value).lower()
     from Kernel.GeoEntity.point import Point
-    x, y=str(value).split(',')
+    x, y = str(value).split(',')
     return Point(convertLengh(x), convertLengh(y))
     
 def convertAngle(value):
     """
         convert a angle in simpy units syntax into a rad float
     """
-    value=str(value).lower()
-    retVal=None
+    value = str(value).lower()
+    retVal = None
     try:
-        retVal=float(value)
+        retVal = float(value)
     except:
         try:
-            retVal=sympyConvertAngle(value)
+            retVal = sympyConvertAngle(value)
         except:
-            print "Wrong formatting string"
+            print("Wrong formatting string")
     finally:
         return retVal
 
 def sympyConvertAngle(value):
-    retVal=None
-    value='retVal='+value
+    retVal = None
+    value = 'retVal=' + value
     exec(value)
-    retVal=retVal/u.rad
+    retVal = retVal / u.rad
     return float(retVal)
     
 def convertLengh(value):
@@ -59,28 +59,28 @@ def convertLengh(value):
         convert a lengh in simpy units syntax into a mm float
         return : Float
     """
-    value=str(value).lower()
-    retVal=None
+    value = str(value).lower()
+    retVal = None
     try:
-        retVal=float(value)
+        retVal = float(value)
     except:
         try:
-            retVal=sympyConvertLeng(value)
+            retVal = sympyConvertLeng(value)
         except:
-            print "Wrong formatting string"
+            print("Wrong formatting string")
     finally:
         return retVal
 
 def sympyConvertLeng(value):
-    retVal=None
-    value='retVal='+value
+    retVal = None
+    value = 'retVal=' + value
     exec(value)
-    retVal=retVal/u.mm
+    retVal = retVal / u.mm
     return float(retVal.n())
 
 if __name__ == '__main__':
-    print convertLengh('10*u.m+3.5*u.cm+10*u.ft')
-    print convertAngle('10')
-    print convertAngle('90*u.deg')
-    print sympyConvertAngle('10*u.rad+10*u.deg')
+    print(convertLengh('10*u.m+3.5*u.cm+10*u.ft'))
+    print(convertAngle('10'))
+    print(convertAngle('90*u.deg'))
+    print(sympyConvertAngle('10*u.rad+10*u.deg'))
     
