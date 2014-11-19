@@ -26,37 +26,39 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoUtil.tolerance              import *
-from Kernel.GeoEntity.point                import Point
-from Kernel.GeoEntity.segment              import Segment
-from Kernel.GeoEntity.cline                import CLine
-from Kernel.GeoEntity.geometricalentity    import *
+from Kernel.GeoUtil.tolerance import *
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.segment import Segment
+from Kernel.GeoEntity.cline import CLine
+from Kernel.GeoEntity.geometricalentity import *
 
 class Polyline(GeometricalEntity):
     """
         A class representing a polyline. A polyline is essentially
         a number of segments that connect end to end.
     """
-    def __init__(self,kw):
+    def __init__(self, kw):
         """
             Initialize a Polyline object.
             kw['POLYLINE_0'] must be a point 
             kw['POLYLINE_..'] must be a point 
             kw['POLYLINE_..n'] must be a point 
         """
-        if len(kw)<2:
-            raise ValueError, "Invalid number of imput value "
-        argDescription=dict([(key,Point) for key in kw])
-        GeometricalEntity.__init__(self,kw, argDescription)
+        if len(kw) < 2:
+            raise ValueError("Invalid number of input value")
+        argDescription = dict([(key, Point) for key in kw])
+        GeometricalEntity.__init__(self, kw, argDescription)
 
     #def __len__(self):
     #    return len(self.points)
 
     def __str__(self):
         return "Polyline" 
+    
     @property
     def info(self):
         return "Polyline" 
+    
     def __eq__(self, obj):
         """
             Compare two Polyline objects for equality.
@@ -129,8 +131,8 @@ class Polyline(GeometricalEntity):
             the Polyline as the i'th point.
         """
         if not isinstance(point, Point):
-            raise TypeError, "Invalid Point for Polyline point: " + `type(point)`
-        self[name]=point
+            raise TypeError("Invalid Point for Polyline point: " + str(type(point)))
+        self[name] = point
 
 
     def delPoint(self, name):
@@ -171,8 +173,8 @@ class Polyline(GeometricalEntity):
         """
             return a list of point
         """
-        exit=[]
-        kk=self.keys()
+        exit = []
+        kk = self.keys()
         kk.sort()
         for k in kk:
             exit.append(self[k])
@@ -183,18 +185,18 @@ class Polyline(GeometricalEntity):
             Create an identical copy of a Polyline.
         """
         _cpts = {}
-        i=0
+        i = 0
         for _pt in self.points:
-            name="POLYLINE_%s"%str(i)
-            _cpts[name]=_pt.clone()
-            i+=1
+            name = "POLYLINE_%s" % str(i)
+            _cpts[name] = _pt.clone()
+            i += 1
         return Polyline(_cpts)
     
     def getSympySegments(self):
         """
             return an array of sympy Segment
         """
-        out=[]
+        out = []
         
         for s in self.getSegments():
             out.append(s.getSympy())
@@ -205,13 +207,13 @@ class Polyline(GeometricalEntity):
             return an array of segments that identifie the polyline
             used for intersection porpouse
         """
-        tempPoint=None
-        exitArray=[]
+        tempPoint = None
+        exitArray = []
         for p in self.points:
             if tempPoint:
-                constr={"SEGMENT_0":tempPoint, "SEGMENT_1":p}
+                constr = {"SEGMENT_0": tempPoint, "SEGMENT_1": p}
                 exitArray.append(Segment(constr))
-            tempPoint=p
+            tempPoint = p
         else:
             return exitArray
         return []
