@@ -23,7 +23,7 @@
 # basic text functionality
 #
 
-from geometricalentity import GeometricalEntity
+from .geometricalentity import GeometricalEntity
 
 
 from Kernel.GeoUtil.util import *
