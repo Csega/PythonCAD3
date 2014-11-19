@@ -22,16 +22,17 @@
 #
 # code for base composed object
 #
+
 from math import hypot, pi, sin, cos, tan, atan2
 
-from Kernel.GeoEntity.geometricalentity    import *
-from Kernel.GeoUtil.util                   import *
-from Kernel.GeoUtil.intersection           import *
-from Kernel.GeoEntity.segment              import Segment
-#from Kernel.GeoEntity.acline               import ACLine
-from Kernel.GeoEntity.arc                  import Arc
-from Kernel.GeoEntity.ccircle              import CCircle
-from Kernel.GeoUtil.geolib                 import Vector
+from Kernel.GeoEntity.geometricalentity import *
+from Kernel.GeoUtil.util import *
+from Kernel.GeoUtil.intersection import *
+from Kernel.GeoEntity.segment import Segment
+#from Kernel.GeoEntity.acline import ACLine
+from Kernel.GeoEntity.arc import Arc
+from Kernel.GeoEntity.ccircle import CCircle
+from Kernel.GeoUtil.geolib import Vector
 
 
 #ALLOW_CHAMFER_ENTITY=(Segment, ACLine)
@@ -41,35 +42,36 @@ class ObjectJoint(GeometricalEntityComposed):
         A base class for chamfers and fillets
         A ObjectJoint object has the following methods:
     """
-    def __init__(self, kw, argDes=None):
+    def __init__(self, kw, argDes = None):
         from Kernel.initsetting import DRAWIN_ENTITY
-        classNames=tuple(DRAWIN_ENTITY.keys())
-        argDescription={"OBJECTJOINT_0":classNames, 
-                        "OBJECTJOINT_1":classNames, 
-                        "OBJECTJOINT_2":(Point,None), 
-                        "OBJECTJOINT_3":(Point,None), 
-                        "OBJECTJOINT_4":(str, unicode)
-                        }
+        classNames = tuple(DRAWIN_ENTITY.keys())
+        argDescription = {"OBJECTJOINT_0": classNames, 
+                          "OBJECTJOINT_1": classNames, 
+                          "OBJECTJOINT_2": (Point, None), 
+                          "OBJECTJOINT_3": (Point, None), 
+                          "OBJECTJOINT_4": (str, unicode)
+                         }
         if argDes:
             for k in argDes:
-                argDescription[k]=argDes[k]
+                argDescription[k] = argDes[k]
                 
-        self.trimModeKey={"FIRST":0, "SECOND":1, "BOTH":2, "NO_TRIM":3}
+        self.trimModeKey = {"FIRST": 0, "SECOND": 1, "BOTH": 2, "NO_TRIM": 3}
         GeometricalEntityComposed.__init__(self, kw, argDescription)
-        self._externalIntersectio=False
-        spoolIntersection=[Point(x, y) for x, y in find_intersections(self.obj1, self.obj2)]
-        if len(spoolIntersection)<=0: #if not intesection is found extend it on cLine
-            spoolIntersection=findSegmentExtendedIntersectionPoint(self.obj1, self.obj2)
-            self._externalIntersectio=True
-        self._intersectionPoints=spoolIntersection
+        self._externalIntersectio = False
+        spoolIntersection = [Point(x, y) for x, y in find_intersections(self.obj1, self.obj2)]
+        if len(spoolIntersection) <= 0: #if not intesection is found extend it on cLine
+            spoolIntersection = findSegmentExtendedIntersectionPoint(self.obj1, self.obj2)
+            self._externalIntersectio = True
+        self._intersectionPoints = spoolIntersection
+    
     @property
     def angle(self):
         """
             angle betwin the two entity
         """
-        v1=self.getAngledVector(self.obj1, self.pointClick1)
-        v2=self.getAngledVector(self.obj2, self.pointClick2)
-        ang=v1.ang(v2)
+        v1 = self.getAngledVector(self.obj1, self.pointClick1)
+        v2 = self.getAngledVector(self.obj2, self.pointClick2)
+        ang = v1.ang(v2)
         return ang
         
     @property
@@ -78,12 +80,13 @@ class ObjectJoint(GeometricalEntityComposed):
             trim mode for the entity
         """
         return self["OBJECTJOINT_4"]
+    
     @trimMode.setter
     def trimMode(self, value):
         if value in self.trimModeKey:
-            self["OBJECTJOINT_4"]=value
+            self["OBJECTJOINT_4"] = value
         else:
-            raise AttributeError, "Bad trim mode use FIRST SECOND BOTH NO_TRIM" 
+            raise AttributeError("Bad trim mode use FIRST SECOND BOTH NO_TRIM")
     
     @property
     def obj1(self):    
@@ -91,9 +94,10 @@ class ObjectJoint(GeometricalEntityComposed):
             First object
         """
         return self["OBJECTJOINT_0"]
+    
     @obj1.setter
     def obj1(self, value):
-        self["OBJECTJOINT_0"]=value
+        self["OBJECTJOINT_0"] = value
         
     @property
     def obj2(self):    
@@ -101,9 +105,10 @@ class ObjectJoint(GeometricalEntityComposed):
            second object
         """
         return self["OBJECTJOINT_1"]
+    
     @obj2.setter
     def obj2(self, value):
-        self["OBJECTJOINT_1"]=value
+        self["OBJECTJOINT_1"] = value
         
     @property    
     def pointClick1(self):
@@ -111,9 +116,10 @@ class ObjectJoint(GeometricalEntityComposed):
             get the clicked point
         """
         return self["OBJECTJOINT_2"]
+    
     @pointClick1.setter
     def pointClick1(self, value):
-        self["OBJECTJOINT_2"]=value
+        self["OBJECTJOINT_2"] = value
 
     @property  
     def pointClick2(self):
@@ -121,9 +127,10 @@ class ObjectJoint(GeometricalEntityComposed):
             get the clicked point
         """
         return self["OBJECTJOINT_3"]
+
     @pointClick2.setter
     def pointClick2(self, value):
-        self["OBJECTJOINT_3"]=value
+        self["OBJECTJOINT_3"] = value
         
     @property    
     def intersection(self):
@@ -154,19 +161,19 @@ class ObjectJoint(GeometricalEntityComposed):
         """
             calculate the vector use
         """
-        pi=self.intersection[0]
-        p1, p2=segment.getEndpoints()
-        vs1=Vector(pi, p1)
-        vs2=Vector(pi, p2)
-        if abs(vs1.absAng-vs2.absAng)<0.00001:
-            if pi.dist(p1)>pi.dist(p2):
+        pi = self.intersection[0]
+        p1, p2 = segment.getEndpoints()
+        vs1 = Vector(pi, p1)
+        vs2 = Vector(pi, p2)
+        if abs(vs1.absAng - vs2.absAng) < 0.00001:
+            if pi.dist(p1) > pi.dist(p2):
                 return Vector(pi, p1)
             else:
                 return Vector(pi, p2)
         else:
-            jp=segment.getProjection(point)
-            vj=Vector(pi, jp)
-            if abs(vj.absAng-vs1.absAng)<0.00001:
+            jp = segment.getProjection(point)
+            vj = Vector(pi, jp)
+            if abs(vj.absAng - vs1.absAng) < 0.00001:
                 return Vector(pi, p1)
             else:
                 return Vector(pi, p2)  
