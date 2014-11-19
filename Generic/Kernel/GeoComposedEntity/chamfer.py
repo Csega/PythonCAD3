@@ -138,7 +138,7 @@ class Chamfer(ObjectJoint):
             change the value of the distance1
         """
         if distance <= TOL:
-            raise StructuralError, "Distance could be greater then 0"
+            raise StructuralError("Distance could be greater then 0")
         self["OBJECTJOINT_5"] = distance
         self._UpdateChamferSegment()
     
