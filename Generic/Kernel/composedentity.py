@@ -22,23 +22,23 @@
 # entity such as Chamfer Fillet Blocks
 #
 
-from Kernel.Db.pycadobject      import *
-from Kernel.GeoEntity.style            import Style
-from Kernel.GeoEntity.point            import Point
+from Kernel.Db.pycadobject import *
+from Kernel.GeoEntity.style import Style
+from Kernel.GeoEntity.point import Point
 
 class ComposedEntity(PyCadObject):
     """
         this class provide the besic functionality for storing entity that need a 
         sort of relation such Chamfer Fillet Blocks
     """
-    def __init__(self, objId,constructionElements, eType, style, childEnt=[] ):
+    def __init__(self, objId,constructionElements, eType, style, childEnt = []):
         """
             Inizialize a composed entity
         """
-        from Kernel.initsetting             import PY_CAD_COMPOSED_ENT 
+        from Kernel.initsetting import PY_CAD_COMPOSED_ENT 
         if not eType in PY_CAD_COMPOSED_ENT:
-            raise TypeError,'entType not supported'
-        PyCadObject.__init__(self,eType=eType, objId=objId,style=style)
+            raise TypeError('entType not supported')
+        PyCadObject.__init__(self, eType = eType, objId = objId,style = style)
         self.setChildEnt(childEnt)
         self.setConstructionElement(constructionElements)
 
@@ -52,11 +52,11 @@ class ComposedEntity(PyCadObject):
         """
             set all the child entitys
         """
-        from Kernel.initsetting             import PY_CAD_ENT   
+        from Kernel.initsetting import PY_CAD_ENT
         for ent in childEnt:
             if not ent.eType in PY_CAD_ENT:
-                raise TypeError,'entType with id: %s not supported as child ent'%(str(ent.getId()))
-        self.__childEnt=childEnt
+                raise TypeError('entType with id: %s not supported as child ent'%(str(ent.getId())))
+        self.__childEnt = childEnt
     
     def getConstructionElements(self):
         """
@@ -69,5 +69,5 @@ class ComposedEntity(PyCadObject):
             set the construction elements for the object
         """
         if not isinstance(constructionElements,dict):
-            raise TypeError,'type error in dictionary'
-        self._constructionElements=constructionElements
+            raise TypeError('type error in dictionary')
+        self._constructionElements = constructionElements
