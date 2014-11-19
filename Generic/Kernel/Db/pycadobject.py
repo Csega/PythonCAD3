@@ -20,34 +20,35 @@
 #
 # This module provide basic pythoncadObject
 #
-from Kernel.GeoEntity.style            import Style
+from Kernel.GeoEntity.style import Style
 
 class PyCadObject(object):
     """
         This class provide basic information usefoul for the
         db like id for exsample
     """
-    def __init__(self,objId,style,eType):
+    def __init__(self, objId, style, eType):
         from Kernel.initsetting import OBJECT_STATE
-        self.OBJECT_STATE=OBJECT_STATE
-        self.__entityId=objId
-        self.__state="MODIFIE"
-        self.__index=0
-        self.__visible=1
-        self.__style=style
-        self.__entType=eType
+        self.OBJECT_STATE = OBJECT_STATE
+        self.__entityId = objId
+        self.__state = "MODIFIE"
+        self.__index = 0
+        self.__visible = 1
+        self.__style = style
+        self.__entType = eType
         
     def setVisible(self, visible):
         """
             set the visible value
         """
-        self.__visible=visible
+        self.__visible = visible
+    
     def getVisible(self):
         """
             get the visible value
         """
         return self.__visible
-    visible=property(getVisible, setVisible, None,"Set/Get the entity visibiolity")
+    visible = property(getVisible, setVisible, None, "Set/Get the entity visibiolity")
 
     def getId(self):
         """
@@ -66,12 +67,12 @@ class PyCadObject(object):
             set the active state
         """ 
         if state in self.OBJECT_STATE:
-            self.__state=state
+            self.__state = state
         else:
-            print "Wrong argunent"
+            print("Wrong argunent")
             raise 
             
-    state=property(getState, setState, None, "Get/Set the state of the entity")
+    state = property(getState, setState, None, "Get/Set the state of the entity")
     
     def getIndex(self):
         """
@@ -84,19 +85,19 @@ class PyCadObject(object):
             Get the new index of the current entity
         """
         if index :
-            self.__index+=self.__index
-            self.__state=self.OBJECT_STATE[0]
+            self.__index += self.__index
+            self.__state = self.OBJECT_STATE[0]
         else: 
-            self.__index=0
-            self.__state=self.OBJECT_STATE[0]
+            self.__index = 0
+            self.__state = self.OBJECT_STATE[0]
     
     def setIndex(self,index):
         """
             Set The index of the entity
         """
         if index:
-            self.__index=index
-    index=property(getIndex, setIndex, "Get The new index of the current entity")
+            self.__index = index
+    index = property(getIndex, setIndex, "Get The new index of the current entity")
     
     def delete(self):
         """
@@ -108,7 +109,8 @@ class PyCadObject(object):
         """
             mark the entity as released
         """
-        self.__state='RELEASED'
+        self.__state = 'RELEASED'
+
     def getStyle(self):
         """
             get the object EntityStyle
@@ -119,26 +121,27 @@ class PyCadObject(object):
         """
             set/update the entitystyle
         """
-        if not isinstance(style,Style):
-            raise TypeError,'Type error in style'
-        self.__style=style
+        if not isinstance(style, Style):
+            raise TypeError('Type error in style')
+        self.__style = style
 
-    style=property(getStyle,setStyle,None,"Get/Set the entity style")
+    style = property(getStyle, setStyle, None, "Get/Set the entity style")
 
     def getInnerStyle(self):
         """
             return the inner style of type Style
         """
         if self.getStyle():
-            styleEnt=self.getStyle().getConstructionElements() 
+            styleEnt = self.getStyle().getConstructionElements() 
             return styleEnt[styleEnt.keys()[0]]
         else:
             return None
+
     def setEntType(self, type):
         """
             Set the entity type
         """
-        self.__entType=type
+        self.__entType = type
         
     def getEntityType(self):
         """
@@ -146,4 +149,4 @@ class PyCadObject(object):
         """
         return self.__entType
 
-    eType=property(getEntityType,setEntType,None,"Get/Set the etity type ")
+    eType = property(getEntityType, setEntType, None, "Get/Set the etity type ")
