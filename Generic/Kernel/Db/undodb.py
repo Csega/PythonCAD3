@@ -23,42 +23,42 @@
 
 import sys
 
-from Kernel.Db.basedb           import BaseDb
-from Kernel.exception           import UndoDbExc
+from Kernel.Db.basedb import BaseDb
+from Kernel.exception import UndoDbExc
 
 class UndoDb(BaseDb):
     """
         this Class Provide all the basic operation to be made on the
         undo
     """
-    def __init__(self,dbConnection):
+    def __init__(self, dbConnection):
         BaseDb.__init__(self)
         if dbConnection is None:
             self.createConnection()
         else:
             self.setConnection(dbConnection)
-        _sqlCheck="""select * from sqlite_master where name like 'pycadundo'"""
-        _pycadundoTableRow=self.fetchOneRow(_sqlCheck)
+        _sqlCheck = """select * from sqlite_master where name like 'pycadundo'"""
+        _pycadundoTableRow = self.fetchOneRow(_sqlCheck)
         if _pycadundoTableRow is None:
-            _sqlCreation="""CREATE TABLE "pycadundo" (
+            _sqlCreation = """CREATE TABLE "pycadundo" (
                                 "pycad_id" INTEGER PRIMARY KEY,
                                 "pycad_incremental_id" INTEGER
                                 )
                                 """
             self.makeUpdateInsert(_sqlCreation)
-            self.__lastUndo=1
+            self.__lastUndo = 1
         else:
-            self.__lastUndo=self.getMaxUndoIndex()
-        self.__activeUndo=self.getLastUndoIndex()
+            self.__lastUndo = self.getMaxUndoIndex()
+        self.__activeUndo = self.getLastUndoIndex()
 
     def getMaxUndoIndex(self):
         """
             get the gretest undo index from database
         """
-        _sqlCheck="select max(pycad_incremental_id) from pycadundo"
-        _row=self.fetchOneRow(_sqlCheck)
+        _sqlCheck = "select max(pycad_incremental_id) from pycadundo"
+        _row = self.fetchOneRow(_sqlCheck)
         if _row is None:            # no entity in the table
-            _sqlInser="""INSERT INTO pycadundo (pycad_incremental_id) VALUES (1)"""
+            _sqlInser = """INSERT INTO pycadundo (pycad_incremental_id) VALUES (1)"""
             self.makeUpdateInsert(_sqlInser)
             return 1
         return _row # get the max index of the table
@@ -67,10 +67,10 @@ class UndoDb(BaseDb):
         """
             get the active undo index from database
         """
-        _sqlCheck="select pycad_incremental_id from pycadundo where pycad_id=(select max(pycad_id) from pycadundo)"
-        _row=self.fetchOneRow(_sqlCheck)
+        _sqlCheck = "select pycad_incremental_id from pycadundo where pycad_id=(select max(pycad_id) from pycadundo)"
+        _row = self.fetchOneRow(_sqlCheck)
         if _row is None:            # no entity in the table
-            _sqlInser="""INSERT INTO pycadundo (pycad_incremental_id) VALUES (1)"""
+            _sqlInser = """INSERT INTO pycadundo (pycad_incremental_id) VALUES (1)"""
             self.makeUpdateInsert(_sqlInser)
             return 1
         return _row # get the max index of the table
@@ -79,18 +79,18 @@ class UndoDb(BaseDb):
         """
             performe the undo operation
         """
-        _id=self.__activeUndo-1
-        while _id>0:
+        _id = self.__activeUndo - 1
+        while _id > 0:
             if self.undoIdExsist(_id):
-                self.__activeUndo =_id
+                self.__activeUndo = _id
                 break
             else:
-                _id-=1
-        if _id>0:
-            _sqlInsert="""INSERT INTO pycadundo
-                        (pycad_incremental_id) VALUES (%s)"""%str(_id)
+                _id -= 1
+        if _id > 0:
+            _sqlInsert = """INSERT INTO pycadundo
+                        (pycad_incremental_id) VALUES (%s)""" % str(_id)
             self.makeUpdateInsert(_sqlInsert)
-            self.__activeUndo=_id
+            self.__activeUndo = _id
             return self.__activeUndo
         else:
             raise UndoDbExc("The undo are finished Unable to perform the undo")
@@ -99,28 +99,26 @@ class UndoDb(BaseDb):
         """
             perform the redo operation
         """
-        _id=self.__activeUndo+1
-        while _id<self.__lastUndo:
+        _id = self.__activeUndo + 1
+        while _id < self.__lastUndo:
             if self.undoIdExsist(_id):
-                self.__activeUndo =_id
+                self.__activeUndo = _id
                 break
             else:
-                _id+=1
-        if _id<=self.__lastUndo:
-            _sqlInsert="""INSERT INTO pycadundo
-                        (pycad_incremental_id) VALUES (%s)"""%str(_id)
+                _id += 1
+        if _id <= self.__lastUndo:
+            _sqlInsert = """INSERT INTO pycadundo (pycad_incremental_id) VALUES (%s)""" % str(_id)
             self.makeUpdateInsert(_sqlInsert)
-            self.__activeUndo=_id
+            self.__activeUndo = _id
             return self.__activeUndo
         else:
             raise UndoDbExc("The undo are finished Unable to perform the redo")
 
-    def undoIdExsist(self,undoId):
+    def undoIdExsist(self, undoId):
         """
             check is the undo id exsist
         """
-        _sqlSelect="""SELECT pycad_incremental_id FROM pycadundo
-                      WHERE pycad_incremental_id =%s"""%str(undoId)
+        _sqlSelect = """SELECT pycad_incremental_id FROM pycadundo WHERE pycad_incremental_id = %s""" % str(undoId)
         return not self.fetchOneRow(_sqlSelect) is None
 
     def getNewUndo(self):
@@ -129,16 +127,15 @@ class UndoDb(BaseDb):
         """
         try:
             self.suspendCommit()        #suspend commit operation
-            self.__lastUndo+=1
-            self.__activeUndo=self.__lastUndo
-            _sqlInser="""INSERT INTO pycadundo
-                        (pycad_incremental_id) VALUES (%s)"""  %str(self.__lastUndo)
+            self.__lastUndo += 1
+            self.__activeUndo = self.__lastUndo
+            _sqlInser = """INSERT INTO pycadundo (pycad_incremental_id) VALUES (%s)""" % str(self.__lastUndo)
             self.makeUpdateInsert(_sqlInser)
             self.performCommit()
             return self.__lastUndo
         except:
             self.reactiveCommit()
-            print "Unable to make insert into pycadundo:", sys.exc_info()[0]
+            print("Unable to make insert into pycadundo:", sys.exc_info()[0])
             raise
         finally:
             self.reactiveCommit()
@@ -147,15 +144,14 @@ class UndoDb(BaseDb):
         """
             Clear all the undo created
         """
-        _sqlDelete="""DELETE FROM pycadundo"""
+        _sqlDelete = """DELETE FROM pycadundo"""
         self.makeUpdateInsert(_sqlDelete)
 
-    def deleteUndo(self,undoId):
+    def deleteUndo(self, undoId):
         """
             delete the undo index
         """
-        _sqlDelete="""DELETE FROM pycadundo WHERE
-                    (pycad_incremental_id) VALUES (%s)"""%str(undoId)
+        _sqlDelete = """DELETE FROM pycadundo WHERE (pycad_incremental_id) VALUES (%s)""" % str(undoId)
         self.makeUpdateInsert(_sqlDelete)
 
     def getMaxUndoId(self):
@@ -171,15 +167,15 @@ class UndoDb(BaseDb):
         return self.__activeUndo
 
 def test():
-    print "*"*10
-    _undo=PyCadUndoDb(None)
-    print "Clear db Table"
+    print("*" * 10)
+    _undo = PyCadUndoDb(None)
+    print("Clear db Table")
     _undo.clearUndoTable()
-    print "create 10 undo "
+    print("create 10 undo ")
     for i in range(10):
         _undo.getNewUndo()
-    print "Undo"
+    print("Undo")
     for i in range(11):
         _undo.dbUndo()
-    print "redo"
+    print("redo")
     _undo.dbRedo()
