@@ -4,11 +4,11 @@
 import sip
 sip.setapi('QString', 2)
 
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from Interface.pycadapp import PyCadApp
 
 
-class LayerDock(QtGui.QDockWidget):
+class LayerDock(QtWidgets.QDockWidget):
     '''
     A dockable window containing a layer list object.
     The layer list contains all visible layers.
