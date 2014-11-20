@@ -25,7 +25,7 @@
 import sip
 sip.setapi('QString', 2)
 
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 
 class PyCadApp(object):
@@ -116,4 +116,3 @@ class PyCadApp(object):
         dlg.setIcon(QtGui.QMessageBox.Critical)
         dlg.exec_()
         return
-
