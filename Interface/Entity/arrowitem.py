@@ -11,12 +11,12 @@
  #painter.drawPath(myPath);
 
 import math
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-class ArrowItem(QtGui.QGraphicsItem):
+class ArrowItem(QtWidgets.QGraphicsItem):
     
     def definePath(self):
-        poligonArrow=QtGui.QPolygonF()
+        poligonArrow = QtGui.QPolygonF()
         poligonArrow.append(QtCore.QPointF(0.0, 5.0))
         poligonArrow.append(QtCore.QPointF(60.0, 5.0))
         poligonArrow.append(QtCore.QPointF(60.0, 10.0))
@@ -26,7 +26,7 @@ class ArrowItem(QtGui.QGraphicsItem):
         poligonArrow.append(QtCore.QPointF(0.0, -5.0))
         poligonArrow.append(QtCore.QPointF(0.0, 5.0))
         
-        arrowPath=QtGui.QPainterPath()
+        arrowPath = QtGui.QPainterPath()
         arrowPath.addPolygon(poligonArrow)
         return arrowPath
         
@@ -34,9 +34,9 @@ class ArrowItem(QtGui.QGraphicsItem):
         """
             overloading of the qt bounding rectangle
         """
-        return QtCore.QRectF(-1,-250 ,80,50)
+        return QtCore.QRectF(-1, -250, 80, 50)
    
-    def paint(self, painter,option,widget):
+    def paint(self, painter, option, widget):
         """
             overloading of the paint method
         """

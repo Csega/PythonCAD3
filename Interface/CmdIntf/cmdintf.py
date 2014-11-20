@@ -5,11 +5,11 @@ import sys
 import sip
 sip.setapi('QString', 2)
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 
-from Interface.CmdIntf.cmdcategory  import CmdCategory
-from Interface.CmdIntf.cmdaction    import CmdAction
-from Interface.CmdIntf.cmdlinedock  import CmdLineDock
+from Interface.CmdIntf.cmdcategory import CmdCategory
+from Interface.CmdIntf.cmdaction import CmdAction
+from Interface.CmdIntf.cmdlinedock import CmdLineDock
 
 
 class CmdIntf(object):
@@ -48,6 +48,7 @@ class CmdIntf(object):
             Get the function handler object
         """
         return self.__edit_ctrl.FunctionHandler
+    
     @property 
     def Category(self):
         """
@@ -108,7 +109,7 @@ class CmdIntf(object):
 #            # add a separator to the tool-bar
 #            if not toolbar is None:
 #                toolbar.addSeparator()
-        elif cmd=='>':
+        elif cmd == '>':
             #add subMenu
             pass
         else:
@@ -146,7 +147,7 @@ class CmdIntf(object):
         '''
         self.__edit_ctrl.FunctionHandler.evaluateInnerCommand(kernelCommand, selectedItems)
      
-    def evaluateMouseImput(self,view,event):
+    def evaluateMouseImput(self, view, event):
         '''
             get imput from viewport
         '''
@@ -188,7 +189,3 @@ class CmdIntf(object):
         """
         if self.__actions.has_key(name):
             self.__actions[name].setText(text)
-
-
-    
-    

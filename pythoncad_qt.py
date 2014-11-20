@@ -5,7 +5,7 @@
 import sip
 sip.setapi('QString', 2)
 #
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 #
 import sys
 import os
@@ -14,23 +14,23 @@ import sqlite3 as sqlite
 # this is needed for me to use unpickle objects
 #
 sys.path.append(os.path.join(os.getcwd(), 'Generic'))
-genericPath=sys.path[len(sys.path)-1]
+genericPath = sys.path[len(sys.path) - 1]
 sys.path.append(os.path.join(genericPath,  'Kernel'))
 sys.path.append(os.path.join(genericPath, 'Interface'))
 #
 from Interface.cadwindow import CadWindowMdi
 #
 def getPythonCAD():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     
     #splashscreen
-    splashPath=os.path.join(os.getcwd(), 'icons', 'splashScreen1.png')
+    splashPath = os.path.join(os.getcwd(), 'icons', 'splashScreen1.png')
     splash_pix = QtGui.QPixmap(splashPath)
-    splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+    splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
     splash.setMask(splash_pix.mask())
     splash.show()
     
-    w=CadWindowMdi()
+    w = CadWindowMdi()
     w.show()
     
     #end splashscreen
@@ -39,5 +39,5 @@ def getPythonCAD():
     return w, app
 #
 if __name__ == '__main__':
-    w,app=getPythonCAD()
+    w,app = getPythonCAD()
     sys.exit(app.exec_())

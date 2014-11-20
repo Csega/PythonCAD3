@@ -3,11 +3,11 @@
 import sip
 sip.setapi('QString', 2)
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from Interface.CmdIntf.functionhandler import FunctionHandler
 from Kernel.pycadevent import PyCadEvent
 
-class CmdLineDock(QtGui.QDockWidget):
+class CmdLineDock(QtWidgets.QDockWidget):
     '''
         A dockable window containing a edit line object.
         The edit line is used to enter commands or expressions.
@@ -19,8 +19,8 @@ class CmdLineDock(QtGui.QDockWidget):
         '''
         super(CmdLineDock, self).__init__(title, parent)
         self.setMinimumHeight(100)
-        self._remainder=[]
-        self._remainderIndex=0
+        self._remainder = []
+        self._remainderIndex = 0
         # only dock at the bottom or top
         self.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea | QtCore.Qt.TopDockWidgetArea)
         self.dockWidgetContents = QtGui.QWidget()
@@ -37,7 +37,7 @@ class CmdLineDock(QtGui.QDockWidget):
         
         self.verticalLayout_2.addWidget(self.textEditOutput)
         self.__edit_ctrl = QtGui.QLineEdit(self, returnPressed=self._returnPressed)
-        self.__edit_ctrl.keyPressEvent=self._keyPress
+        self.__edit_ctrl.keyPressEvent = self._keyPress
         
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -49,7 +49,7 @@ class CmdLineDock(QtGui.QDockWidget):
         self.__function_handler = FunctionHandler(self.__edit_ctrl,self.textEditOutput )
         #QtCore.QObject.connect(self.__edit_ctrl, QtCore.SIGNAL("returnPressed()"), self.textEditOutput.centerCursor)
         #
-        self.evaluatePressed=PyCadEvent()
+        self.evaluatePressed = PyCadEvent()
         
         self.setObjectName("CmdLineDock") #this is needed for remember toolbar position in cadwindow.writesettings(savestate)
         
@@ -69,7 +69,7 @@ class CmdLineDock(QtGui.QDockWidget):
         '''
         expression = self.__edit_ctrl.text()
         self._remainder.append(expression)
-        self._remainderIndex=len(self._remainder)
+        self._remainderIndex = len(self._remainder)
         self.evaluate(expression)
         
     
@@ -77,15 +77,15 @@ class CmdLineDock(QtGui.QDockWidget):
         """
             keyPressEvent
         """
-        if keyEvent==QtGui.QKeySequence.MoveToNextLine:
-            if self._remainderIndex<len(self._remainder)-1:
-                self._remainderIndex+=1
+        if keyEvent == QtGui.QKeySequence.MoveToNextLine:
+            if self._remainderIndex < len(self._remainder) - 1:
+                self._remainderIndex += 1
                 self.__edit_ctrl.clear()
                 self.__edit_ctrl.setText(self._remainder[self._remainderIndex])
             
-        elif keyEvent==QtGui.QKeySequence.MoveToPreviousLine:
-            if self._remainderIndex>0:
-                self._remainderIndex-=1
+        elif keyEvent == QtGui.QKeySequence.MoveToPreviousLine:
+            if self._remainderIndex > 0:
+                self._remainderIndex -= 1
                 self.__edit_ctrl.clear()
                 self.__edit_ctrl.setText(self._remainder[self._remainderIndex])
         else:
@@ -116,7 +116,7 @@ class CmdLineDock(QtGui.QDockWidget):
         """
         self.textEditOutput.printMsg(msg)
         
-class PyCadTextView(QtGui.QTextEdit):
+class PyCadTextView(QtWidgets.QTextEdit):
     """
         this class represent the text view that pyCad use for rendering the output
     """
@@ -128,7 +128,7 @@ class PyCadTextView(QtGui.QTextEdit):
         
     def contextMenuEvent(self, event):
         menu = self.createStandardContextMenu(event.pos());
-        clearAction=QtGui.QAction("Clear", self, triggered=self.clear)
+        clearAction = QtGui.QAction("Clear", self, triggered=self.clear)
         menu.addAction(clearAction);
         menu.exec_(event.globalPos())
         del(menu)

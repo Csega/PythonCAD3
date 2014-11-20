@@ -20,38 +20,39 @@
 #
 #This module provide a class for the segment command
 #
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-from Kernel.exception       import *
+from Kernel.exception import *
 from Kernel.GeoEntity.point import Point as GeoPoint
-from Kernel.GeoUtil.geolib  import Vector
-from Kernel.initsetting     import PYTHONCAD_PREVIEW_COLOR
+from Kernel.GeoUtil.geolib import Vector
+from Kernel.initsetting import PYTHONCAD_PREVIEW_COLOR
 
 class Base(object):
     def __init__(self, command):
         """
             inizialize base preview items
         """
-        self._command=command
-        self._items=command.lenght
+        self._command = command
+        self._items = command.lenght
         
     def getPreviewObject(self):
         return None
 
-class BaseQtPreviewItem(QtGui.QGraphicsItem):
+
+class BaseQtPreviewItem(QtWidgets.QGraphicsItem):
     def __init__(self, command):
         super(BaseQtPreviewItem, self).__init__()
         self.updateColor()
-        self.value=[]
+        self.value = []
         for dValue in command.defaultValue:
-            val=self.convertToQTObject(dValue)
+            val = self.convertToQTObject(dValue)
             self.value.append(val)
         
     def updateColor(self):
         """
             update the preview color 
         """
-        r, g, b=PYTHONCAD_PREVIEW_COLOR
+        r, g, b = PYTHONCAD_PREVIEW_COLOR
         self.color = QtGui.QColor.fromRgb(r, g, b)
         
     def updatePreview(self,  position, distance, kernelCommand):
@@ -60,31 +61,31 @@ class BaseQtPreviewItem(QtGui.QGraphicsItem):
         """
         # Assing default values
         for i in range(0, len(kernelCommand.exception)):
-            if len(self.value)>i:
-                self.value[i]=self.convertToQTObject(kernelCommand.defaultValue[i])
+            if len(self.value) > i:
+                self.value[i] = self.convertToQTObject(kernelCommand.defaultValue[i])
             else:
                 self.value.append(self.convertToQTObject(kernelCommand.defaultValue[i]))
         # Assing Command Values
         for i in range(0, len(kernelCommand.exception)):        
-            if(i<len(kernelCommand.value)):
-                self.value[i]=self.convertToQTObject(kernelCommand.value[i])
+            if(i < len(kernelCommand.value)):
+                self.value[i] = self.convertToQTObject(kernelCommand.value[i])
         # Assing mouse keyboard values
-        index=kernelCommand.valueIndex
+        index = kernelCommand.valueIndex
         try:
             raise kernelCommand.exception[index](None)
         except(ExcPoint):
-            self.value[index]=position
+            self.value[index] = position
         except(ExcLenght, ExcInt):
-            self.value[index]=distance
+            self.value[index] = distance
         except(ExcAngle):
-            p1=GeoPoint(0.0, 0.0)
-            p2=GeoPoint(position.x(), position.y()*-1.0)
-            self.value[index]=Vector(p1, p2).absAng
+            p1 = GeoPoint(0.0, 0.0)
+            p2 = GeoPoint(position.x(), position.y() * -1.0)
+            self.value[index] = Vector(p1, p2).absAng
         except:
             return 
         self.update(self.boundingRect())
     
-    def paint(self, painter,option,widget):
+    def paint(self, painter, option, widget):
         """
             overloading of the paint method
         """
@@ -103,6 +104,6 @@ class BaseQtPreviewItem(QtGui.QGraphicsItem):
         elif isinstance(value, tuple):
             return QtCore.QPointF(value[0], value[1])
         elif isinstance(value, GeoPoint):
-            return QtCore.QPointF(value.x, value.y*-1.0)
+            return QtCore.QPointF(value.x, value.y * -1.0)
         else:
             return value

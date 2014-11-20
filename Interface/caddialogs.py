@@ -22,15 +22,14 @@
 # This  module PROVIDE ALL GLOBAL VARIABLE NEEDE TO THE SCENE
 #
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from Kernel.initsetting import *
 
-class ConfigDialog(QtGui.QDialog):
+class ConfigDialog(QtWidgets.QDialog):
     def __init__(self):
         super(ConfigDialog, self).__init__()
         self.setWindowTitle("Preferences")
         
         self.exec_()
-        
-        
+
         

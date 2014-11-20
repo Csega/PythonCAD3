@@ -21,25 +21,25 @@
 #
 # This  module PROVIDE ALL GLOBAL VARIABLE NEEDE TO THE SCENE
 #
-from Interface.Entity.point     import Point
-from Interface.Entity.segment   import Segment
-from Interface.Entity.arc       import Arc
-from Interface.Entity.text      import Text
-from Interface.Entity.ellipse   import Ellipse
-from Interface.Entity.polyline  import Polyline
+from Interface.Entity.point import Point
+from Interface.Entity.segment import Segment
+from Interface.Entity.arc import Arc
+from Interface.Entity.text import Text
+from Interface.Entity.ellipse import Ellipse
+from Interface.Entity.polyline import Polyline
 
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 from Interface.Command.distance2point import Distance2Point
 
-SCENE_SUPPORTED_TYPE=["SEGMENT",
+SCENE_SUPPORTED_TYPE = ["SEGMENT",
                       "POINT", 
                         "ARC",
                         "TEXT", 
                         "ELLIPSE", 
                         "POLYLINE"]
 
-SCANE_OBJECT_TYPE=dict(zip(SCENE_SUPPORTED_TYPE, 
+SCANE_OBJECT_TYPE = dict(zip(SCENE_SUPPORTED_TYPE, 
                        (
                         Segment, 
                         Point, 
@@ -49,19 +49,19 @@ SCANE_OBJECT_TYPE=dict(zip(SCENE_SUPPORTED_TYPE,
                         Polyline
                        )))
 
-INTERFACE_COMMAND={'DISTANCE2POINT':Distance2Point}
+INTERFACE_COMMAND = {'DISTANCE2POINT': Distance2Point}
 
-RESTART_COMMAND_OPTION=True
+RESTART_COMMAND_OPTION = True
 
-BACKGROUND_COLOR=(255, 255, 255)
+BACKGROUND_COLOR = (255, 255, 255)
 
-KEY_MAP={
-         QtCore.Qt.Key_Delete:'DELETE', 
-         QtCore.Qt.Key_L:'SEGMENT', 
-         QtCore.Qt.Key_P:'POLYLINE', 
-         QtCore.Qt.Key_G:'MOVE', 
-         QtCore.Qt.Key_C:'COPY', 
-         QtCore.Qt.Key_D:'DELETE', 
-         QtCore.Qt.Key_R:'ROTATE', 
-         QtCore.Qt.Key_M:'MIRROR'
+KEY_MAP = {
+         QtCore.Qt.Key_Delete: 'DELETE', 
+         QtCore.Qt.Key_L: 'SEGMENT', 
+         QtCore.Qt.Key_P: 'POLYLINE', 
+         QtCore.Qt.Key_G: 'MOVE', 
+         QtCore.Qt.Key_C: 'COPY', 
+         QtCore.Qt.Key_D: 'DELETE', 
+         QtCore.Qt.Key_R: 'ROTATE', 
+         QtCore.Qt.Key_M: 'MIRROR'
          }

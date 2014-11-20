@@ -28,7 +28,7 @@ sip.setapi('QString', 2)
 import os
 import sys
 
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
    
 from . import cadwindow_rc
 
@@ -48,10 +48,10 @@ from Kernel.initsetting import * #SNAP_POINT_ARRAY, ACTIVE_SNAP_POINT
 from Interface.caddialogs import *
 
 
-class CadWindowMdi(QtGui.QMainWindow):
+class CadWindowMdi(QtWidgets.QMainWindow):
     def __init__(self):
         super(CadWindowMdi, self).__init__()
-        self.mdiArea = QtGui.QMdiArea()
+        self.mdiArea = QtWidgets.QMdiArea()
         self.mdiArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.mdiArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.setCentralWidget(self.mdiArea)
@@ -797,10 +797,10 @@ class CadWindowMdi(QtGui.QMainWindow):
             get an array of sympy object
         """
         #if self.Application.getActiveDocument()==None:
-        if self.mdiArea.currentSubWindow()==None:
+        if self.mdiArea.currentSubWindow() == None:
             raise StructuralError("unable to get the active document")
         
-        ents=self.mdiArea.currentSubWindow().scene.getAllBaseEntity()
+        ents = self.mdiArea.currentSubWindow().scene.getAllBaseEntity()
         return [ents[ent].geoItem.getSympy() for ent in ents if ent!=None]
                 
                 
@@ -809,7 +809,7 @@ class CadWindowMdi(QtGui.QMainWindow):
 # ##########################################################
 # ##########################################################
 
-class statusButton(QtGui.QToolButton):
+class statusButton(QtWidgets.QToolButton):
     def __init__(self, icon,  tooltip):
         super(statusButton, self).__init__()
         self.setCheckable(True)
@@ -818,11 +818,11 @@ class statusButton(QtGui.QToolButton):
         self.setToolTip(tooltip)
 
     def getIcon(self, fileName):
-        iconpath=os.path.join(os.getcwd(), 'icons', fileName)
+        iconpath = os.path.join(os.getcwd(), 'icons', fileName)
         self.setIcon(QtGui.QIcon(iconpath))
     
     def mousePressEvent(self, event):
-        if event.button()==QtCore.Qt.LeftButton:
+        if event.button() == QtCore.Qt.LeftButton:
             self.click()
-        elif event.button()==QtCore.Qt.RightButton:
+        elif event.button() == QtCore.Qt.RightButton:
             self.showMenu()       

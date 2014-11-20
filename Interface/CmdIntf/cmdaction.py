@@ -8,11 +8,11 @@ Created on May 12, 2010
 import sip
 sip.setapi('QString', 2)
 
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 
-class CmdAction(QtGui.QAction):
+class CmdAction(QtWidgets.QAction):
     '''
     Derived action class to hold a command name.
     The FunctionHandler class handles signals emitted by this class.
@@ -33,7 +33,7 @@ class CmdAction(QtGui.QAction):
         # function handler
         self.__function_handler = function_handler
         # visible 
-        self.__visible=True
+        self.__visible = True
         return
     
     def show(self):
