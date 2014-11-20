@@ -25,13 +25,13 @@ class Layer(object):
     """
         this class manage a single layer
     """
-    def __init__(self, layerName=None):
+    def __init__(self, layerName = None):
         """
             name            = name of the layer
             parentLayerObj  = parent layer object
             styleObj        = styleObject
         """
-        self.name=layerName
+        self.name = layerName
 
     def getName(self):
         """
@@ -39,15 +39,16 @@ class Layer(object):
         """
         return self.__name
 
-    def setName(self,layerName):
+    def setName(self, layerName):
         """
             set the layer name
         """
-        if len(layerName)==0:
-            raise ValueError,"You mast provide a name for the layer"
-        self.__name=layerName
+        if len(layerName) == 0:
+            raise ValueError("You mast provide a name for the layer")
+        
+        self.__name = layerName
     
-    name=property(getName,setName,None,"Get/Set The layer name")
+    name = property(getName, setName, None, "Get/Set The layer name")
 
   
     

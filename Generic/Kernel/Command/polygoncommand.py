@@ -26,10 +26,10 @@
 import math
 import array
 
-from Kernel.exception                   import *
-from Kernel.Command.basecommand         import *
-from Kernel.GeoEntity.point             import Point
-from Kernel.GeoEntity.segment           import Segment
+from Kernel.exception import *
+from Kernel.Command.basecommand import *
+from Kernel.GeoEntity.point import Point
+from Kernel.GeoEntity.segment import Segment
 
 class PolygonCommand(BaseCommand):
     """
@@ -45,14 +45,14 @@ class PolygonCommand(BaseCommand):
                         ExcPoint, 
                         ExcInt, 
                         ExcBool]
-        self.defaultValue=[None, None,6,"E"]
+        self.defaultValue=[None, None,6, "E"]
         self.message=["Give Me the first Point",
-                        "Give Me The Second Point", 
-                        "Give Me The Number of Segment", 
-                        "Give Me External or Internal (TRUE/FALSE)"]
+                      "Give Me The Second Point", 
+                      "Give Me The Number of Segment", 
+                      "Give Me External or Internal (TRUE/FALSE)"]
         self.__xpts = array.array("d")
         self.__ypts = array.array("d")
-        self.__increment=0.0 #default value
+        self.__increment = 0.0 #default value
 
     @property
     def side(self):
@@ -62,18 +62,19 @@ class PolygonCommand(BaseCommand):
             set with setSideCount()
         """
         if self.value[2] is None:
-            raise ValueError, "No side count defined."
+            raise ValueError("No side count defined.")
         return int(self.value[2])
+    
     @side.setter
     def side(self, value):
-        self.value[2]=value
+        self.value[2] = value
         
     def updateSide(self):
         """
             Set the number of sides of the polygon to create.
             Argument "count" should be an integer value greater than 2.
         """
-        self.__increment = (math.pi*2)/float(self.side)
+        self.__increment = (math.pi * 2) / float(self.side)
         for i in range(self.side):
             self.__xpts.insert(i, 0.0)
             self.__ypts.insert(i, 0.0)
@@ -95,7 +96,7 @@ class PolygonCommand(BaseCommand):
             circle. Invoking this method will created the polygon so that all
             sides are outside the circle.
         """
-        if value=="E":
+        if value == "E":
             self.value[3] = True
         else:
             self.value[3] = False
@@ -106,33 +107,35 @@ class PolygonCommand(BaseCommand):
             get user external pick
         """
         return self.value[1]
+    
     @externalPick.setter
     def externalPick(self, value):
         """
             get user external pick
         """
-        self.value[1]=value
+        self.value[1] = value
+    
     @property
     def center(self):
         """
             Retrieve the center of the polygon to be created.
         """
         if self.value[0] is None:
-            raise ValueError, "Center is undefined."
+            raise ValueError("Center is undefined.")
         return self.value[0]
+    
     @center.setter
     def center(self, p):
         """
             Define the center of the polygon.
             Arguments 'x' and 'y' should be float values.
         """
-        if self.value[0] and p ==None:
+        if self.value[0] and p == None:
             return
         if isinstance(p, Point):
             self.value[0] = p
         else:
-            raise TypeError, "p must be a of type Point"
-
+            raise TypeError("p must be a of type Point")
     
     def getCoord(self, i):
         """
@@ -150,44 +153,46 @@ class PolygonCommand(BaseCommand):
             points.
         """
         if self.external:
-            _offset = self.__increment/2.0
+            _offset = self.__increment / 2.0
         else:
             _offset = 0.0
+
         _cx, _cy = self.center.getCoords()
         _x, _y = self.externalPick.getCoords()
         _xsep = _x - _cx
         _ysep = _y - _cy
         _angle = math.atan2(_ysep, _xsep) + _offset
-        _rad = math.hypot(_xsep, _ysep)/math.cos(_offset)
+        _rad = math.hypot(_xsep, _ysep) / math.cos(_offset)
         _xp = self.__xpts
         _yp = self.__ypts
         for _i in range(self.side):
             _xp[_i] = _cx + (_rad * math.cos(_angle))
             _yp[_i] = _cy + (_rad * math.sin(_angle))
             _angle = _angle + self.__increment
-        self.__xpts=_xp
-        self.__ypts=_yp
+        
+        self.__xpts = _xp
+        self.__ypts = _yp
         
     def getEntsToSave(self):
         """
             return a list of segment
         """
-        objEnt=[]
+        objEnt = []
         self.CalculatePoint()
         if len(self.__xpts):
             # find starting point ...
-            _p0 = Point(self.__xpts[0],self.__ypts[0])
+            _p0 = Point(self.__xpts[0], self.__ypts[0])
             # make segments for all the points ...
             _p1 = _p0
             for _i in range(1, self.side):
                 _x = self.__xpts[_i]
                 _y = self.__ypts[_i]
                 _pi = Point(_x, _y)
-                segArg={"SEGMENT_0":_p1, "SEGMENT_1":_pi}
+                segArg = {"SEGMENT_0": _p1, "SEGMENT_1": _pi}
                 objEnt.append(Segment(segArg))
                 _p1 = _pi
             # now add closing segment ...
-            segArg={"SEGMENT_0":_p1, "SEGMENT_1":_p0}
+            segArg = {"SEGMENT_0": _p1, "SEGMENT_1": _p0}
             objEnt.append(Segment(segArg))
         return  objEnt   
         

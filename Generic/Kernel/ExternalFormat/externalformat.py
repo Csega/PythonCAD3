@@ -19,40 +19,41 @@
 #
 #
 import os.path
-#
+
 from Kernel.ExternalFormat.Dxf.dxf import Dxf
-#
+
 class ExtFormat(object):
     """
         This class provide base class for hendly different drawing format in pythoncad
     """
-    def __init__(self,kernel):
+    def __init__(self, kernel):
         """
             Default Constructor
         """
-        self.__kernel=kernel
-        self.__errorList=[]
-    def openFile(self,fileName):
+        self.__kernel = kernel
+        self.__errorList = []
+    
+    def openFile(self, fileName):
         """
            Open a generic file
         """
-        path,exte=os.path.splitext( fileName )
-        if( exte.upper()==".dxf".upper()):
-            dxf=Dxf(self.__kernel,fileName)
+        path, exte = os.path.splitext(fileName)
+        if( exte.upper() == ".dxf".upper()):
+            dxf = Dxf(self.__kernel, fileName)
             dxf.importEntitis()
             if not dxf.getError() is None:
-                self.__errorList=dxf.getError()
-                raise DxfReport, "Dxf report have to be shown some error/warning in import dxf"
+                self.__errorList = dxf.getError()
+                raise DxfReport("Dxf report have to be shown some error/warning in import dxf")
         else:
-            raise  DxfUnsupportedFormat,  "Format %s not supported"%str(exte)
+            raise DxfUnsupportedFormat("Format %s not supported" % str(exte))
 
-    def saveFile(self,fileName):
+    def saveFile(self, fileName):
         """
             save the current file in a non pythoncad Format
         """
-        path,exte=os.path.splitext( fileName )
-        if( exte.upper()==".dxf".upper()):
-            dxf=Dxf(self.__kernel,fileName)
+        path,exte = os.path.splitext( fileName )
+        if exte.upper() == ".dxf".upper():
+            dxf = Dxf(self.__kernel, fileName)
             dxf.exportEntitis()
 
     def getErrorList(self):
@@ -60,4 +61,3 @@ class ExtFormat(object):
             get the error warning generated
         """
         return self.__errorList
-
