@@ -58,7 +58,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         self.mdiArea.subWindowActivated.connect(self.subWindowActivatedEvent)
 #        self.readSettings() #now works for position and size, support for toolbars is still missing(http://www.opendocs.net/pyqt/pyqt4/html/qsettings.html)
         self.setWindowTitle("PythonCAD")
-        qIcon=self._getIcon('pythoncad')
+        qIcon = self._getIcon('pythoncad')
         if qIcon:
             self.setWindowIcon(qIcon)
         self.setUnifiedTitleAndToolBarOnMac(True)
@@ -73,7 +73,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         self.setUnifiedTitleAndToolBarOnMac(True)
         self._registerCommands()
         self.updateMenus()
-        self.lastDirectory=os.getenv('USERPROFILE') or os.getenv('HOME')
+        self.lastDirectory = os.getenv('USERPROFILE') or os.getenv('HOME')
         
         self.readSettings() #now works for position and size and ismaximized, and finally toolbar position
         return
@@ -86,12 +86,14 @@ class CadWindowMdi(QtWidgets.QMainWindow):
     def view(self):
         if self.mdiArea.activeSubWindow():
             return self.mdiArea.activeSubWindow().view 
+   
     @property
     def Application(self):
         """
             get the kernel application object
         """
         return self.__application
+    
     @property
     def LayerDock(self):
         """
@@ -114,24 +116,24 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         
         
         #Force Direction
-        self.forceDirectionStatus=statusButton('SForceDir.png', 'Orthogonal Mode [right click will in the future set increment constrain angle]')
+        self.forceDirectionStatus = statusButton('SForceDir.png', 'Orthogonal Mode [right click will in the future set increment constrain angle]')
         self.connect(self.forceDirectionStatus, QtCore.SIGNAL('clicked()'), self.setForceDirection)
         self.statusBar().addPermanentWidget(self.forceDirectionStatus)
         
         #Snap
-        self.SnapStatus=statusButton('SSnap.png', 'Snap [right click displays snap list]\n for future implementation it should be a checkist')
+        self.SnapStatus = statusButton('SSnap.png', 'Snap [right click displays snap list]\n for future implementation it should be a checkist')
         self.connect(self.SnapStatus, QtCore.SIGNAL('clicked()'), self.setSnapStatus)
         self.SnapStatus.setMenu(self.__cmd_intf.Category.getMenu(5))
         self.statusBar().addPermanentWidget(self.SnapStatus)
 
         
         #Grid
-        self.GridStatus=statusButton('SGrid.png', 'Grid Mode [not available yet]') 
+        self.GridStatus = statusButton('SGrid.png', 'Grid Mode [not available yet]') 
         self.connect(self.GridStatus, QtCore.SIGNAL('clicked()'), self.setGrid)
         self.statusBar().addPermanentWidget(self.GridStatus)
         
         #------------------------------------------------------------------------------------Set coordinates label on statusbar (updated by idocumet)
-        self.coordLabel=QtGui.QLabel("x=0.000\ny=0.000")
+        self.coordLabel = QtGui.QLabel("x=0.000\ny=0.000")
         self.coordLabel.setAlignment(QtCore.Qt.AlignVCenter)
         self.coordLabel.setFrameStyle(QtGui.QFrame.Panel | QtGui.QFrame.Sunken)
         self.coordLabel.setMinimumWidth(80)
@@ -142,10 +144,10 @@ class CadWindowMdi(QtWidgets.QMainWindow):
     def setForceDirection(self):
         if self.forceDirectionStatus.isChecked():
             print("abilita")
-            self.scene.forceDirection=True
+            self.scene.forceDirection = True
             self.forceDirectionStatus.setFocus(False)
         else:
-            self.scene.forceDirection=False
+            self.scene.forceDirection = False
 
     def setSnapStatus(self):
         print("status")
@@ -195,7 +197,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
             Resect the active command
         """
         self.__cmd_intf.resetCommand()
-        if self.scene!=None:
+        if self.scene != None:
             self.scene.cancelCommand()
         self.statusBar().showMessage("Ready")
 
@@ -267,21 +269,21 @@ class CadWindowMdi(QtWidgets.QMainWindow):
             Create new IDocument 
         """
         if file:
-            newDoc=self.__application.openDocument(file)
+            newDoc = self.__application.openDocument(file)
         else:
-            newDoc=self.__application.newDocument()
+            newDoc = self.__application.newDocument()
         for mdiwind in self.mdiArea.subWindowList():
-            if mdiwind._IDocument__document.dbPath==file:
-                child=mdiwind
+            if mdiwind._IDocument__document.dbPath == file:
+                child = mdiwind
                 break
         else:
             child = IDocument(newDoc,self.__cmd_intf, self)
             self.mdiArea.addSubWindow(child)
 
-        #child.copyAvailable.connect(self.cutAct.setEnabled)
-        #child.copyAvailable.connect(self.copyAct.setEnabled)
+        # child.copyAvailable.connect(self.cutAct.setEnabled)
+        # child.copyAvailable.connect(self.copyAct.setEnabled)
         return child
-    #def setAppDocActiveOnUi(self, doc):
+    # def setAppDocActiveOnUi(self, doc):
     #    self.mdiArea.
         
     def _registerCommands(self):
@@ -297,11 +299,11 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         #
         self.__cmd_intf.registerCommand(self.__cmd_intf.Category.File, '-')
         
-        i=0
+        i = 0
         for file in self.Application.getRecentFiles:
-            fileName=self.strippedName(file)
-            self.__cmd_intf.registerCommand(self.__cmd_intf.Category.File, 'file_'+str(i), fileName, self._onOpenRecent)    
-            i+=1
+            fileName = self.strippedName(file)
+            self.__cmd_intf.registerCommand(self.__cmd_intf.Category.File, 'file_' + str(i), fileName, self._onOpenRecent)    
+            i += 1
         #
         # separator
         self.__cmd_intf.registerCommand(self.__cmd_intf.Category.File, '-')
