@@ -82,6 +82,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
     def scene(self):
         if self.mdiArea.activeSubWindow():
             return self.mdiArea.activeSubWindow().scene
+    
     @property
     def view(self):
         if self.mdiArea.activeSubWindow():
@@ -111,10 +112,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
 
         self.statusBar().showMessage("Ready")
 
-        #------------------------------------------------------------------------------------Create status buttons
-
-        
-        
+        #------------------------------------------------------------------------------------Create status buttons        
         #Force Direction
         self.forceDirectionStatus = statusButton('SForceDir.png', 'Orthogonal Mode [right click will in the future set increment constrain angle]')
         self.connect(self.forceDirectionStatus, QtCore.SIGNAL('clicked()'), self.setForceDirection)
