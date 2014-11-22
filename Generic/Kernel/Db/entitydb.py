@@ -289,8 +289,8 @@ class EntityDb(BaseDb):
         _outObj = []
         _dbEntRow = self.getMultiFilteredEntity(entityType = entityType)
         for _row in _dbEntRow: 
-            _style = pickle.loads(str(_row[4]))
-            _dumpObj = pickle.loads(str(_row[3]))
+            _style = pickle.loads(_row[4])
+            _dumpObj = pickle.loads(_row[3])
             _objEnt = Entity(_row[2], _dumpObj, _style, _row[1])
             _objEnt.state = _row[5]
             _objEnt.index = _row[6]
