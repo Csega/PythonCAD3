@@ -23,23 +23,23 @@ class CmdLineDock(QtWidgets.QDockWidget):
         self._remainderIndex = 0
         # only dock at the bottom or top
         self.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea | QtCore.Qt.TopDockWidgetArea)
-        self.dockWidgetContents = QtGui.QWidget()
+        self.dockWidgetContents = QtWidgets.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Ignored)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.dockWidgetContents.sizePolicy().hasHeightForWidth())
         self.dockWidgetContents.setSizePolicy(sizePolicy)
-        self.verticalLayout_2 = QtGui.QVBoxLayout(self.dockWidgetContents)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.dockWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         
-        self.textEditOutput=PyCadTextView(self.dockWidgetContents)
+        self.textEditOutput = PyCadTextView(self.dockWidgetContents)
         
         self.verticalLayout_2.addWidget(self.textEditOutput)
-        self.__edit_ctrl = QtGui.QLineEdit(self, returnPressed=self._returnPressed)
+        self.__edit_ctrl = QtWidgets.QLineEdit(self, returnPressed=self._returnPressed)
         self.__edit_ctrl.keyPressEvent = self._keyPress
         
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.textEditOutput.sizePolicy().hasHeightForWidth())
