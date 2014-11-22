@@ -38,7 +38,7 @@ class Style(GeometricalEntity):
             argDescription = dict([(key, str) for key in kw])
             GeometricalEntity.__init__(self, kw, argDescription)
             
-            if self.has_key('STYLE_1'):
+            if 'STYLE_1' in self:
                 if self['STYLE_1'] == None:
                     from Kernel.initsetting import getDefaultStyle
                     self.__styleProperty = getDefaultStyle()

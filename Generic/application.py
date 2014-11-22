@@ -56,7 +56,7 @@ class Application(object):
         self.activeteDocumentEvent=PyCadEvent()
         # manage Document inizialization
         self.__Docuemnts={}
-        if args.has_key('open'):
+        if 'open' in args:
             self.openDocument(args['open'])
         else:
             self.__ActiveDocument=None
