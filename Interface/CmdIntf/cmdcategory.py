@@ -58,7 +58,8 @@ class CmdCategory(object):
         Gets an menu from the list.
         The number is the enumerated number from the categories string
         '''
-        if self.__menus.has_key(number):
+        # if self.__menus.has_key(number):
+        if number in self.__menus:
             return self.__menus[number]
         return None
 
@@ -71,7 +72,8 @@ class CmdCategory(object):
         Gets an tool-bar from the list.
         The number is the enumerated number from the categories string
         '''
-        if self.__toolbars.has_key(number):
+        #if self.__toolbars.has_key(number):
+        if number in self.__toolbars:
             return self.__toolbars[number]
         return None
     
