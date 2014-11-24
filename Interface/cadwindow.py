@@ -130,13 +130,14 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         
         #Grid
         self.GridStatus = statusButton('SGrid.png', 'Grid Mode [not available yet]') 
-        self.connect(self.GridStatus, QtCore.SIGNAL('clicked()'), self.setGrid)
+        # self.connect(self.GridStatus, QtCore.SIGNAL('clicked()'), self.setGrid)
+        self.GridStatus.clicked.connect(self.setGrid)
         self.statusBar().addPermanentWidget(self.GridStatus)
         
         #------------------------------------------------------------------------------------Set coordinates label on statusbar (updated by idocumet)
-        self.coordLabel = QtGui.QLabel("x=0.000\ny=0.000")
+        self.coordLabel = QtWidgets.QLabel("x=0.000\ny=0.000")
         self.coordLabel.setAlignment(QtCore.Qt.AlignVCenter)
-        self.coordLabel.setFrameStyle(QtGui.QFrame.Panel | QtGui.QFrame.Sunken)
+        self.coordLabel.setFrameStyle(QtWidgets.QFrame.Panel | QtWidgets.QFrame.Sunken)
         self.coordLabel.setMinimumWidth(80)
         self.coordLabel.setMaximumHeight(20)
         self.coordLabel.setFont(QtGui.QFont("Sans", 6))

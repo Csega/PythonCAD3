@@ -177,7 +177,8 @@ class CmdIntf(object):
         """
             set the action name to visible value
         """
-        if self.__actions.has_key(name):
+        # if self.__actions.has_key(name):
+        if name in self.__actions:
             if value:
                 self.__actions[name].show()
             else:
