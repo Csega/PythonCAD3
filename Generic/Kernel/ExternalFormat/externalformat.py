@@ -20,7 +20,7 @@
 #
 import os.path
 
-from Kernel.ExternalFormat.Dxf.dxf import Dxf
+from ExternalFormat.Dxf.dxf import Dxf
 
 class ExtFormat(object):
     """

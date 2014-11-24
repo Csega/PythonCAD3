@@ -23,9 +23,9 @@
 #
 #TODO : REPAIR THE LOGGER FOR THIS CLASS
 
-from Kernel.layer import Layer
-from Kernel.exception import *
-from Kernel.initsetting import MAIN_LAYER
+from layer import Layer
+from exception import *
+from initsetting import MAIN_LAYER
 
 class LayerTree(object):
     """

@@ -20,9 +20,9 @@
 #
 #This module provide a class for the segment command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.cline           import CLine
+from exception import *
+from Command.basecommand import *
+from GeoEntity.cline import CLine
 
 class CLineCommand(BaseCommand):
     """
@@ -30,12 +30,12 @@ class CLineCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, ExcPoint]
-        self.message=["Give Me the first Point","Give Me the first Point"]
+        self.exception = [ExcPoint, ExcPoint]
+        self.message = ["Give Me the first Point", "Give Me the first Point"]
         
     def applyCommand(self):
-        if len(self.value)!=2:
+        if len(self.value) != 2:
             raise PyCadWrongImputData("Wrong number of imput parameter")
-        arg={"CLINE_0":self.value[0],"CLINE_0":self.value[1] }
-        cline=CLine(arg)
+        arg = {"CLINE_0": self.value[0], "CLINE_0": self.value[1]}
+        cline = CLine(arg)
         self.document.saveEntity(cline)

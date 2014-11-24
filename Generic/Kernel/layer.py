@@ -49,7 +49,3 @@ class Layer(object):
         self.__name = layerName
     
     name = property(getName, setName, None, "Get/Set The layer name")
-
-  
-    
- 

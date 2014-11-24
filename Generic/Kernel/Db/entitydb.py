@@ -23,10 +23,10 @@
 
 import pickle
 
-from Kernel.entity import *
-from Kernel.Db.basedb import BaseDb
-from Kernel.initsetting import *
-from Kernel.exception import *
+from entity import *
+from Db.basedb import BaseDb
+from initsetting import *
+from exception import *
 
 class EntityDb(BaseDb):
     """
@@ -66,7 +66,7 @@ class EntityDb(BaseDb):
             get the revision index from the database
         """
         _sql = """SELECT max(pycad_index) From pycadent"""
-        index=self.fetchOneRow(_sql)
+        index = self.fetchOneRow(_sql)
         if index is None: return 0
         return index
         

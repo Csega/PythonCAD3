@@ -20,10 +20,10 @@
 #
 #This module provide a class for the Rectangle command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.point            import Point
-from Kernel.GeoEntity.segment          import Segment
+from exception import *
+from Command.basecommand import *
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
 
 class RectangleCommand(BaseCommand):
     """
@@ -31,32 +31,33 @@ class RectangleCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, ExcPoint]
-        self.defaultValue=[None, None]
-        self.message=["Give Me the first Point","Give Me The second Point"]
+        self.exception = [ExcPoint, ExcPoint]
+        self.defaultValue = [None, None]
+        self.message = ["Give Me the first Point","Give Me The second Point"]
+    
     def getEntsToSave(self):
         """
             get all the segment of the rectangle
         """
-        objEnt=[]
-        p1=self.value[0]
-        p2=self.value[1]
-        x1, y1=p1.getCoords()
+        objEnt = []
+        p1 = self.value[0]
+        p2 = self.value[1]
+        x1, y1 = p1.getCoords()
         x2, y2=p2.getCoords()
-        p3=Point(x1, y2)
-        p4=Point(x2, y1)
-        segArg={"SEGMENT_0":p1, "SEGMENT_1":p4}
+        p3 = Point(x1, y2)
+        p4 = Point(x2, y1)
+        segArg = {"SEGMENT_0": p1, "SEGMENT_1": p4}
         objEnt.append(Segment(segArg))
-        segArg={"SEGMENT_0":p4, "SEGMENT_1":p2}
+        segArg = {"SEGMENT_0": p4, "SEGMENT_1": p2}
         objEnt.append(Segment(segArg))
-        segArg={"SEGMENT_0":p2, "SEGMENT_1":p3}
+        segArg = {"SEGMENT_0": p2, "SEGMENT_1": p3}
         objEnt.append(Segment(segArg))
-        segArg={"SEGMENT_0":p3, "SEGMENT_1":p1}
+        segArg = {"SEGMENT_0": p3, "SEGMENT_1": p1}
         objEnt.append(Segment(segArg))
         return objEnt
         
     def applyCommand(self):
-        if len(self.value)!=2:
+        if len(self.value) != 2:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         try:
             self.document.startMassiveCreation()
@@ -64,4 +65,3 @@ class RectangleCommand(BaseCommand):
                 self.document.saveEntity(_ent)
         finally:
             self.document.stopMassiveCreation()
-        

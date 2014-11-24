@@ -22,9 +22,9 @@
 #
 import math
 
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.point         import Point
+from exception import *
+from Command.basecommand import *
+from GeoEntity.point import Point
 
 class RotateCommand(BaseCommand):
     """
@@ -32,12 +32,12 @@ class RotateCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcMultiEntity,
+        self.exception = [ExcMultiEntity,
                         ExcPoint, 
                         ExcAngle, 
                         ExcText]
-        self.defaultValue=[None, None, math.pi/2, "C"]
-        self.message=[  "Select the entity to rotate or give me a the keyword Text As: (10,20,30,...)", 
+        self.defaultValue = [None, None, math.pi / 2, "C"]
+        self.message = ["Select the entity to rotate or give me a the keyword Text As: (10,20,30,...)", 
                         "Give me the reference rotation point", 
                         "Give me the rotation angle[rad]", 
                         "Give me the Mode (M or None ->Move,C ->Copy)"]
@@ -46,14 +46,14 @@ class RotateCommand(BaseCommand):
         """
             perform the mirror of all the entity selected
         """
-        copy=True
+        copy = True
         if self.value[3]:
-            if self.value[3]=='C':
-                copy=False
-        updEnts=[]
+            if self.value[3] == 'C':
+                copy = False
+        updEnts = []
         for id in str(self.value[0]).split(','):
-            dbEnt=self.document.getEntity(id)
-            geoEnt=self.document.convertToGeometricalEntity(dbEnt)
+            dbEnt = self.document.getEntity(id)
+            geoEnt = self.document.convertToGeometricalEntity(dbEnt)
             geoEnt.rotate(self.value[1], self.value[2])
             if not copy:
                 dbEnt.setConstructionElements(geoEnt.getConstructionElements())
@@ -66,7 +66,7 @@ class RotateCommand(BaseCommand):
         """
             perform the write of the entity
         """
-        if len(self.value)!=4:
+        if len(self.value) != 4:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         try:
             self.document.startMassiveCreation()

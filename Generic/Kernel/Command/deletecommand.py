@@ -20,11 +20,11 @@
 #
 #This module provide a class for the Trim command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity               import *
-from Kernel.GeoUtil.intersection    import *
-from Kernel.GeoUtil.util            import *
+from exception import *
+from Command.basecommand import *
+from GeoEntity import *
+from GeoUtil.intersection import *
+from GeoUtil.util import *
 
 class DeleteCommand(BaseCommand):
     """
@@ -32,8 +32,8 @@ class DeleteCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcMultiEntity]
-        self.message=["Select the entity to delete or give me a the keyword Text As: (10,20,30,..)"]
+        self.exception = [ExcMultiEntity]
+        self.message = ["Select the entity to delete or give me a the keyword Text As: (10,20,30,..)"]
         
     def applyDefault(self):    
         """
@@ -45,7 +45,7 @@ class DeleteCommand(BaseCommand):
         """
             apply the champfer command
         """
-        if len(self.value)!=1:
+        if len(self.value) != 1:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         try:
             self.document.startMassiveCreation()
@@ -53,4 +53,4 @@ class DeleteCommand(BaseCommand):
                 self.document.deleteEntity(id)
         finally:
             self.document.stopMassiveCreation()
-       
+    

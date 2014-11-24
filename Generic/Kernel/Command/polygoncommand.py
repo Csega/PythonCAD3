@@ -26,10 +26,10 @@
 import math
 import array
 
-from Kernel.exception import *
-from Kernel.Command.basecommand import *
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
+from exception import *
+from Command.basecommand import *
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
 
 class PolygonCommand(BaseCommand):
     """
@@ -41,12 +41,12 @@ class PolygonCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, 
+        self.exception = [ExcPoint, 
                         ExcPoint, 
                         ExcInt, 
                         ExcBool]
-        self.defaultValue=[None, None,6, "E"]
-        self.message=["Give Me the first Point",
+        self.defaultValue = [None, None, 6, "E"]
+        self.message = ["Give Me the first Point",
                       "Give Me The Second Point", 
                       "Give Me The Number of Segment", 
                       "Give Me External or Internal (TRUE/FALSE)"]
@@ -207,4 +207,3 @@ class PolygonCommand(BaseCommand):
                 self.document.saveEntity(_ent)
         finally:
             self.document.stopMassiveCreation()
- 

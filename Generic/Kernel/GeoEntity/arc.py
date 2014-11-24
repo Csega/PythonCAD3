@@ -50,7 +50,7 @@ class Arc(GeometricalEntity):
 
         An Arc has the following methods:
     """
-    def __init__(self,kw):
+    def __init__(self, kw):
         """
             Initialize a Arc/Circle.
             kw['ARC_0'] center must be a point 
@@ -59,31 +59,33 @@ class Arc(GeometricalEntity):
             kw['ARC_3'] endAngle   must be a valid radiant float value
         """
         argDescription={
-                        "ARC_0":Point,
-                        "ARC_1":(float, int), 
-                        "ARC_2":(float, int), 
-                        "ARC_3":(float, int)
+                        "ARC_0": Point,
+                        "ARC_1": (float, int), 
+                        "ARC_2": (float, int), 
+                        "ARC_3": (float, int)
                         }
-        GeometricalEntity.__init__(self,kw, argDescription)
-        __isCircle=False
-        if self.startAngle ==None or self.endAngle==None:
-            self.startAngle=0
-            self.endAngle=pi_2
-            __isCircle=True
+        GeometricalEntity.__init__(self, kw, argDescription)
+        __isCircle = False
+        if self.startAngle == None or self.endAngle == None:
+            self.startAngle = 0
+            self.endAngle = pi_2
+            __isCircle = True
         if not get_float(self.radius) > 0.0:
             raise ValueError("Invalid radius" )
         
         self.startAngle = self.startAngle
-        self.endAngle= self.endAngle
+        self.endAngle = self.endAngle
         
     def isCircle(self):
         """
             return if the arc isa circle
         """
         return self.__isCircle
+    
     @property
     def info(self):
-        return "Arc: Center: %s, Radius:%s ,StartAngle: %s,EndAngle: %s"%(str(self.center), str(self.radius), str(self.startAngle), str(self.endAngle))
+        return "Arc: Center: %s, Radius:%s ,StartAngle: %s,EndAngle: %s" % (str(self.center), str(self.radius), str(self.startAngle), str(self.endAngle))
+    
     def __eq__(self, obj):
         """
             Compare a Arc to another for equality.
@@ -123,7 +125,7 @@ class Arc(GeometricalEntity):
         """
         if not isinstance(point, self.arguments['ARC_0'] ):
             raise TypeError("Wrong argument type Need a Point")
-        self['ARC_0']=point
+        self['ARC_0'] = point
 
     center = property(getCenter, setCenter, None, "Arc center")
 
@@ -141,7 +143,7 @@ class Arc(GeometricalEntity):
         _r = get_float(radius)
         if not _r > 0.0:
             raise ValueError("Invalid radius: %g" % _r)
-        self['ARC_1']=_r
+        self['ARC_1'] = _r
 
     radius = property(getRadius, setRadius, None, "Arc radius")
 
@@ -158,8 +160,7 @@ class Arc(GeometricalEntity):
         """
         self['ARC_2'] = angle
 
-    startAngle = property(getStartAngle, setStartAngle, None,
-                           "Start angle for the Arc.")
+    startAngle = property(getStartAngle, setStartAngle, None, "Start angle for the Arc.")
 
     def getEndAngle(self):
         """
@@ -174,8 +175,7 @@ class Arc(GeometricalEntity):
         """
         self['ARC_3'] = angle
 
-    endAngle = property(getEndAngle, setEndAngle, None,
-                         "End angle for the Arc.")
+    endAngle = property(getEndAngle, setEndAngle, None, "End angle for the Arc.")
 
     def getAngle(self):
         """
@@ -222,7 +222,7 @@ class Arc(GeometricalEntity):
         _sa = self.startAngle
         _sax = _cx + _r * math.cos(_sa )
         _say = _cy + _r * math.sin(_sa)
-        _ea = self.endAngle+_sa
+        _ea = self.endAngle + _sa
         
         _eax = _cx + _r * math.cos(_ea )
         _eay = _cy + _r * math.sin(_ea )
@@ -233,13 +233,13 @@ class Arc(GeometricalEntity):
             Return the length of the Arc.
         """
         
-        return self.radius*self.getAngle()
+        return self.radius * self.getAngle()
 
     def area(self):
         """
             Return the area enclosed by the Arc.
         """
-        return pow(self.radius, 2) * (self.getAngle()/2)
+        return pow(self.radius, 2) * (self.getAngle() / 2)
 
     def GetTangentPoint(self,x,y,outx,outy):
         """
@@ -250,60 +250,60 @@ class Arc(GeometricalEntity):
             return:
                 a tuple(x,y,x1,xy) that define the tangent line
         """
-        firstPoint=Point(x,y)
-        fromPoint=Point(outx,outy)
-        twoPointDistance=self.center.dist(fromPoint)
-        if(twoPointDistance<self.radius):
-            return None,None
-        originPoint=Point(0.0,0.0)
-        tanMod=math.sqrt(pow(twoPointDistance,2)-pow(self.radius,2))
-        tgAngle=math.asin(self.radius/twoPointDistance)
-        #Compute the x versor
-        xPoint=Point(1.0,0.0)
-        xVector=Vector(originPoint,xPoint)
-        twoPointVector=Vector(fromPoint,self.center)
-        rightAngle=twoPointVector.ang(xVector)
-        cx,cy=self.center.getCoords()
-        if(outy>cy): # stupid situation
-            rightAngle=-rightAngle
-        posAngle=rightAngle+tgAngle
-        negAngle=rightAngle-tgAngle
+        firstPoint = Point(x, y)
+        fromPoint = Point(outx, outy)
+        twoPointDistance = self.center.dist(fromPoint)
+        if(twoPointDistance < self.radius):
+            return None, None
+        originPoint = Point(0.0, 0.0)
+        tanMod = math.sqrt(pow(twoPointDistance, 2) - pow(self.radius, 2))
+        tgAngle = math.asin(self.radius / twoPointDistance)
+        # Compute the x versor
+        xPoint = Point(1.0, 0.0)
+        xVector = Vector(originPoint, xPoint)
+        twoPointVector = Vector(fromPoint, self.center)
+        rightAngle = twoPointVector.ang(xVector)
+        cx, cy = self.center.getCoords()
+        if(outy > cy):  # stupid situation
+            rightAngle =- rightAngle
+        posAngle = rightAngle + tgAngle
+        negAngle = rightAngle - tgAngle
         # Compute the Positive Tangent
-        xCord=math.cos(posAngle)
-        yCord=math.sin(posAngle)
-        dirPoint=Point(xCord,yCord) # Versor that point at the tangentPoint
-        ver=Vector(originPoint,dirPoint)
+        xCord = math.cos(posAngle)
+        yCord = math.sin(posAngle)
+        dirPoint = Point(xCord, yCord)  # Versor that point at the tangentPoint
+        ver = Vector(originPoint, dirPoint)
         ver.mult(tanMod)
-        tangVectorPoint=ver.Point()
-        posPoint=Point(tangVectorPoint+(outx,outy))
+        tangVectorPoint = ver.Point()
+        posPoint = Point(tangVectorPoint + (outx, outy))
         # Compute the Negative Tangent
-        xCord=math.cos(negAngle)
-        yCord=math.sin(negAngle)
-        dirPoint=Point(xCord,yCord)#Versor that point at the tangentPoint
-        ver=Vector(originPoint,dirPoint)
+        xCord = math.cos(negAngle)
+        yCord = math.sin(negAngle)
+        dirPoint = Point(xCord, yCord)  # Versor that point at the tangentPoint
+        ver = Vector(originPoint, dirPoint)
         ver.mult(tanMod)
-        tangVectorPoint=ver.point()
-        negPoint=Point(tangVectorPoint+(outx,outy))
-        if(firstPoint.dist(posPoint)<firstPoint.dist(negPoint)):
+        tangVectorPoint = ver.point()
+        negPoint = Point(tangVectorPoint + (outx, outy))
+        if firstPoint.dist(posPoint) < firstPoint.dist(negPoint):
             return posPoint.getCoords()
         else:
             return negPoint.getCoords()
 
-    def GetRadiusPointFromExt(self,x,y):
+    def GetRadiusPointFromExt(self, x, y):
         """
             get The intersecrion point from the line(x,y,cx,cy) and the circle
         """
         _cx, _cy = self.center.getCoords()
         _r = self.radius
-        centerPoint=Point(_cx,_cy)
-        outPoint=Point(x,y)
-        vector=Vector(outPoint,centerPoint)
-        vNorm=vector.norm()
-        newNorm=abs(vNorm-_r)
-        magVector=vector.mag()
+        centerPoint = Point(_cx, _cy)
+        outPoint = Point(x, y)
+        vector = Vector(outPoint, centerPoint)
+        vNorm = vector.norm()
+        newNorm = abs(vNorm - _r)
+        magVector = vector.mag()
         magVector.mult(newNorm)
-        newPoint=magVector.point()
-        intPoint=Point(outPoint+newPoint)
+        newPoint = magVector.point()
+        intPoint = Point(outPoint + newPoint)
         return intPoint.getCoords()
 
     def inRegion(self, xmin, ymin, xmax, ymax, fully=False):
@@ -426,7 +426,7 @@ class Arc(GeometricalEntity):
         """
             get the sympy object in this case a circle
         """
-        _cp=self.center.getSympy()
+        _cp = self.center.getSympy()
         return geoSympy.Circle(_cp, mainSympy.Rational(str(self.radius)))
         
     def setFromSympy(self, sympyCircle):    
@@ -434,10 +434,10 @@ class Arc(GeometricalEntity):
             update the points cord from a sympyobject only avaiable for circle
         """
         self.center.setFromSympy(sympyCircle[0])
-        self.radius=float(sympyCircle[1])
+        self.radius = float(sympyCircle[1])
         
     def __str__(self):
-        msg="Arc\Circle: Center %s , Radius %s , StartAngle=%s, EndAngle=%s"%(
+        msg = "Arc\Circle: Center %s , Radius %s , StartAngle=%s, EndAngle=%s"%(
             str(self.center), str(self.radius), str(self.startAngle), str(self.endAngle))
         return msg
         
@@ -460,9 +460,8 @@ class Arc(GeometricalEntity):
         """
             rotate the arc
         """
-        self.startAngle+=angle
+        self.startAngle += angle
         self.center.rotate(rotationPoint, angle)
-        
         
     def mirror(self, mirrorRef):
         """
@@ -471,12 +470,12 @@ class Arc(GeometricalEntity):
         if not isinstance(mirrorRef, (CLine, Segment)):
             raise TypeError("mirrorObject must be Cline Segment or a tuple of points")
         #
-        startPoint, endPoint=self.getEndpoints()
+        startPoint, endPoint = self.getEndpoints()
         self.center.mirror(mirrorRef)
-        endMirror=mirrorRef.getProjection(endPoint)
-        vEnd=Vector( endPoint, endMirror)
-        newStart=endMirror+vEnd.point
-        self.startAngle=Vector(self.center, newStart).absAng
+        endMirror = mirrorRef.getProjection(endPoint)
+        vEnd = Vector( endPoint, endMirror)
+        newStart = endMirror + vEnd.point
+        self.startAngle = Vector(self.center, newStart).absAng
     
     def getQuadrant(self):
         """
@@ -484,9 +483,9 @@ class Arc(GeometricalEntity):
             center
         """
         print("call getQuadrant")
-        x, y=self.center.getCoords()
-        p1=Point(x, y+self.radius)
-        p2=Point(x-self.radius, y)
-        p3=Point(x, y-self.radius)
-        p4=Point(x+self.radius, y)
+        x, y = self.center.getCoords()
+        p1 = Point(x, y + self.radius)
+        p2 = Point(x - self.radius, y)
+        p3 = Point(x, y - self.radius)
+        p4 = Point(x + self.radius, y)
         return [p1, p2, p3, p4]

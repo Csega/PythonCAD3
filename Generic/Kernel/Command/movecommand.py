@@ -20,9 +20,9 @@
 #
 #This module provide a class for the move command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.arc           import Arc
+from exception import *
+from Command.basecommand import *
+from GeoEntity.arc import Arc
 
 class MoveCommand(BaseCommand):
     """
@@ -30,21 +30,22 @@ class MoveCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcMultiEntity,
+        self.exception = [ExcMultiEntity,
                         ExcPoint, 
                         ExcPoint]
-        self.defaultValue=[None, None,None]
-        self.message=[  "Select the entity to move [or give me a the keyword Text As: (10,20,30,...)]", 
+        self.defaultValue = [None, None, None]
+        self.message = ["Select the entity to move [or give me a the keyword Text As: (10,20,30,...)]", 
                         "Give me the base point",
                         "Give me the destination point"]
+    
     def getEntsToSave(self):
         """
            get entity to save
         """
-        updEnts=[]
+        updEnts = []
         for id in str(self.value[0]).split(','):
-            dbEnt=self.document.getEntity(id)
-            geoEnt=self.document.convertToGeometricalEntity(dbEnt)
+            dbEnt = self.document.getEntity(id)
+            geoEnt = self.document.convertToGeometricalEntity(dbEnt)
             geoEnt.move(self.value[1], self.value[2])
             dbEnt.setConstructionElements(geoEnt.getConstructionElements())
             updEnts.append(dbEnt)
@@ -54,7 +55,7 @@ class MoveCommand(BaseCommand):
         """
             apply the champfer command
         """
-        if len(self.value)!=3:
+        if len(self.value) != 3:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         try:
             self.document.startMassiveCreation()
@@ -62,4 +63,3 @@ class MoveCommand(BaseCommand):
                 self.document.saveEntity(_ent)
         finally:
             self.document.stopMassiveCreation()
-       

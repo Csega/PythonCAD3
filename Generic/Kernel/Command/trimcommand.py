@@ -20,11 +20,11 @@
 #
 #This module provide a class for the Trim command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity               import *
-from Kernel.GeoUtil.intersection    import *
-from Kernel.GeoUtil.util            import *
+from exception import *
+from Command.basecommand import *
+from GeoEntity import *
+from GeoUtil.intersection import *
+from GeoUtil.util import *
 
 class TrimCommand(BaseCommand):
     """
@@ -32,11 +32,11 @@ class TrimCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcText,
+        self.exception = [ExcText,
                         ExcText,  
                         ExcText]
-        self.defaultValue=[None, None,"BOTH"]
-        self.message=[  "Geve me the First entity", 
+        self.defaultValue = [None, None, "BOTH"]
+        self.message = ["Give me the First entity", 
                         "Give me the Second entity",
                         "Give me a point near the First entity", 
                         "Give me a point near the Second entity", 
@@ -46,25 +46,25 @@ class TrimCommand(BaseCommand):
         """
             get the chamfer segments
         """
-        updEnts=[]
-        dbEnt1=self.document.getEntity(self.value[0])
-        geoEnt1=self.document.convertToGeometricalEntity(dbEnt1)
-        dbEnt2=self.document.getEntity(self.value[1])
-        geoEnt2=self.document.convertToGeometricalEntity(dbEnt2)
-        intPoint=findSegmentExtendedIntersectionPoint(geoEnt1, geoEnt2)
-        if len(intPoint)<=0:
+        updEnts = []
+        dbEnt1 = self.document.getEntity(self.value[0])
+        geoEnt1 = self.document.convertToGeometricalEntity(dbEnt1)
+        dbEnt2 = self.document.getEntity(self.value[1])
+        geoEnt2 = self.document.convertToGeometricalEntity(dbEnt2)
+        intPoint = findSegmentExtendedIntersectionPoint(geoEnt1, geoEnt2)
+        if len(intPoint) <= 0:
             raise PythopnCadWarning("No intersection Found") 
         
-        if dbEnt1.eType=="SEGMENT":     
-            geoEntTrim1=updateSegment(geoEnt1, self.value[2], intPoint[0])
+        if dbEnt1.eType == "SEGMENT":     
+            geoEntTrim1 = updateSegment(geoEnt1, self.value[2], intPoint[0])
             
-        if dbEnt2.eType=="SEGMENT":     
-            geoEntTrim2=updateSegment(geoEnt2, self.value[3], intPoint[0])
+        if dbEnt2.eType == "SEGMENT":     
+            geoEntTrim2 = updateSegment(geoEnt2, self.value[3], intPoint[0])
         
-        if self.value[4]=='FIRST':
+        if self.value[4] == 'FIRST':
             dbEnt1.setConstructionElements(geoEntTrim1.getConstructionElements())
             updEnts.append(dbEnt1)
-        elif self.value[4]=='SECOND':
+        elif self.value[4] == 'SECOND':
             dbEnt2.setConstructionElements(geoEntTrim2.getConstructionElements())
             updEnts.append(dbEnt2)            
         else:
@@ -78,7 +78,7 @@ class TrimCommand(BaseCommand):
         """
             apply the trim command
         """
-        if len(self.value)!=5:
+        if len(self.value) != 5:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         try:
             self.document.startMassiveCreation()
@@ -86,4 +86,3 @@ class TrimCommand(BaseCommand):
                 self.document.saveEntity(_ent)
         finally:
             self.document.stopMassiveCreation()
-       

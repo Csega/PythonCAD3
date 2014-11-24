@@ -31,39 +31,38 @@ import time
 #***************************************************Kernel Import
 from pycadevent import PyCadEvent
 from initsetting import *
-from Kernel.ExternalFormat.externalformat  import ExtFormat
-from Kernel.ExternalFormat.Dxf.dxf  import Dxf
-from Kernel.exception import *
-from Kernel.settings import *
-from Kernel.entity import Entity
-from Kernel.composedentity import ComposedEntity
-from Kernel.layertree import LayerTree
-from Kernel.layer import Layer
+from ExternalFormat.externalformat import ExtFormat
+from ExternalFormat.Dxf.dxf import Dxf
+from exception import *
+from settings import *
+from entity import Entity
+from composedentity import ComposedEntity
+from layertree import LayerTree
+from layer import Layer
 
 #***************************************************Db Import
-from Kernel.Db.undodb import UndoDb
-from Kernel.Db.entitydb import EntityDb
-from Kernel.Db.basedb import BaseDb
-from Kernel.Db.relationdb import RelationDb
-
+from Db.undodb import UndoDb
+from Db.entitydb import EntityDb
+from Db.basedb import BaseDb
+from Db.relationdb import RelationDb
 
 #****************************************************Entity Import
-from Kernel.GeoEntity.geometricalentity import GeometricalEntity, GeometricalEntityComposed
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.ellipse import Ellipse
-from Kernel.GeoEntity.polyline import Polyline
-from Kernel.GeoEntity.style import Style
-from Kernel.GeoEntity.entityutil import *
+from GeoEntity.geometricalentity import GeometricalEntity, GeometricalEntityComposed
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
+from GeoEntity.arc import Arc
+from GeoEntity.ellipse import Ellipse
+from GeoEntity.polyline import Polyline
+from GeoEntity.style import Style
+from GeoEntity.entityutil import *
 
-#   Define the log 
+# Define the log 
 LEVELS = {'PyCad_Debug':    logging.DEBUG,
           'PyCad_Info':     logging.INFO,
           'PyCad_Warning':  logging.WARNING,
           'PyCad_Error':    logging.ERROR,
           'PyCad_Critical': logging.CRITICAL}
-#   Set the debug level
+# Set the debug level
 level = LEVELS.get('PyCad_Warning', logging.NOTSET)
 logging.basicConfig(level=level)
 #

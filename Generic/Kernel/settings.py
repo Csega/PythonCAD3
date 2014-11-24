@@ -76,4 +76,3 @@ class Settings(object):
             Set The variable in the settings object
         """
         self.__property[name] = value
-        

@@ -25,16 +25,16 @@
 dxfDebug = False
 
 
-import math # added to handle arc start and end point defination
-import re # added to handle Mtext
+import math  # added to handle arc start and end point defination
+import re  # added to handle Mtext
 
-from Kernel.initsetting import cgcol
+from initsetting import cgcol
 
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.text import Text
-from Kernel.GeoEntity.ellipse import Ellipse
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
+from GeoEntity.arc import Arc
+from GeoEntity.text import Text
+from GeoEntity.ellipse import Ellipse
 
 def ChangeColor(x):
     try:
@@ -163,14 +163,14 @@ class Dxf(DrawingFile):
         """
         #TODO : Implements this part with the new kernel
         pass
-        _fo = self.createAsci()               # open the file for writing
-        _layersEnts = self.getAllEntitis()    # get all the entities from the file
+        _fo = self.createAsci()  # open the file for writing
+        _layersEnts = self.getAllEntitis()  # get all the entities from the file
         self.writeLine("999\nExported from Pythoncad\nSECTION\n  2\nENTITIES\n")  # header section for entities
-        for _key in _layersEnts:            #Looping at all layer
-            #create header section#
-            for _obj in _layersEnts[_key]:  #looping at all entities in the layer
-                if isinstance(_obj, Segment):#if it's segment
-                    self.writeSegment(_obj) # ad it at the dxf drawing
+        for _key in _layersEnts:  #Looping at all layer
+            # create header section#
+            for _obj in _layersEnts[_key]:  # looping at all entities in the layer
+                if isinstance(_obj, Segment):  # if it's segment
+                    self.writeSegment(_obj)  # ad it at the dxf drawing
                 if isinstance(_obj, Circle):
                     self.writeCircle(_obj)
                 if isinstance(_obj, Arc):
@@ -180,14 +180,14 @@ class Dxf(DrawingFile):
                 if isinstance(_obj, TextBlock):
                     self.writeText(_obj)
                 # go on end implements the other case arc circle ...
-        self.writeLine("  0\nENDSEC\n  0\nEOF")#writing End Of File
+        self.writeLine("  0\nENDSEC\n  0\nEOF")  # writing End Of File
         self.close()
 
     def getAllEntitis(self):
         """
             retrive all the entitys from the drawing
         """
-        #TODO : implement this part with the new kernel
+        # TODO : implement this part with the new kernel
         _outLayers = {}
         _layers = [self.__image.getActiveLayer()]
         while len(_layers):

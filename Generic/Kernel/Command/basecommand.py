@@ -77,8 +77,8 @@ class BaseCommand(object):
         """
             reset the command 
         """
-        self.index=0
-        self.value=[]
+        self.index = 0
+        self.value = []
     
     @property
     def valueIndex(self):    

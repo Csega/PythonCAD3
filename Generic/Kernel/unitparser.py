@@ -83,4 +83,3 @@ if __name__ == '__main__':
     print(convertAngle('10'))
     print(convertAngle('90*u.deg'))
     print(sympyConvertAngle('10*u.rad+10*u.deg'))
-    

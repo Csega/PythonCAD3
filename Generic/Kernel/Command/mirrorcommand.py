@@ -21,9 +21,9 @@
 #This module provide a class for the polyline command
 #
 
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.point            import Point
+from exception import *
+from Command.basecommand import *
+from GeoEntity.point import Point
 
 class MirrorCommand(BaseCommand):
     """
@@ -31,11 +31,11 @@ class MirrorCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcMultiEntity,
+        self.exception = [ExcMultiEntity,
                         ExcEntity, 
                         ExcText]
-        self.defaultValue=[None, None, "C"]
-        self.message=[  "Select the entity to mirror or give me a the keyword Text As: (10,20,30,...)", 
+        self.defaultValue = [None, None, "C"]
+        self.message = ["Select the entity to mirror or give me a the keyword Text As: (10,20,30,...)", 
                         "Select the reference line ", 
                         "Give me the Mode (M or None ->Move,C ->Copy)"]
                
@@ -43,16 +43,16 @@ class MirrorCommand(BaseCommand):
         """
             perform the mirror of all the entity selected
         """
-        move=True
+        move = True
         if self.value[2]:
-            if self.value[2]=='C':
-                move=False
-        mirrorRef=self.document.getEntity(self.value[1])
-        geoMirrorRef=self.document.convertToGeometricalEntity(mirrorRef)
-        updEnts=[]
+            if self.value[2] == 'C':
+                move = False
+        mirrorRef = self.document.getEntity(self.value[1])
+        geoMirrorRef = self.document.convertToGeometricalEntity(mirrorRef)
+        updEnts = []
         for id in str(self.value[0]).split(','):
-            dbEnt=self.document.getEntity(id)
-            geoEnt=self.document.convertToGeometricalEntity(dbEnt)
+            dbEnt = self.document.getEntity(id)
+            geoEnt = self.document.convertToGeometricalEntity(dbEnt)
             geoEnt.mirror(geoMirrorRef)
             if move:
                 dbEnt.setConstructionElements(geoEnt.getConstructionElements())
@@ -65,7 +65,7 @@ class MirrorCommand(BaseCommand):
         """
             perform the write of the entity
         """
-        if len(self.value)!=3:
+        if len(self.value) != 3:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         try:
             self.document.startMassiveCreation()
