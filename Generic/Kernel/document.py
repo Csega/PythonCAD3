@@ -28,10 +28,9 @@ import pickle
 import logging
 import time
 
-
 #***************************************************Kernel Import
-from Kernel.pycadevent import PyCadEvent
-from Kernel.initsetting import *
+from .pycadevent import PyCadEvent
+from .initsetting import *
 from Kernel.ExternalFormat.externalformat  import ExtFormat
 from Kernel.ExternalFormat.Dxf.dxf  import Dxf
 from Kernel.exception import *

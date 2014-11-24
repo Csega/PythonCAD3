@@ -24,7 +24,7 @@
 #
 # Command List
 #
-from Kernel.Command import *
+from Command import *
 from Kernel.Command.segmentcommand import SegmentCommand
 from Kernel.Command.arccommand import ArcCommand
 from Kernel.Command.pointcommand import PointCommand
