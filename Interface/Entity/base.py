@@ -92,14 +92,14 @@ class BaseEntity(QtWidgets.QGraphicsItem):
         return
         
     def itemChange(self, change, value):
-        if change == QtGui.QGraphicsItem.ItemSelectedChange:
+        if change == QtWidgets.QGraphicsItem.ItemSelectedChange:
             #selected, spool=value.toUInt()
             print("value", value, value == 1)
             #selected, spool=value
             #self.setColor(selected==True)
             self.setColor(value == 1)
             self.update(self.boundingRect())
-        return QtGui.QGraphicsItem.itemChange(self, change, value)
+        return QtWidgets.QGraphicsItem.itemChange(self, change, value)
         
     def setColor(self, forceHilight=None):
         if forceHilight == None:
