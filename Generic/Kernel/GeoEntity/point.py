@@ -61,9 +61,11 @@ class Point(GeometricalEntity):
 
     def __str__(self):
         return "Point : (%g,%g)" % (self.__x, self.__y)
+    
     @property
     def info(self):
         return "Point : (%g,%g)" % (self.__x, self.__y)
+    
     def __sub__(self, p):
         """
             Return the separation between two points.
@@ -245,8 +247,10 @@ class Point(GeometricalEntity):
         """
             update the points cord from a sympyobject
         """
-        self.__x=float(sympyPoint[0])
-        self.__y=float(sympyPoint[1])
+        #self.__x=float(sympyPoint[0])
+        #self.__y=float(sympyPoint[1])
+        self.__x = float(sympyPoint.x)
+        self.__y = float(sympyPoint.y)
     
     def move(self,fromPoint, toPoint):
         """
