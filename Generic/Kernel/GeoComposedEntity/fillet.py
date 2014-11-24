@@ -23,10 +23,10 @@
 # code for base for Fillet
 #
 
-from Kernel.GeoComposedEntity.objoint import *
-from Kernel.GeoComposedEntity.bisector import Bisector
-from Kernel.exception import *
-from Kernel.GeoUtil.util import *
+from GeoComposedEntity.objoint import *
+from GeoComposedEntity.bisector import Bisector
+from exception import *
+from GeoUtil.util import *
 
 _dtr = 180.0 / pi
 

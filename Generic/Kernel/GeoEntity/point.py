@@ -25,8 +25,8 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoEntity.geometricalentity import *
-from Kernel.GeoUtil.util import *
+from GeoEntity.geometricalentity import *
+from GeoUtil.util import *
 
 
 

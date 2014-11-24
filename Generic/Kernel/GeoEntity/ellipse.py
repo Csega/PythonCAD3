@@ -29,12 +29,12 @@
 import math
 
 
-from Kernel.GeoUtil.tolerance import *
-from Kernel.GeoUtil.util import *
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
-from Kernel.GeoEntity.cline import CLine
-from Kernel.GeoEntity.geometricalentity import *
+from GeoUtil.tolerance import *
+from GeoUtil.util import *
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
+from GeoEntity.cline import CLine
+from GeoEntity.geometricalentity import *
 
 class Ellipse(GeometricalEntity):
     """

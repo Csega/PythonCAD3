@@ -22,9 +22,9 @@
 #
 import math
 
-from Kernel.exception                  import *
-from Kernel.Command.basecommand        import *
-from Kernel.GeoEntity.arc              import Arc
+from exception import *
+from Command.basecommand import *
+from GeoEntity.arc import Arc
 
 class ArcCommand(BaseCommand):
     """
@@ -32,21 +32,21 @@ class ArcCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, ExcLenght, ExcAngle, ExcAngle]
-        self.defaultValue=[None, 10, 0, math.pi*2]
-        self.message=["Give Me the center Point", 
+        self.exception = [ExcPoint, ExcLenght, ExcAngle, ExcAngle]
+        self.defaultValue =[None, 10, 0, math.pi * 2]
+        self.message = ["Give Me the center Point", 
                         "Give Me the radius", 
                         "Give Me the start Angle (Could Be None)", 
                         "Give Me the span Angle (Could Be None)"]
         
     def applyCommand(self):
-        if len(self.value)<2:
+        if len(self.value) < 2:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         self.applyDefault()
-        arg={"ARC_0":self.value[0], 
-                "ARC_1":self.value[1], 
-                "ARC_2":self.value[2], 
-                "ARC_3":self.value[3]
+        arg = {"ARC_0": self.value[0], 
+                "ARC_1": self.value[1], 
+                "ARC_2": self.value[2], 
+                "ARC_3": self.value[3]
                 }    
-        arc=Arc(arg)
+        arc = Arc(arg)
         self.document.saveEntity(arc)

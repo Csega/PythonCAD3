@@ -23,7 +23,7 @@
 # code for base for Chamfer
 #
 
-from Kernel.GeoComposedEntity.objoint import *
+from GeoComposedEntity.objoint import *
 
 class Chamfer(ObjectJoint):
     """
@@ -40,7 +40,7 @@ class Chamfer(ObjectJoint):
             "OBJECTJOINT_5" distance1   :Real distance from intersection point to chamfer
             "OBJECTJOINT_6" distance2   :Real distance from intersection point to chamfer
         """
-        argDes={"OBJECTJOINT_5": (float, int), 
+        argDes = {"OBJECTJOINT_5": (float, int), 
                 "OBJECTJOINT_6": (float, int)}
         ObjectJoint.__init__(self, kw, argDes)
         

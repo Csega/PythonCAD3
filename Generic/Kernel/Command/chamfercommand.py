@@ -20,12 +20,12 @@
 #
 #This module provide a class for the champfer command
 #
-from Kernel.exception                       import *
-from Kernel.composedentity                  import ComposedEntity
-from Kernel.Command.basecommand             import *
-from Kernel.GeoComposedEntity.chamfer       import Chamfer
-from Kernel.GeoEntity.segment               import Segment
-from Kernel.GeoUtil.util                    import getIdPoint
+from exception import *
+from composedentity import ComposedEntity
+from Command.basecommand import *
+from GeoComposedEntity.chamfer import Chamfer
+from GeoEntity.segment import Segment
+from GeoUtil.util import getIdPoint
 
 class ChamferCommand(BaseCommand):
     """
@@ -33,50 +33,51 @@ class ChamferCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcEntityPoint,
+        self.exception = [ExcEntityPoint,
                         ExcEntityPoint, 
                         ExcText , 
                         ExcLenght, 
                         ExcLenght 
                         ]
-        self.defaultValue=[None, None, "BOTH", 10, 10]
-        self.message=[  "Select the First entity or give me a the keyword Text As: (4@10,20)", 
+        self.defaultValue = [None, None, "BOTH", 10, 10]
+        self.message = [  "Select the First entity or give me a the keyword Text As: (4@10,20)", 
                         "Select the Second entity or give me a the keyword Text As: (4@10,20)", 
                         "Give me trim Mode (FIRST,SECOND,BOTH,NO_TRIM)", 
                         "Give me the first Lenght", 
                         "Give me the second Lenght", 
                         ]
+    
     def getEntsToSave(self):
         """
             get the chamfer segments
         """
-        id0, p0=self.value[0]
-        id1, p1=self.value[1]
+        id0, p0 = self.value[0]
+        id1, p1 = self.value[1]
        
-        objEnt=[]
-        ent1=self.document.getEntity(id0)
-        ent2=self.document.getEntity(id1)
+        objEnt = []
+        ent1 = self.document.getEntity(id0)
+        ent2 = self.document.getEntity(id1)
         
-        cel1=ent1.getConstructionElements()
-        seg1=Segment(cel1)
+        cel1 = ent1.getConstructionElements()
+        seg1 = Segment(cel1)
         
-        cel2=ent2.getConstructionElements()
-        seg2=Segment(cel2)
-        arg={
-             "OBJECTJOINT_0":seg1,
-             "OBJECTJOINT_1":seg2,  
-             "OBJECTJOINT_2":p0, 
-             "OBJECTJOINT_3":p1, 
-             "OBJECTJOINT_4":self.value[2], 
-             "OBJECTJOINT_5":self.value[3], 
-             "OBJECTJOINT_6":self.value[4]
+        cel2 = ent2.getConstructionElements()
+        seg2 = Segment(cel2)
+        arg = {
+             "OBJECTJOINT_0": seg1,
+             "OBJECTJOINT_1": seg2,  
+             "OBJECTJOINT_2": p0, 
+             "OBJECTJOINT_3": p1, 
+             "OBJECTJOINT_4": self.value[2], 
+             "OBJECTJOINT_5": self.value[3], 
+             "OBJECTJOINT_6": self.value[4]
              }
 
-        cmf=Chamfer(arg)
+        cmf = Chamfer(arg)
         seg1Mod, seg2Mod, chamferSegment = cmf.getReletedComponent()
         
-        _cElements1, entityType=self.document._getCelements(seg1Mod)
-        _cElements2, entityType=self.document._getCelements(seg2Mod)
+        _cElements1, entityType = self.document._getCelements(seg1Mod)
+        _cElements2, entityType = self.document._getCelements(seg2Mod)
        
         ent1.setConstructionElements(_cElements1)
         ent2.setConstructionElements(_cElements2)
@@ -90,7 +91,7 @@ class ChamferCommand(BaseCommand):
         """
             apply the champfer command
         """
-        if len(self.value)!=5:
+        if len(self.value) != 5:
             raise PyCadWrongImputData("Wrong number of imput parameter")
         
         try:

@@ -26,8 +26,8 @@
 from .geometricalentity import GeometricalEntity
 
 
-from Kernel.GeoUtil.util import *
-from Kernel.GeoEntity.point import Point
+from GeoUtil.util import *
+from GeoEntity.point import Point
 #
 # Text
 #

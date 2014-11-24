@@ -25,14 +25,14 @@
 
 from math import hypot, pi, sin, cos, tan, atan2
 
-from Kernel.GeoEntity.geometricalentity import *
-from Kernel.GeoUtil.util import *
-from Kernel.GeoUtil.intersection import *
-from Kernel.GeoEntity.segment import Segment
-#from Kernel.GeoEntity.acline import ACLine
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.ccircle import CCircle
-from Kernel.GeoUtil.geolib import Vector
+from GeoEntity.geometricalentity import *
+from GeoUtil.util import *
+from GeoUtil.intersection import *
+from GeoEntity.segment import Segment
+#from GeoEntity.acline import ACLine
+from  GeoEntity.arc import Arc
+from  GeoEntity.ccircle import CCircle
+from  GeoUtil.geolib import Vector
 
 
 #ALLOW_CHAMFER_ENTITY=(Segment, ACLine)
@@ -59,7 +59,7 @@ class ObjectJoint(GeometricalEntityComposed):
         GeometricalEntityComposed.__init__(self, kw, argDescription)
         self._externalIntersectio = False
         spoolIntersection = [Point(x, y) for x, y in find_intersections(self.obj1, self.obj2)]
-        if len(spoolIntersection) <= 0: #if not intesection is found extend it on cLine
+        if len(spoolIntersection) <= 0:  # if not intesection is found extend it on cLine
             spoolIntersection = findSegmentExtendedIntersectionPoint(self.obj1, self.obj2)
             self._externalIntersectio = True
         self._intersectionPoints = spoolIntersection
@@ -177,4 +177,4 @@ class ObjectJoint(GeometricalEntityComposed):
                 return Vector(pi, p1)
             else:
                 return Vector(pi, p2)  
-
+    

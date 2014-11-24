@@ -25,64 +25,64 @@
 # Command List
 #
 from Command import *
-from Kernel.Command.segmentcommand import SegmentCommand
-from Kernel.Command.arccommand import ArcCommand
-from Kernel.Command.pointcommand import PointCommand
-from Kernel.Command.ellipsecommand import EllipseCommand
-from Kernel.Command.polylinecommand import PolylineCommand
-#from Kernel.Command.aclinecommand import ACLineCommand
-from Kernel.Command.ccirclecommand import CCircleCommand
-from Kernel.Command.textcommand import TextCommand
-from Kernel.Command.chamfercommand import ChamferCommand
-from Kernel.Command.filletcommand import FilletCommand
-from Kernel.Command.bisectorcommand import BisectorCommand
-from Kernel.Command.rectanglecommand import RectangleCommand
-from Kernel.Command.polygoncommand import PolygonCommand
-from Kernel.Command.copycommand import CopyCommand
-from Kernel.Command.movecommand import MoveCommand
-from Kernel.Command.mirrorcommand import MirrorCommand
-from Kernel.Command.rotatecommand import RotateCommand
-from Kernel.Command.trimcommand import TrimCommand
-from Kernel.Command.deletecommand import DeleteCommand
+from Command.segmentcommand import SegmentCommand
+from Command.arccommand import ArcCommand
+from Command.pointcommand import PointCommand
+from Command.ellipsecommand import EllipseCommand
+from Command.polylinecommand import PolylineCommand
+#from Command.aclinecommand import ACLineCommand
+from Command.ccirclecommand import CCircleCommand
+from Command.textcommand import TextCommand
+from Command.chamfercommand import ChamferCommand
+from Command.filletcommand import FilletCommand
+from Command.bisectorcommand import BisectorCommand
+from Command.rectanglecommand import RectangleCommand
+from Command.polygoncommand import PolygonCommand
+from Command.copycommand import CopyCommand
+from Command.movecommand import MoveCommand
+from Command.mirrorcommand import MirrorCommand
+from Command.rotatecommand import RotateCommand
+from Command.trimcommand import TrimCommand
+from Command.deletecommand import DeleteCommand
 #
 # Entity List
 #
-from Kernel.GeoEntity.point import Point 
-from Kernel.GeoEntity.segment import Segment 
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.ellipse import Ellipse
-from Kernel.GeoEntity.polyline import Polyline
-from Kernel.GeoEntity.style import Style 
-from Kernel.GeoEntity.cline import CLine
-from Kernel.GeoEntity.ccircle import CCircle
-from Kernel.GeoEntity.text import Text
+from GeoEntity.point import Point 
+from GeoEntity.segment import Segment 
+from GeoEntity.arc import Arc
+from GeoEntity.ellipse import Ellipse
+from GeoEntity.polyline import Polyline
+from GeoEntity.style import Style 
+from GeoEntity.cline import CLine
+from GeoEntity.ccircle import CCircle
+from GeoEntity.text import Text
 
-from Kernel.GeoComposedEntity.chamfer import Chamfer
-from Kernel.GeoComposedEntity.fillet import Fillet
-from Kernel.GeoComposedEntity.bisector import Bisector
+from GeoComposedEntity.chamfer import Chamfer
+from GeoComposedEntity.fillet import Fillet
+from GeoComposedEntity.bisector import Bisector
 #
 # db Ent
 #
-from Kernel.settings import *
-from Kernel.entity import Entity
-from Kernel.layer import Layer
-from Kernel.composedentity import ComposedEntity
+from settings import *
+from entity import Entity
+from layer import Layer
+from composedentity import ComposedEntity
 #
 # Default LAyer
 # 
-MAIN_LAYER="MAIN"
+MAIN_LAYER = "MAIN"
 #
 # Max Number of recent file 
 #
-MAX_RECENT_FILE=5
+MAX_RECENT_FILE = 5
 #
 # Object workflow state of the entity
 #
-OBJECT_STATE=['MODIFIE','RELEASED', 'DELETE']
+OBJECT_STATE = ['MODIFIE','RELEASED', 'DELETE']
 #
 # Supported entity by the Application
 #
-PY_CAD_ENT=['POINT',
+PY_CAD_ENT = ['POINT',
             'SEGMENT',
             'SETTINGS',
             'LAYER',
@@ -95,56 +95,56 @@ PY_CAD_ENT=['POINT',
             'TEXT', 
             'COMPOSED_ENTITY' ]
 
-PY_CAD_COMPOSED_ENT=['CHAMFER', 'FILLET', 'BISECTOR']
+PY_CAD_COMPOSED_ENT = ['CHAMFER', 'FILLET', 'BISECTOR']
 #
 # Command Supported by the application
 #
-APPLICATION_COMMAND={'SEGMENT':SegmentCommand,
-                        'ARC':ArcCommand,
-                        'POINT':PointCommand,
-                        'ELLIPSE':EllipseCommand,
-                        'POLYLINE':PolylineCommand, 
-#                        'CLINE':ACLineCommand, 
-                        'CCIRCLE':CCircleCommand, 
-                        'TEXT':TextCommand, 
-                        'CHAMFER':ChamferCommand, 
-                        'FILLET':FilletCommand, 
-                        'BISECTOR':BisectorCommand, 
-                        'RECTANGLE':RectangleCommand, 
-                        'POLYGON':PolygonCommand, 
-                        'COPY':CopyCommand, 
-                        'MOVE':MoveCommand, 
-                        'MIRROR':MirrorCommand, 
-                        'ROTATE':RotateCommand, 
-                        'TRIM':TrimCommand, 
-                        'DELETE':DeleteCommand}
+APPLICATION_COMMAND = {'SEGMENT': SegmentCommand,
+                        'ARC' :ArcCommand,
+                        'POINT': PointCommand,
+                        'ELLIPSE': EllipseCommand,
+                        'POLYLINE': PolylineCommand, 
+#                        'CLINE': ACLineCommand, 
+                        'CCIRCLE': CCircleCommand, 
+                        'TEXT': TextCommand, 
+                        'CHAMFER': ChamferCommand, 
+                        'FILLET': FilletCommand, 
+                        'BISECTOR': BisectorCommand, 
+                        'RECTANGLE': RectangleCommand, 
+                        'POLYGON': PolygonCommand, 
+                        'COPY': CopyCommand, 
+                        'MOVE': MoveCommand, 
+                        'MIRROR': MirrorCommand, 
+                        'ROTATE': RotateCommand, 
+                        'TRIM': TrimCommand, 
+                        'DELETE': DeleteCommand}
 #
 # Match object Name
 #
-DRAWIN_ENTITY={ Point:'POINT',
-                Segment:'SEGMENT',
-                Arc:'ARC', 
-                Ellipse:'ELLIPSE', 
-                Polyline:'POLYLINE', 
-                CLine:'CLINE', 
-                CCircle:'CCIRCLE', 
-                Text:'TEXT', 
-                ComposedEntity:'COMPOSED_ENTITY'}
+DRAWIN_ENTITY = { Point: 'POINT',
+                Segment: 'SEGMENT',
+                Arc: 'ARC', 
+                Ellipse: 'ELLIPSE', 
+                Polyline: 'POLYLINE', 
+                CLine: 'CLINE', 
+                CCircle: 'CCIRCLE', 
+                Text: 'TEXT', 
+                ComposedEntity: 'COMPOSED_ENTITY'}
                 
-DRAWIN_COMPOSED_ENTITY={Fillet:'FILLET', 
-                        Chamfer:'CHAMFER', 
-                        Bisector:'BISECTOR'}
+DRAWIN_COMPOSED_ENTITY = {Fillet: 'FILLET', 
+                        Chamfer: 'CHAMFER', 
+                        Bisector: 'BISECTOR'}
 
 
 
-KERNEL_ENTITY=(Style,Entity,Settings,Layer)
+KERNEL_ENTITY = (Style, Entity, Settings, Layer)
 #
 # Entity supported by the kernel
 #
-SUPPORTED_ENTITYS=KERNEL_ENTITY+tuple(DRAWIN_ENTITY.keys())+(ComposedEntity, )
+SUPPORTED_ENTITYS = KERNEL_ENTITY + tuple(DRAWIN_ENTITY.keys()) + (ComposedEntity, )
 
 
-PYTHONCAD_COLOR={
+PYTHONCAD_COLOR = {
     'aliceblue'             :(240,248,255),
     'antiquewhite'          :(250,235,215),
     'aqua'                  :(0,255,255),
@@ -291,15 +291,15 @@ PYTHONCAD_COLOR={
     'whitesmok'             :(255,255,0),
     'yellowgreen'           :(154,205,50)}
 
-PYTHONCAD_HIGLITGT_COLOR=PYTHONCAD_COLOR['tomato']
-PYTHONCAD_PREVIEW_COLOR=PYTHONCAD_COLOR['steelblue']
+PYTHONCAD_HIGLITGT_COLOR = PYTHONCAD_COLOR['tomato']
+PYTHONCAD_PREVIEW_COLOR = PYTHONCAD_COLOR['steelblue']
 
-PYTHONCAD_LINETYPE={
+PYTHONCAD_LINETYPE = {
     'continue':             (1),
     'dash':                 (10, 10), 
     'central':              (10, 8, 1, 8)}
     
-PYTHONCAD_STYLE_ATTRIBUTES=['entity_color',
+PYTHONCAD_STYLE_ATTRIBUTES = ['entity_color',
                             'entity_linetype', 
                             'entity_tichness',
                             'text_font', 
@@ -307,7 +307,7 @@ PYTHONCAD_STYLE_ATTRIBUTES=['entity_color',
                             'text_aling', 
                             'text_aline_to_point']
                             
-PYTHONCAD_STYLE_DEFAULT_VALUE=[(0, 0, 0),
+PYTHONCAD_STYLE_DEFAULT_VALUE = [(0, 0, 0),
                                 '1', 
                                 '1',
                                 'arial', 
@@ -323,18 +323,18 @@ def getDefaultStyle():
 global SNAP_POINT_ARRAY
 global ACTIVE_SNAP_POINT
 
-SNAP_POINT_ARRAY={'ALL':0, 
-                    'END':1,
-                    'MID':2, 
-                    'ORTO':3, 
-                    'TANGENT':4, 
-                    'CENTER':5,
-                    'QUADRANT':6,
-                    'ORIG':7, 
-                    'INTERSECTION':8  
+SNAP_POINT_ARRAY = {'ALL': 0, 
+                    'END': 1,
+                    'MID': 2, 
+                    'ORTO': 3, 
+                    'TANGENT': 4, 
+                    'CENTER': 5,
+                    'QUADRANT': 6,
+                    'ORIG': 7, 
+                    'INTERSECTION': 8  
                     }
 
-ACTIVE_SNAP_POINT=SNAP_POINT_ARRAY["ALL"]
+ACTIVE_SNAP_POINT = SNAP_POINT_ARRAY["ALL"]
 
 #
 # Color table to define a match from Autocad external format and Pythoncad internal format
@@ -597,5 +597,5 @@ cgcol = {
 '#bebebe':254, 254:'#bebebe',
 '#ffffff':255, 255:'#ffffff',
 }
-#descripe the text position refered to the point clicked
-TEXT_POSITION=['n','ne', 'e', 'se', 's', 'sw', 'w','nw', 'c']
+# describe the text position refered to the point clicked
+TEXT_POSITION = ['n','ne', 'e', 'se', 's', 'sw', 'w','nw', 'c']

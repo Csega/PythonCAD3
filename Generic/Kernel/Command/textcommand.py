@@ -20,9 +20,9 @@
 #
 #This module provide a class for the segment command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.text             import Text
+from exception import *
+from Command.basecommand import *
+from GeoEntity.text import Text
 
 class TextCommand(BaseCommand):
     """
@@ -30,16 +30,16 @@ class TextCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, ExcText, ExcAngle,ExcText ]
-        self.defaultValue=[None, "Dummy Text", 0, "sw"]
-        self.message=["Give Me the first Point",
+        self.exception = [ExcPoint, ExcText, ExcAngle,ExcText ]
+        self.defaultValue = [None, "Dummy Text", 0, "sw"]
+        self.message = ["Give Me the first Point",
                         "Give Me The Text string",
                         "Give Me The angle", 
                         "Give me the position of the text referred to the point"]
 
     def applyCommand(self):
-        if len(self.value)!=4:
+        if len(self.value) != 4:
             raise PyCadWrongImputData("Wrong number of imput parameter")
-        textArgs={"TEXT_0":self.value[0], "TEXT_1":self.value[1], "TEXT_2":self.value[2], "TEXT_3":self.value[3]}
-        text=Text(textArgs)
+        textArgs = {"TEXT_0": self.value[0], "TEXT_1": self.value[1], "TEXT_2": self.value[2], "TEXT_3": self.value[3]}
+        text = Text(textArgs)
         self.document.saveEntity(text)

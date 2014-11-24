@@ -20,9 +20,9 @@
 #
 #This module provide a class for the ellipse command
 #
-from Kernel.exception                   import *
-from Kernel.Command.basecommand         import *
-from Kernel.GeoEntity.ellipse          import Ellipse
+from exception import *
+from Command.basecommand import *
+from GeoEntity.ellipse import Ellipse
 
 class EllipseCommand(BaseCommand):
     """
@@ -30,13 +30,13 @@ class EllipseCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, ExcLenght, ExcLenght]
-        self.defaultValue=[None, 100, 50]
-        self.message=["Give Me the center Point", "Give Me the horizontal radius", "Give Me the vertical radius"]
+        self.exception = [ExcPoint, ExcLenght, ExcLenght]
+        self.defaultValue = [None, 100, 50]
+        self.message = ["Give Me the center Point", "Give Me the horizontal radius", "Give Me the vertical radius"]
         
     def applyCommand(self):
-        if len(self.value)>3:
+        if len(self.value) > 3:
             raise PyCadWrongImputData("Wrong number of imput parameter")
-        arg={"ELLIPSE_0":self.value[0], "ELLIPSE_1":self.value[1], "ELLIPSE_2":self.value[2]}
-        ellipse=Ellipse(arg)
+        arg = {"ELLIPSE_0": self.value[0], "ELLIPSE_1": self.value[1], "ELLIPSE_2": self.value[2]}
+        ellipse = Ellipse(arg)
         self.document.saveEntity(ellipse)

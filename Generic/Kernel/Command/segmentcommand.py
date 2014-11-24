@@ -20,10 +20,10 @@
 #
 #This module provide a class for the segment command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.segment       import Segment
-from Kernel.GeoEntity.point         import Point
+from exception import *
+from Command.basecommand import *
+from GeoEntity.segment import Segment
+from GeoEntity.point import Point
 
 class SegmentCommand(BaseCommand):
     """
@@ -31,14 +31,14 @@ class SegmentCommand(BaseCommand):
     """
     def __init__(self, document):
         BaseCommand.__init__(self, document)
-        self.exception=[ExcPoint, ExcPoint]
-        self.message=["Give Me the first Point","Give Me The Second Point"]
-        self.defaultValue=[None, None]
+        self.exception = [ExcPoint, ExcPoint]
+        self.message = ["Give Me the first Point", "Give Me The Second Point"]
+        self.defaultValue = [None, None]
         
     def applyCommand(self):
-        if len(self.value)!=2:
+        if len(self.value) != 2:
             raise PyCadWrongImputData("Wrong number of imput parameter")
-        segArg={"SEGMENT_0":self.value[0], "SEGMENT_1":self.value[1]}
-        seg=Segment(segArg)
+        segArg = {"SEGMENT_0": self.value[0], "SEGMENT_1": self.value[1]}
+        seg = Segment(segArg)
         self.document.saveEntity(seg)
         

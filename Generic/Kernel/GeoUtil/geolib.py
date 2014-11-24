@@ -22,13 +22,13 @@
 
 import math
 
-from Kernel.GeoEntity.point import Point
+from GeoEntity.point import Point
 
 class Vector:
     """
         Provide a full 2d vector operation and definition
     """
-    def __init__(self,p1,p2):
+    def __init__(self, p1, p2):
         """
             Default Constructor
         """

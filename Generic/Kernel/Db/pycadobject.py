@@ -20,7 +20,7 @@
 #
 # This module provide basic pythoncadObject
 #
-from Kernel.GeoEntity.style import Style
+from GeoEntity.style import Style
 
 class PyCadObject(object):
     """
@@ -91,7 +91,7 @@ class PyCadObject(object):
             self.__index = 0
             self.__state = self.OBJECT_STATE[0]
     
-    def setIndex(self,index):
+    def setIndex(self, index):
         """
             Set The index of the entity
         """

@@ -27,14 +27,14 @@
 
 import math
 
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.cline import CLine
-from Kernel.GeoEntity.ccircle import CCircle
-from Kernel.GeoEntity.polyline import Polyline
-from Kernel.GeoEntity.ellipse import Ellipse
-from Kernel.GeoUtil.geolib import Vector
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
+from GeoEntity.arc import Arc
+from GeoEntity.cline import CLine
+from GeoEntity.ccircle import CCircle
+from GeoEntity.polyline import Polyline
+from GeoEntity.ellipse import Ellipse
+from GeoUtil.geolib import Vector
 #
 # common constants
 #
@@ -96,10 +96,6 @@ def snum(p1, p2, p3, p4):
     _p3x, _p3y = p3.getCoords()
     _p4x, _p4y = p4.getCoords()
     return ((_p1y - _p3y) * (_p2x - _p1x)) - ((_p1x - _p3x) * (_p2y - _p1y))
-
-
-
-
 #
 # intersection functions
 #

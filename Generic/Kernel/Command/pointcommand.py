@@ -20,9 +20,9 @@
 #
 #This module provide a class for the point command
 #
-from Kernel.exception               import *
-from Kernel.Command.basecommand     import *
-from Kernel.GeoEntity.point         import Point
+from exception import *
+from Command.basecommand import *
+from GeoEntity.point import Point
 
 class PointCommand(BaseCommand):
     """
@@ -30,11 +30,12 @@ class PointCommand(BaseCommand):
     """
     def __init__(self, kernel):
         BaseCommand.__init__(self, kernel)
-        self.exception=[ExcPoint]
-        self.defaultValue=[None]
-        self.message=["Give Me the Point"]
+        self.exception = [ExcPoint]
+        self.defaultValue = [None]
+        self.message = ["Give Me the Point"]
+
     def applyCommand(self):
-        if len(self.value)!=1:
+        if len(self.value) != 1:
             raise PyCadWrongImputData("Wrong number of imput parameter")
-        point=Point(self.value[0])
+        point = Point(self.value[0])
         self.document.saveEntity(point)

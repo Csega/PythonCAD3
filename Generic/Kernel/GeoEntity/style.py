@@ -21,8 +21,8 @@
 # This class provide all the style operation for the pythoncadDB
 #
 
-from Kernel.GeoEntity.geometricalentity import GeometricalEntity
-from Kernel.GeoUtil.util import getRandomString
+from GeoEntity.geometricalentity import GeometricalEntity
+from GeoUtil.util import getRandomString
 
 class Style(GeometricalEntity):
         """
