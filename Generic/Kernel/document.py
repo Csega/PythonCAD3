@@ -220,45 +220,47 @@ class Document(BaseDb):
         """
             save the sympy entity
         """
-        ent=getEntityEntity(sympyEnt)
+        ent = getEntityEntity(sympyEnt)
         self.saveEntity(ent)
     
-    def saveEntity(self,entity):
+    def saveEntity(self, entity):
         """
             save the entity into the database
         """
         self.__logger.debug('saveEntity')
-        if not isinstance(entity,SUPPORTED_ENTITYS):
-            msg="SaveEntity : Type %s not supported from pythoncad kernel"%type(entity)
+        if not isinstance(entity, SUPPORTED_ENTITYS):
+            msg = "SaveEntity : Type %s not supported from pythoncad kernel" % type(entity)
             self.__logger.warning(msg)
             raise TypeError(msg)
         try:
-            _obj=None
-            #self.__UndoDb.suspendCommit()
-            #self.__EntityDb.suspendCommit()
-            #self.__RelationDb.suspendCommit()
-            BaseDb.commit=False
-            if isinstance(entity,GeometricalEntity):
-                _obj=self._saveGeometricalEntity(entity)    
-            elif isinstance(entity,ComposedEntity):
-                _obj=self._saveComposedEntity(entity)
-            elif isinstance(entity,Layer):
-                _obj=self._saveLayer(entity)
-            elif isinstance(entity,Settings):
-                _obj=self._saveSettings(entity)
-            elif isinstance(entity,Entity): # This is used if case of update of the entity
-                _obj=self._savePyCadEnt(entity)
+            _obj = None
+            # self.__UndoDb.suspendCommit()
+            # self.__EntityDb.suspendCommit()
+            # self.__RelationDb.suspendCommit()
+            BaseDb.commit = False
+            print(type(entity))
+            print(isinstance(entity, GeometricalEntity))
+            if isinstance(entity, GeometricalEntity):
+                _obj = self._saveGeometricalEntity(entity)    
+            elif isinstance(entity, ComposedEntity):
+                _obj = self._saveComposedEntity(entity)
+            elif isinstance(entity, Layer):
+                _obj = self._saveLayer(entity)
+            elif isinstance(entity, Settings):
+                _obj = self._saveSettings(entity)
+            elif isinstance(entity, Entity):  # This is used if case of update of the entity
+                _obj = self._savePyCadEnt(entity)
             else:
-                raise StructuralError("Entity %s not allowed to be Saved"%str(type(entity)))
+                raise StructuralError("Entity %s not allowed to be Saved" % str(type(entity)))
             if not self.__bulkCommit:
-                #self.__UndoDb.reactiveCommit()
-                #self.__EntityDb.reactiveCommit()
-                #self.__RelationDb.reactiveCommit()
-                BaseDb.commit=True
+                # self.__UndoDb.reactiveCommit()
+                # self.__EntityDb.reactiveCommit()
+                # self.__RelationDb.reactiveCommit()
+                BaseDb.commit = True
                 self.performCommit()
             return _obj
         except:
-            msg="Unexpected error: %s "%str(sys.exc_info()[0])
+            msg = "Unexpected error: %s " % str(sys.exc_info()[0])
             raise StructuralError(msg)
             
     def _saveComposedEntity(self, entity):
