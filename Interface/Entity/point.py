@@ -29,31 +29,21 @@ class Point(BaseEntity):
     """
     def __init__(self, entity):
         super(Point, self).__init__(entity)
-        self.xc,self.yc= self.geoItem.getCoords()
-        self.yc=(-1.0*self.yc)
+        self.xc,self.yc = self.geoItem.getCoords()
+        self.yc = (-1.0 * self.yc)
         return
 
     def drawShape(self, painterPath):    
         """
             overloading of the shape method 
         """
-        painterPath.addRect (QtCore.QRectF(self.xc-2,self.yc-2 ,4 ,4))   
+        painterPath.addRect (QtCore.QRectF(self.xc - 2,self.yc - 2 , 4, 4))   
         
     def drawGeometry(self, painter, option, widget):
         """
             overloading of the paint method
         """
-        #Create Arc/Circle
-        p=QtCore.QPoint(self.xc, self.yc)
-        painter.drawRect(self.boundingRect())# self.xc-2,self.yc-2 ,4 ,4) with coordinates seems better
+        # Create Arc/Circle
+        p = QtCore.QPoint(self.xc, self.yc)
+        painter.drawRect(self.boundingRect())  # self.xc-2,self.yc-2 ,4 ,4) with coordinates seems better
         painter.drawPoint(p)
-
-    
-    
-    
-    
-    
-    
-    
-    
-  
