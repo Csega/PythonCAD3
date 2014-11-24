@@ -9,8 +9,8 @@ class CadView(QtWidgets.QGraphicsView):
         super(CadView, self).__init__(scene, parent)
         self.scaleFactor = 1
         self.controlPress = False
-        self.setDragMode(QtGui.QGraphicsView.RubberBandDrag)
-        self.setResizeAnchor(QtGui.QGraphicsView.AnchorUnderMouse) 
+        self.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
+        self.setResizeAnchor(QtWidgets.QGraphicsView.AnchorUnderMouse) 
         
         #handle mouse midbutton pan and zoom
         scene.fireZoomFit += self.fit

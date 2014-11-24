@@ -22,7 +22,7 @@ class LayerDock(QtWidgets.QDockWidget):
         super(LayerDock, self).__init__('Layers', parent)
         # only dock at the bottom or top
         self.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
-        self.__layer_ctrl = QtGui.QTreeWidget(self, itemDoubleClicked=self._itemActivated, itemActivated=self._itemActivated, itemSelectionChanged=self._itemSelectionChanged)
+        self.__layer_ctrl = QtWidgets.QTreeWidget(self, itemDoubleClicked=self._itemActivated, itemActivated=self._itemActivated, itemSelectionChanged=self._itemSelectionChanged)
         self.setWidget(self.__layer_ctrl)
     
     

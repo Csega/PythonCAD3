@@ -188,5 +188,6 @@ class CmdIntf(object):
         """
             update the label text
         """
-        if self.__actions.has_key(name):
+        # if self.__actions.has_key(name):
+        if name in self.__actions:
             self.__actions[name].setText(text)

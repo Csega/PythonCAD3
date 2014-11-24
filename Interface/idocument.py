@@ -21,7 +21,7 @@ class IDocument(QtWidgets.QMdiSubWindow):
         self.__cmdInf.commandLine.evaluatePressed += self.scene.textInput
         self.__view = CadView(self.__scene, self)
         # the graphics view is the main/central component
-        innerWindows = QtGui.QMainWindow()
+        innerWindows = QtWidgets.QMainWindow()
         innerWindows.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.__layer_dock)
         innerWindows.setCentralWidget(self.__view)
         self.setWidget(innerWindows)
