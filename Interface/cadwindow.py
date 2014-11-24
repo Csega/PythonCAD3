@@ -115,12 +115,15 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         #------------------------------------------------------------------------------------Create status buttons        
         #Force Direction
         self.forceDirectionStatus = statusButton('SForceDir.png', 'Orthogonal Mode [right click will in the future set increment constrain angle]')
-        self.connect(self.forceDirectionStatus, QtCore.SIGNAL('clicked()'), self.setForceDirection)
+        # self.connect(self.forceDirectionStatus, QtCore.SIGNAL('clicked()'), self.setForceDirection)  # old, for new, help here: http://qt-project.org/wiki/Signals_and_Slots_in_PySide
+        # http://stackoverflow.com/questions/15080731/call-a-function-when-a-button-is-pressed-pyqt
+        self.forceDirectionStatus.clicked.connect(self.setForceDirection)
         self.statusBar().addPermanentWidget(self.forceDirectionStatus)
         
         #Snap
         self.SnapStatus = statusButton('SSnap.png', 'Snap [right click displays snap list]\n for future implementation it should be a checkist')
-        self.connect(self.SnapStatus, QtCore.SIGNAL('clicked()'), self.setSnapStatus)
+        # self.connect(self.SnapStatus, QtCore.SIGNAL('clicked()'), self.setSnapStatus)
+        self.SnapStatus.clicked.connect(self.setSnapStatus)
         self.SnapStatus.setMenu(self.__cmd_intf.Category.getMenu(5))
         self.statusBar().addPermanentWidget(self.SnapStatus)
 
