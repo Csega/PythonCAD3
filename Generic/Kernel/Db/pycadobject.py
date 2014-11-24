@@ -103,7 +103,7 @@ class PyCadObject(object):
         """
             mark the entity to delete
         """
-        self.__state='DELETE'
+        self.__state = 'DELETE'
     
     def relese(self):
         """
@@ -133,7 +133,7 @@ class PyCadObject(object):
         """
         if self.getStyle():
             styleEnt = self.getStyle().getConstructionElements() 
-            return styleEnt[styleEnt.keys()[0]]
+            return styleEnt[list(styleEnt.keys())[0]]
         else:
             return None
 
