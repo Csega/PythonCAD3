@@ -700,13 +700,19 @@ class CadWindowMdi(QtWidgets.QMainWindow):
     def readSettings(self):
         settings = QtCore.QSettings('PythonCAD', 'MDI Settings')
         settings.beginGroup("CadWindow")
-        max=settings.value("maximized", False)
-        if max==True: #if cadwindow was maximized set it maximized again
+        max = settings.value("maximized", False)
+        # settings.setValue("size", QtCore.QSize(800, 600))
+        # settings.setValue("pos", QtCore.QPoint(400, 300))
+        if max == True:  # if cadwindow was maximized set it maximized again
             self.showMaximized()
-        else: #else set it to the previous position and size
+        else:  # else set it to the previous position and size
             try:
                 self.resize(settings.value("size").toSize()) # self.resize(settings.value("size", QtCore.QSize(800, 600)).toSize())
                 self.move(settings.value("pos").toPoint())   # self.move(settings.value("pos", QtCore.QPoint(400, 300)).toPoint())+
+                #self.resize(settings.value("size", QtCore.QSize(800, 600)))
+                #self.move(settings.value("pos", QtCore.QPoint(400, 300)))
+                #self.resize(settings.value("size"))
+                #self.move(settings.value("pos"))
             except:    
                 print("Warning: unable to set the previews values")
         settings.endGroup()
