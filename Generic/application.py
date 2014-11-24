@@ -87,15 +87,15 @@ class Application(object):
         """
             add recent file into the application
         """
-        objSettings=self.getApplicationSetting()
-        nFiles=objSettings.getVariable("MAX_RECENT_FILE")
+        objSettings = self.getApplicationSetting()
+        nFiles = objSettings.getVariable("MAX_RECENT_FILE")
         if not nFiles:
-            objSettings.setVariable("MAX_RECENT_FILE",MAX_RECENT_FILE )
+            objSettings.setVariable("MAX_RECENT_FILE", MAX_RECENT_FILE )
         
-        files=objSettings.getVariable("RECENT_FILE_ARRAY")
+        files = objSettings.getVariable("RECENT_FILE_ARRAY")
         if not files:
-            files=[]
-        while(len(files)>nFiles-1):
+            files = []
+        while(len(files) > nFiles - 1):
             files.pop(0)
         files.append(name)
         objSettings.setVariable("RECENT_FILE_ARRAY", files)
@@ -106,23 +106,25 @@ class Application(object):
             Set the document to active
         """
         if document:
-            if self.__Docuemnts.has_key(document.dbPath):
-                self.__ActiveDocument=self.__Docuemnts[document.dbPath]
+            # if self.__Docuemnts.has_key(document.dbPath):
+            if document.dbPath in self.__Docuemnts:
+                self.__ActiveDocument = self.__Docuemnts[document.dbPath]
             else:
-                raise EntityMissing("Unable to set active the document %s"%str(document.dbPath))
+                raise EntityMissing("Unable to set active the document %s" % str(document.dbPath))
         else:
-            self.__ActiveDocument=document
+            self.__ActiveDocument = document
         self.activeteDocumentEvent(self, self.__ActiveDocument)   
 
-    def getCommand(self,commandType):
+    def getCommand(self, commandType):
         """
             Get a command of commandType
         """
         if not self.__ActiveDocument:
             raise EntityMissing("Miss Active document in the application")
-        if self.__applicationCommand.has_key(commandType):
-            cmd=self.__applicationCommand[commandType]
-            cmdIstance=cmd(self.__ActiveDocument) 
+        # if self.__applicationCommand.has_key(commandType):
+        if commandType in self.__applicationCommand:
+            cmd = self.__applicationCommand[commandType]
+            cmdIstance = cmd(self.__ActiveDocument) 
             return cmdIstance
         else:
             raise PyCadWrongCommand("") 
@@ -133,13 +135,13 @@ class Application(object):
         """
         return self.__applicationCommand.keys()
     
-    def newDocument(self, fileName=None):
+    def newDocument(self, fileName = None):
         """
             Create a new document empty document in the application
         """
-        newDoc=Document(fileName)
-        fileName=newDoc.dbPath
-        self.__Docuemnts[fileName]=newDoc
+        newDoc = Document(fileName)
+        fileName = newDoc.dbPath
+        self.__Docuemnts[fileName] = newDoc
         self.afterOpenDocumentEvent(self, self.__Docuemnts[fileName])   #   Fire the open document event
         self.setActiveDocument(self.__Docuemnts[fileName])              #   Set Active the document
         self.addRecentFiles(fileName)
@@ -150,8 +152,9 @@ class Application(object):
             open a saved document 
         """
         self.beforeOpenDocumentEvent(self, fileName)
-        if not self.__Docuemnts.has_key(fileName):
-            self.__Docuemnts[fileName]=Document(fileName)
+        # if not self.__Docuemnts.has_key(fileName):
+        if not fileName in self.__Docuemnts:
+            self.__Docuemnts[fileName] = Document(fileName)
             self.addRecentFiles(fileName)
         self.afterOpenDocumentEvent(self, self.__Docuemnts[fileName])   #   Fire the open document event
         self.setActiveDocument(self.__Docuemnts[fileName])              #   Set Active the document
@@ -173,7 +176,7 @@ class Application(object):
             close the document
         """
         self.beforeCloseDocumentEvent(self, fileName)
-        if self.__Docuemnts.has_key(fileName):
+        if self.__Docuemnts.key(fileName):
             del(self.__Docuemnts[fileName])
             for keyDoc in self.__Docuemnts:
                 self.setActiveDocument(self.__Docuemnts[keyDoc])
