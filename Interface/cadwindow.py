@@ -779,7 +779,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         """
             plot the sympy Object into PythonCAD
         """
-        if self.mdiArea.currentSubWindow()==None:
+        if self.mdiArea.currentSubWindow() == None:
             self._onNewDrawing()
         for obj in objects:
             self.plotSympyEntity(obj)
