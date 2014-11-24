@@ -438,68 +438,69 @@ class ioKernel(object):
         """
             import an external file into pythoncad
         """
-        fileName=raw_input("-->insert The file name to import :")
+        fileName = input("-->insert The file name to import :")
         try:
             self.__kr.importExternalFormat(fileName)
         except:
-            print "----<<Err>> importExt the  : %s we get en error "%fileName
+            print("----<<Err>> importExt the  : %s we get en error " % fileName)
             
     def deleteLayer(self):
         """
             Delete the layer
         """
-        layerId=raw_input("-->insert The id layer to delete :")
+        layerId = input("-->insert The id layer to delete :")
         try:
             self.__kr.getLayerTree().delete(layerId)
         except:
-            print "----<<Err>> deleteLayer id : %s we get en error "%layerId
+            print("----<<Err>> deleteLayer id : %s we get en error " % layerId)
     
     def newArc(self):
         """
             Create a new arc
         """ 
-        radius=raw_input("-->Insert the radius :")
-        val=raw_input("-->insert The center position x,y:")
-        xy=val.split(',')
-        if len(xy)==2:
-            center=Point(xy[0], xy[1])
+        radius = input("-->Insert the radius :")
+        val = input("-->insert The center position x,y:")
+        xy = val.split(',')
+        if len(xy) == 2:
+            center = Point(xy[0], xy[1])
         else:
-            print "Errore valore incorretto inserire un valore 10,20 in questo formato"
+            #print("Errore valore incorretto inserire un valore 10,20 in questo formato")
+            print("Incorrectly entered value, please use the format 10,20")
             return
             
-        start_angle=raw_input("-->insert startAngle [Empty in case of circle]:")
+        start_angle = input("-->insert startAngle [Empty in case of circle]:")
         if start_angle:
-            end_angle=raw_input("-->insert The end Angle :")
+            end_angle = input("-->insert The end Angle :")
         else:
-            start_angle=end_angle=0
-        arc=Arc(center, float(radius), float(start_angle), float(end_angle))
+            start_angle = end_angle = 0
+        arc = Arc(center, float(radius), float(start_angle), float(end_angle))
         self.__kr.saveEntity(arc)
     
     def getEntType(self):
         """
             get all the entity from a specifie type
         """
-        type=raw_input("-->Witch Type ? :")
+        type = input("-->Witch Type ? :")
         if not type:
-            type="ALL"
-        startTime=time.clock()
-        ents=self.__kr.getEntityFromType(type)
-        endTime=time.clock()-startTime       
+            type = "ALL"
+        startTime = time.clock()
+        ents = self.__kr.getEntityFromType(type)
+        endTime = time.clock() - startTime       
         printEntity(ents)
-        print "Exec query get %s ent in %s s"%(str(len(ents)), str(endTime))
-        print "********************************"
+        print("Exec query get %s ent in %s s" % (str(len(ents)), str(endTime)))
+        print("********************************")
         
 def printEntity(ents):
     """
         print a query result
     """
-    i=0
+    i = 0
     for e in ents:
-        print "----<< Entity Type %s id %s "%(str(e.eType),str(e.getId()))
+        print("----<< Entity Type %s id %s " % (str(e.eType), str(e.getId())))
         if i > 100:
-            print "There are more then 100 entitys in the select so i stop printing"
+            print("There are more then 100 entitys in the select so i stop printing")
             break
-        i+=1
+        i += 1
 
 def printTree(cls, indent):
     """
@@ -507,38 +508,38 @@ def printTree(cls, indent):
     """  
     if cls:
         for l in cls:
-            parent, childs=cls[l]
-            print '.'*indent + 'Layer Id: %s Name : %s'%(str(l) , str(parent.name))
-            printTree(childs, indent+1)
+            parent, childs = cls[l]
+            print('.' * indent + 'Layer Id: %s Name : %s' % (str(l) , str(parent.name)))
+            printTree(childs, indent + 1)
 
 class textApplication(object):
     def __init__(self):
-        self.__command={}
-        self.__applicationCommand={}
+        self.__command = {}
+        self.__applicationCommand = {}
         # Application Command
-        self.__applicationCommand['Open']=self.openFile
-        self.__applicationCommand['Close']=self.closeFile
-        self.__applicationCommand['New']=self.newDoc
-        self.__applicationCommand['Documents']=self.showDocuments
-        self.__applicationCommand['CreateStyle']=self.createStyle
-        self.__applicationCommand['SetActive']=self.setActiveDoc
-        self.__applicationCommand['GetActive']=self.getActiveDoc
-        self.__applicationCommand['GetEnts']=self.getEnts
-        self.__applicationCommand['Esc']=self.endApplication
-        self.__applicationCommand['?']=self.printHelp
-        self.__applicationCommand['Test']=self.featureTest
-        self.__applicationCommand['ETest']=self.easyTest
+        self.__applicationCommand['Open'] = self.openFile
+        self.__applicationCommand['Close'] = self.closeFile
+        self.__applicationCommand['New'] = self.newDoc
+        self.__applicationCommand['Documents'] = self.showDocuments
+        self.__applicationCommand['CreateStyle'] = self.createStyle
+        self.__applicationCommand['SetActive'] = self.setActiveDoc
+        self.__applicationCommand['GetActive'] = self.getActiveDoc
+        self.__applicationCommand['GetEnts'] = self.getEnts
+        self.__applicationCommand['Esc'] = self.endApplication
+        self.__applicationCommand['?'] = self.printHelp
+        self.__applicationCommand['Test'] = self.featureTest
+        self.__applicationCommand['ETest'] = self.easyTest
         # Document Commandf
-        self.__pyCadApplication=Application()
+        self.__pyCadApplication = Application()
         for command in self.__pyCadApplication.getCommandList():
-            self.__command[command]=self.performCommand
+            self.__command[command] = self.performCommand
 
     def mainLoop(self):
         """
             mainLoop operation
         """
         while 1:
-            imputstr=self.inputMsg("Insert a command (? for Help)")
+            imputstr = self.inputMsg("Insert a command (? for Help)")
             try:
                 if self.__command.has_key(imputstr):
                     self.__command[imputstr](imputstr)
@@ -546,8 +547,8 @@ class textApplication(object):
                     self.__applicationCommand[imputstr]()
                 else:
                     self.outputMsg("Wrong Command !!")
-            except EntityMissing, err:
-                self.outputMsg("Application Error %s "%str(err))
+            except EntityMissing as err:
+                self.outputMsg("Application Error %s " % str(err))
                 
     def printHelp(self):            
         """
@@ -559,24 +560,25 @@ class textApplication(object):
         self.outputMsg("**************************Application Command")
         for commandName in self.__applicationCommand:
             self.outputMsg("Comand : %s "%str(commandName))
+    
     def getEnts(self):
         """
             get database entitys
         """
         try:
-            type=self.inputMsg("Witch Type ?")
+            type = self.inputMsg("Witch Type ?")
             if not type:
-                type="ALL"
-            startTime=time.clock()
-            activeDoc=self.__pyCadApplication.getActiveDocument()
+                type = "ALL"
+            startTime = time.clock()
+            activeDoc = self.__pyCadApplication.getActiveDocument()
             if activeDoc == None:
                 self.outputMsg("No Object opened")
                 return
                 
-            ents=activeDoc.getEntityFromType(type)
-            endTime=time.clock()-startTime       
+            ents = activeDoc.getEntityFromType(type)
+            endTime = time.clock() - startTime       
             self.printEntity(ents)
-            self.outputMsg("Exec query get %s ent in %s s"%(str(len(ents)), str(endTime)))
+            self.outputMsg("Exec query get %s ent in %s s" % (str(len(ents)), str(endTime)))
             self.outputMsg("********************************")
         except:
             self.outputMsg("Unable To Perform the getEnts")   
@@ -586,13 +588,14 @@ class textApplication(object):
         """
             print a query result
         """
-        i=0
+        i = 0
         for e in ents:
-            self.outputMsg("Entity Type %s id %s "%(str(e.eType),str(e.getId())))
+            self.outputMsg("Entity Type %s id %s " % (str(e.eType), str(e.getId())))
             if i > 100:
                 self.outputMsg("There are more then 100 entitys in the select so i stop printing")
                 break
-            i+=1
+            i += 1
+
     def newDoc(self):
         """
             create a new document
@@ -600,15 +603,15 @@ class textApplication(object):
         try:
             self.__pyCadApplication.newDocument(None)
         except (IOError, EmptyFile):
-            self.outputMsg("Unable To open the file %s"%str(filePath))
+            self.outputMsg("Unable To open the file %s" % str(filePath))
     
     def createStyle(self):        
         """
             create a new style object
         """
-        styleName=self.inputMsg("Write style name")
-        stl=Style(styleName)
-        doc=self.__pyCadApplication.getActiveDocument()
+        styleName = self.inputMsg("Write style name")
+        stl = Style(styleName)
+        doc = self.__pyCadApplication.getActiveDocument()
         doc.saveEntity(stl);
         
     def getActiveDoc(self):            
@@ -616,8 +619,8 @@ class textApplication(object):
             print the active document
         """ 
         try:
-            doc=self.__pyCadApplication.getActiveDocument()
-            self.outputMsg("Active Document is %s"%str(doc.dbPath))
+            doc = self.__pyCadApplication.getActiveDocument()
+            self.outputMsg("Active Document is %s" % str(doc.dbPath))
         except:
             self.outputMsg("Unable To Perform the getActiveDoc") 
    
@@ -626,17 +629,17 @@ class textApplication(object):
             set the active docuement
         """
         try:
-            lookIndex=self.inputMsg("Write the number of doc that you are looking for")
-            i=0
-            docs=self.__pyCadApplication.getDocuments()
-            if len(docs)<int(lookIndex):
+            lookIndex = self.inputMsg("Write the number of doc that you are looking for")
+            i = 0
+            docs = self.__pyCadApplication.getDocuments()
+            if len(docs) < int(lookIndex):
                 self.outputMsg("No such a document")
                 return
             for key in docs:
                 if i == int(lookIndex):
                     self.__pyCadApplication.setActiveDocument(docs[key])
                     return
-                i+=1
+                i += 1
             else:
                 self.outputMsg("Document not found") 
         except:
@@ -648,10 +651,10 @@ class textApplication(object):
         """
         try:
             self.outputMsg("Documents in the curret application")
-            i=0
+            i = 0
             for key in self.__pyCadApplication.getDocuments():
-                self.outputMsg("%s File %s"%(str(i), str(key)))
-                i+=1
+                self.outputMsg("%s File %s" % (str(i), str(key)))
+                i += 1
             self.outputMsg("***********************************")
         except:
             self.outputMsg("Unable To Perform the GetDocuments")
@@ -661,7 +664,7 @@ class textApplication(object):
             close the active Document
         """
         try:
-            acDoc=self.__pyCadApplication.getActiveDocuemnt()
+            acDoc = self.__pyCadApplication.getActiveDocuemnt()
             self.__pyCadApplication.closeDocument(acDoc.dbFile)
         except:
             self.outputMsg("Unable To close the active document")
@@ -671,10 +674,10 @@ class textApplication(object):
             open a new document
         """
         try:
-            filePath=self.inputMsg("File Path")
+            filePath = self.inputMsg("File Path")
             self.__pyCadApplication.openDocument(filePath)
         except IOError:
-            self.outputMsg("Unable To open the file %s"%str(filePath))
+            self.outputMsg("Unable To open the file %s" % str(filePath))
 
     def endApplication(self):
         """
@@ -683,27 +686,27 @@ class textApplication(object):
         self.outputMsg("Bye")
         sys.exit(0)
 
-    def performCommand(self,name):
+    def performCommand(self, name):
         """
             Perform a Command
         """
         try:
-            cmd_Key=str(name).upper()
-            cObject=self.__pyCadApplication.getCommand(cmd_Key)
+            cmd_Key = str(name).upper()
+            cObject = self.__pyCadApplication.getCommand(cmd_Key)
             for iv in cObject:
-                exception,message=iv
+                exception, message = iv
                 try:
                     raise exception(None)
                 except ExcPoint:
-                    cObject[iv]=self.imputPoint(message)                    
+                    cObject[iv] = self.imputPoint(message)                    
                 except (ExcLenght, ExcAngle):
-                    cObject[iv]=self.inputFloat(message)
+                    cObject[iv] = self.inputFloat(message)
                 except (ExText):
-                    cObject[iv]=self.inputMsg(message)
+                    cObject[iv] = self.inputMsg(message)
                 except (ExEntity):
-                    cObject[iv]=self.inputInt(message)
+                    cObject[iv] = self.inputInt(message)
                 except:
-                    print "Bad error !!"
+                    print("Bad error !!")
                     raise 
             else:
                 cObject.applyCommand()
@@ -715,9 +718,9 @@ class textApplication(object):
             this function make a basic test
         """
         self.outputMsg("Create a new document 1")
-        doc1=self.__pyCadApplication.newDocument()
+        doc1 = self.__pyCadApplication.newDocument()
         self.outputMsg("Create a new document 2")
-        doc2=self.__pyCadApplication.newDocument()
+        doc2 = self.__pyCadApplication.newDocument()
         self.outputMsg("Set Current p1")
         self.__pyCadApplication.setActiveDocument(doc1)
         self.outputMsg("Create Point")
@@ -736,17 +739,17 @@ class textApplication(object):
         
         self.outputMsg("Get Entitys for doc 1")
         self.__pyCadApplication.setActiveDocument(doc1)
-        activeDoc=self.__pyCadApplication.getActiveDocument()
-        ents=activeDoc.getEntityFromType("ALL")
+        activeDoc = self.__pyCadApplication.getActiveDocument()
+        ents = activeDoc.getEntityFromType("ALL")
         self.printEntity(ents)
         self.outputMsg("Get Entitys for doc 2")
         self.__pyCadApplication.setActiveDocument(doc2)
-        activeDoc=self.__pyCadApplication.getActiveDocument()
-        ents=activeDoc.getEntityFromType("ALL")
+        activeDoc = self.__pyCadApplication.getActiveDocument()
+        ents = activeDoc.getEntityFromType("ALL")
         self.printEntity(ents)
         # Working with styles
         self.outputMsg("Create NewStyle")
-        stl=Style("NewStyle")
+        stl = Style("NewStyle")
         self.outputMsg("Save in document")
         activeDoc.saveEntity(stl)
         activeDoc.setActiveStyle(name='NewStyle')
@@ -756,11 +759,11 @@ class textApplication(object):
         self.performCommandRandomly("ARC")
         
         self.outputMsg("Create NewStyle1")
-        stl1=Style("NewStyle1")
+        stl1 = Style("NewStyle1")
         self.__pyCadApplication.setApplicationStyle(stl1)
-        stl11=self.__pyCadApplication.getApplicationStyle(name='NewStyle1')
-        styleDic=stl11.getConstructionElements()
-        styleDic[styleDic.keys()[0]].setStyleProp('entity_color',(255,215,000))
+        stl11 = self.__pyCadApplication.getApplicationStyle(name='NewStyle1')
+        styleDic = stl11.getConstructionElements()
+        styleDic[styleDic.keys()[0]].setStyleProp('entity_color', (255, 215, 000))
         self.__pyCadApplication.setApplicationStyle(stl11)
         activeDoc.saveEntity(stl11)
         self.outputMsg("Create Segment")
@@ -769,10 +772,10 @@ class textApplication(object):
         self.performCommandRandomly("ARC")
         
         self.outputMsg("Create NewStyle2 ")
-        stl1=Style("NewStyle2")
-        stl12=activeDoc.saveEntity(stl1)
-        styleDic=stl11.getConstructionElements()
-        styleDic[styleDic.keys()[0]].setStyleProp('entity_color',(255,215,000))
+        stl1 = Style("NewStyle2")
+        stl12 = activeDoc.saveEntity(stl1)
+        styleDic = stl11.getConstructionElements()
+        styleDic[styleDic.keys()[0]].setStyleProp('entity_color', (255, 215, 000))
         self.outputMsg("Update NewStyle2")
         activeDoc.saveEntity(stl12)
         self.outputMsg("Done")
@@ -783,19 +786,19 @@ class textApplication(object):
         
     def testGeoChamfer(self):    
         self.outputMsg("Test Chamfer")
-        p1=Point(0.0, 0.0)
-        p2=Point(10.0, 0.0)
-        p3=Point(0.0, 10.0)
-        s1=Segment(p1, p2)
-        s2=Segment(p1, p3)
-        cmf=Chamfer(s1, s2, 2.0, 2.0)
-        cl=cmf.getLength()
-        self.outputMsg("Chamfer Lengh %s"%str(cl))
-        s1, s2, s3=cmf.getReletedComponent()
+        p1 = Point(0.0, 0.0)
+        p2 = Point(10.0, 0.0)
+        p3 = Point(0.0, 10.0)
+        s1 = Segment(p1, p2)
+        s2 = Segment(p1, p3)
+        cmf = Chamfer(s1, s2, 2.0, 2.0)
+        cl = cmf.getLength()
+        self.outputMsg("Chamfer Lengh %s" % str(cl))
+        s1, s2, s3 = cmf.getReletedComponent()
         if s3:
             for p in s3.getEndpoints():
-                x, y=p.getCoords()
-                self.outputMsg("P1 Cords %s,%s"%(str(x), str(y)))
+                x, y = p.getCoords()
+                self.outputMsg("P1 Cords %s, %s" % (str(x), str(y)))
         else:
             self.outputMsg("Chamfer segment in None")
     
@@ -804,23 +807,23 @@ class textApplication(object):
             this function is usefoul for short test
             as soon it works copy the code into featureTest
         """
-        newDoc=self.__pyCadApplication.newDocument()
-        intPoint=Point(0.0, 0.0)
+        newDoc = self.__pyCadApplication.newDocument()
+        intPoint = Point(0.0, 0.0)
         
-        s1=Segment(intPoint, Point(10.0, 0.0))
-        s2=Segment(intPoint, Point(0.0, 10.0))
+        s1 = Segment(intPoint, Point(10.0, 0.0))
+        s2 = Segment(intPoint, Point(0.0, 10.0))
         
-        ent1=newDoc.saveEntity(s1)
-        ent2=newDoc.saveEntity(s2)
+        ent1 = newDoc.saveEntity(s1)
+        ent2 = newDoc.saveEntity(s2)
        
-        cObject=self.__pyCadApplication.getCommand("CHAMFER")
-        keys=cObject.keys()
-        cObject[keys[0]]=ent1
-        cObject[keys[1]]=ent2
-        cObject[keys[2]]=2
-        cObject[keys[3]]=2
-        cObject[keys[4]]=None
-        cObject[keys[5]]=None
+        cObject = self.__pyCadApplication.getCommand("CHAMFER")
+        keys = cObject.keys()
+        cObject[keys[0]] = ent1
+        cObject[keys[1]] = ent2
+        cObject[keys[2]] = 2
+        cObject[keys[3]] = 2
+        cObject[keys[4]] = None
+        cObject[keys[5]] = None
         cObject.applyCommand()
     
     def easyTest(self):
@@ -829,66 +832,66 @@ class textApplication(object):
             as soon it works copy the code into featureTest
         """
         pass
-        newDoc=self.__pyCadApplication.newDocument()
-        intPoint=Point(2.0, 2.0)
+        newDoc = self.__pyCadApplication.newDocument()
+        intPoint = Point(2.0, 2.0)
         
-        s1=Segment(intPoint, Point(10.0, 0.0))
-        s2=Segment(intPoint, Point(0.0, 10.0))
+        s1 = Segment(intPoint, Point(10.0, 0.0))
+        s2 = Segment(intPoint, Point(0.0, 10.0))
         
-        ent1=newDoc.saveEntity(s1)
-        ent2=newDoc.saveEntity(s2)
+        ent1 = newDoc.saveEntity(s1)
+        ent2 = newDoc.saveEntity(s2)
        
-        cObject=self.__pyCadApplication.getCommand("CHAMFER")
-        keys=cObject.keys()
-        cObject[keys[0]]=ent1
-        cObject[keys[1]]=ent2
-        cObject[keys[2]]=2
-        cObject[keys[3]]=2
-        cObject[keys[4]]=None
-        cObject[keys[5]]=None
+        cObject = self.__pyCadApplication.getCommand("CHAMFER")
+        keys = cObject.keys()
+        cObject[keys[0]] = ent1
+        cObject[keys[1]] = ent2
+        cObject[keys[2]] = 2
+        cObject[keys[3]] = 2
+        cObject[keys[4]] = None
+        cObject[keys[5]] = None
         cObject.applyCommand()
         
     def performCommandRandomly(self, commandName, andLoop=10):
         """
             set some random Value at the command imput
         """
-        self.outputMsg("Start Command %s"%str(commandName))
-        i=0
-        cObject=self.__pyCadApplication.getCommand(commandName)
+        self.outputMsg("Start Command %s" % str(commandName))
+        i = 0
+        cObject = self.__pyCadApplication.getCommand(commandName)
         for iv in cObject:
-            exception,message=iv
+            exception, message = iv
             try:
                 raise exception(None)
             except ExcPoint:
                 self.outputMsg("Add Point")
-                if i>=andLoop:
-                    cObject[iv]=None
+                if i >= andLoop:
+                    cObject[iv] = None
                 else:
-                    cObject[iv]=self.getRandomPoint()
+                    cObject[iv] = self.getRandomPoint()
             except (ExcLenght, ExcAngle):
                 self.outputMsg("Add Lengh/Angle")
-                cObject[iv]=100
+                cObject[iv] = 100
             except:
                 self.outputMsg("Bad error !!")
                 raise 
-            i+=1
+            i += 1
         else:
             self.outputMsg("Apply Command")
             cObject.applyCommand()
             
-            
     def getRandomPoint(self):
         """
-            get e random point
+            get a random point
         """
-        x=random()*1000
-        y=random()*1000
+        x = random() * 1000
+        y = random() * 1000
         return Point(x, y)
+    
     def inputInt(self, msg):   
         """
             return an int from user
         """        
-        value=self.inputMsg(msg)
+        value = self.inputMsg(msg)
         if value:
             return int(value)
         return None
@@ -897,7 +900,7 @@ class textApplication(object):
         """
             return a float number
         """
-        value=self.inputMsg(msg)
+        value = self.inputMsg(msg)
         if value:
             return float(value)
         return None
@@ -906,30 +909,30 @@ class textApplication(object):
         """
             ask at the user to imput a point 
         """
-        msg=msg + " x,y "
-        value=self.inputMsg(msg)
+        msg = msg + " x,y "
+        value = self.inputMsg(msg)
         if value:
-            coords=value.split(',')
-            x=float(coords[0])
-            y=float(coords[1])
+            coords = value.split(',')
+            x = float(coords[0])
+            y = float(coords[1])
             return Point(x, y)
         return None
         
-    def outputMsg(self,msg):
+    def outputMsg(self, msg):
         """
             print an output message
         """
-        print """<PythonCad> %s"""%(str(msg))
+        print("""<PythonCad> %s""" % (str(msg)))
         
-    def inputMsg(self,msg):
+    def inputMsg(self, msg):
         """
             print and ask for a value
         """
-        msg="""<PythonCad> %s >>>"""%(str(msg))
-        return raw_input(msg)
+        msg = """<PythonCad> %s >>>""" % (str(msg))
+        return input(msg)
 
 if __name__=='__main__':
-    ta=textApplication()
+    ta = textApplication()
     ta.mainLoop()
     #test()
     #io=ioKernel()
