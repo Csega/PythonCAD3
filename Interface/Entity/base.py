@@ -34,8 +34,10 @@ class BaseEntity(QtWidgets.QGraphicsItem):
     showBBox = False  #This Flag is used for debughing porpouse
     def __init__(self, entity):
         super(BaseEntity, self).__init__()
-        self.setAcceptsHoverEvents(True)  # Fire over events
-        self.setFlag(QtGui.QGraphicsItem.ItemIsSelectable, True)
+        # self.setAcceptsHoverEvents(True)  # Fire over events  - Obsolete, use
+        # setAcceptHoverEvents(bool) instead: http://qt-project.org/doc/qt-4.8/qgraphicsitem-obsolete.html#setAcceptsHoverEvents
+        self.setAcceptHoverEvents(True)  # Fire over events
+        self.setFlag(QtWidgets.QGraphicsItem.ItemIsSelectable, True)
         # Get the geometry
         self.__entity = entity
         self.setToolTip(str(self.toolTipMessage))
