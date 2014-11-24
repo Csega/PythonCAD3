@@ -238,8 +238,6 @@ class Document(BaseDb):
             # self.__EntityDb.suspendCommit()
             # self.__RelationDb.suspendCommit()
             BaseDb.commit = False
-            print(type(entity))
-            print(isinstance(entity, GeometricalEntity))
             if isinstance(entity, GeometricalEntity):
                 _obj = self._saveGeometricalEntity(entity)    
             elif isinstance(entity, ComposedEntity):
