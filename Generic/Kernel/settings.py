@@ -26,13 +26,13 @@ class Settings(object):
     """
         this class provide access at all the pythoncad settings
     """
-    def __init__(self,name):
+    def __init__(self, name):
         """
             the name of the settings schema
         """
-        self.__name=name
-        self.__activeLayer="ROOT"
-        self.__property={}
+        self.__name = name
+        self.__activeLayer = "ROOT"
+        self.__property = {}
         
     @property
     def name(self):
@@ -40,12 +40,13 @@ class Settings(object):
             get the settings Name
         """
         return self.__name
+
     @name.setter
-    def name(self,name):
+    def name(self, name):
         """
             set the settings name
         """
-        self.__name=name
+        self.__name = name
     
     @property
     def layerName(self):
@@ -55,17 +56,18 @@ class Settings(object):
         return self.__activeLayer
     
     @layerName.setter
-    def layerName(self,lName):
+    def layerName(self, lName):
         """
             set the active layer id
         """
-        self.__activeLayer=lName
+        self.__activeLayer = lName
     
     def getVariable(self, name):
         """
             Get The variable in the settings object
         """
-        if self.__property and self.__property.has_key(name):
+        # if self.__property and self.__property.has_key(name):
+        if self.__property and (name in self.__property):
             return self.__property[name]
         return None
     
@@ -73,5 +75,5 @@ class Settings(object):
         """
             Set The variable in the settings object
         """
-        self.__property[name]=value
+        self.__property[name] = value
         
