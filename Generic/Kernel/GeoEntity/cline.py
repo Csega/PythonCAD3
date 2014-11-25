@@ -28,11 +28,11 @@ from __future__ import generators
 import math
 
 
-from GeoEntity.geometricalentity import *
-from GeoUtil.tolerance import *
-from GeoUtil.util import *
-from GeoEntity.point import Point
-from GeoUtil.geolib import Vector
+from .geometricalentity import *
+from Kernel.GeoUtil.tolerance import *
+from Kernel.GeoUtil.util import *
+from .point import Point
+from Kernel.GeoUtil.geolib import Vector
 
 class CLine(GeometricalEntity):
     """

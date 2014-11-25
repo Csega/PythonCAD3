@@ -26,11 +26,11 @@ from __future__ import generators
 
 import math
 
-from GeoUtil.util import *
-from GeoUtil.geolib import Vector
-from GeoEntity.point import Point
-from GeoEntity.cline import CLine
-from GeoEntity.geometricalentity import *
+from Kernel.GeoUtil.util import *
+from Kernel.GeoUtil.geolib import Vector
+from .point import Point
+from .cline import CLine
+from .geometricalentity import *
 
 
 class Segment(GeometricalEntity):

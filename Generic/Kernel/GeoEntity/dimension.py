@@ -27,14 +27,14 @@ import math
 import sys
 import types
 
-from Kernel.GeoEntity.text      import text
-from Kernel.GeoEntity.point     import point
-from Kernel.GeoEntity.arc       import arc
-from Kernel.GeoUtil.util        import util
-from Kernel.GeoUtil.tolerance   import tolerance
+from GeoEntity.text import text
+from GeoEntity.point import point
+from GeoEntity.arc import arc
+from GeoUtil.util import util
+from GeoUtil.tolerance import tolerance
 
-_dtr = math.pi/180.0
-_rtd = 180.0/math.pi
+_dtr = math.pi / 180.0
+_rtd = 180.0 / math.pi
 
 class DimString(text.TextBlock):
     """A class for the visual presentation of the dimensional value.

@@ -22,13 +22,13 @@
 #
 import math
 
-import sympy            as mainSympy
-import sympy.geometry   as geoSympy
+import sympy as mainSympy
+import sympy.geometry as geoSympy
 
-from Kernel.GeoEntity.point        import Point
-from Kernel.GeoEntity.segment      import Segment
-from Kernel.GeoEntity.arc          import Arc
-from Kernel.GeoEntity.ellipse      import Ellipse
+from GeoEntity.point import Point
+from GeoEntity.segment import Segment
+from GeoEntity.arc import Arc
+from GeoEntity.ellipse import Ellipse
 
 
 #    "Ray",
@@ -43,26 +43,26 @@ def getEntityEntity(sympyEntity):
         convert sympy object into PyCAD object
     """
     if isinstance(sympyEntity, geoSympy.Circle):
-        arg={"ARC_0":Point(0.0, 0.0), 
-             "ARC_1":1, 
-             "ARC_2":None, 
-             "ARC_3":None
+        arg = {"ARC_0": Point(0.0, 0.0), 
+             "ARC_1": 1, 
+             "ARC_2": None, 
+             "ARC_3": None
              }    
-        arc=Arc(arg)
+        arc = Arc(arg)
         arc.setFromSympy(sympyEntity)
         return arc
     elif isinstance(sympyEntity, geoSympy.Point):
-        p=Point(0.0, 0.0)
+        p = Point(0.0, 0.0)
         p.setFromSympy(sympyEntity)
         return p
     elif isinstance(sympyEntity, geoSympy.Segment):
-        segArg={"SEGMENT_0":Point(0.0, 0.0), "SEGMENT_1":Point(1.0, 1.0)}
-        seg=Segment(segArg)
+        segArg = {"SEGMENT_0": Point(0.0, 0.0), "SEGMENT_1": Point(1.0, 1.0)}
+        seg = Segment(segArg)
         seg.setFromSympy(sympyEntity)
         return seg
     elif isinstance(sympyEntity, geoSympy.Ellipse):
-        arg={"ELLIPSE_0":Point(0.0, 0.0), "ELLIPSE_1":1.0, "ELLIPSE_2":2.0}
-        e=Ellipse(arg)
+        arg = {"ELLIPSE_0": Point(0.0, 0.0), "ELLIPSE_1": 1.0, "ELLIPSE_2": 2.0}
+        e = Ellipse(arg)
         e.setFromSympy(sympyEntity)
         return e
     else:

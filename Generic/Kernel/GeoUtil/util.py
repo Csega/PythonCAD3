@@ -27,7 +27,7 @@ import string
 from math import fmod, pi
 import types
 
-from GeoUtil.tolerance import TOL
+from .tolerance import TOL
 
 def get_float(val):
     _v = val

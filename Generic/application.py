@@ -28,10 +28,10 @@ import shutil
 if __name__=="__main__":
     sys.path.append(os.path.join(os.getcwd(), 'Kernel'))
 #
-from Kernel.pycadevent import PyCadEvent
-from Kernel.exception import *
-from Kernel.document import *
-from Kernel.Command import *
+from pycadevent import PyCadEvent
+from exception import *
+from document import *
+from Command import *
 
 
 class Application(object):
@@ -39,27 +39,27 @@ class Application(object):
         this class provide the real pythoncad api interface ..
     """
     def __init__(self, **args):
-        userDirectory=os.getenv('USERPROFILE') or os.getenv('HOME')
-        pyUserDir=os.path.join(userDirectory, "PythonCAD")
+        userDirectory = os.getenv('USERPROFILE') or os.getenv('HOME')
+        pyUserDir = os.path.join(userDirectory, "PythonCAD")
         if not os.path.exists(pyUserDir):
             os.makedirs(pyUserDir)
-        baseDbName=os.path.join(pyUserDir, 'PythonCAD_Local.pdr')    
-        #--
-        self.kernel=Document(baseDbName)
-        self.__applicationCommand=APPLICATION_COMMAND
+        baseDbName = os.path.join(pyUserDir, 'PythonCAD_Local.pdr')    
+        # --
+        self.kernel = Document(baseDbName)
+        self.__applicationCommand = APPLICATION_COMMAND
         # Setting up Application Events
-        self.startUpEvent=PyCadEvent()
-        self.beforeOpenDocumentEvent=PyCadEvent()
-        self.afterOpenDocumentEvent=PyCadEvent()
-        self.beforeCloseDocumentEvent=PyCadEvent()
-        self.afterCloseDocumentEvent=PyCadEvent()
-        self.activeteDocumentEvent=PyCadEvent()
+        self.startUpEvent = PyCadEvent()
+        self.beforeOpenDocumentEvent = PyCadEvent()
+        self.afterOpenDocumentEvent = PyCadEvent()
+        self.beforeCloseDocumentEvent = PyCadEvent()
+        self.afterCloseDocumentEvent = PyCadEvent()
+        self.activeteDocumentEvent = PyCadEvent()
         # manage Document inizialization
-        self.__Docuemnts={}
+        self.__Docuemnts = {}
         if 'open' in args:
             self.openDocument(args['open'])
         else:
-            self.__ActiveDocument=None
+            self.__ActiveDocument = None
         # Fire the Application inizialization
         self.startUpEvent(self)
             
@@ -68,18 +68,18 @@ class Application(object):
         """
             read from application settings the recent files
         """
-        objSettings=self.getApplicationSetting()
-        nFiles=objSettings.getVariable("MAX_RECENT_FILE")
+        objSettings = self.getApplicationSetting()
+        nFiles = objSettings.getVariable("MAX_RECENT_FILE")
         if nFiles:
-            files=objSettings.getVariable("RECENT_FILE_ARRAY")
+            files = objSettings.getVariable("RECENT_FILE_ARRAY")
             if files:
                 return files
             else:
-                objSettings.setVariable("RECENT_FILE_ARRAY",[] )
+                objSettings.setVariable("RECENT_FILE_ARRAY", [])
                 self.updateApplicationSetting(objSettings)
         else:
-            objSettings.setVariable("MAX_RECENT_FILE",MAX_RECENT_FILE )
-            objSettings.setVariable("RECENT_FILE_ARRAY",[] )
+            objSettings.setVariable("MAX_RECENT_FILE", MAX_RECENT_FILE)
+            objSettings.setVariable("RECENT_FILE_ARRAY", [])
             self.updateApplicationSetting(objSettings)
         return []
     
@@ -165,7 +165,7 @@ class Application(object):
             seve the current document to the new position
         """
         if self.__ActiveDocument:
-            oldFileName=self.__ActiveDocument.getName()
+            oldFileName = self.__ActiveDocument.getName()
             self.closeDocument(oldFileName)
             shutil.copy2(oldFileName,newFileName)
             return self.openDocument(newFileName)
@@ -184,7 +184,7 @@ class Application(object):
             else:
                 self.setActiveDocument(None)
         else:
-            raise IOError("Unable to remove the file %s"%str(fileName))
+            raise IOError("Unable to remove the file %s" % str(fileName))
         self.afterCloseDocumentEvent(self)
     
     def getActiveDocument(self):
@@ -244,14 +244,11 @@ class Application(object):
         self.kernel.saveEntity(settingObj)  
 
 if __name__=='__main__':
-    import application_test  as test
-    app= Application()
-    doc=app.newDocument()
+    import application_test as test
+    app = Application()
+    doc = app.newDocument()
     #doc.importExternalFormat('C:\Users\mboscolo\Desktop\jettrainer.dxf')
     #segments=doc.getEntityFromType("SEGMENT")
     #print len(segments)
     #test.TestSympy()
     test.TestIntersection()
- 
-    
-    
