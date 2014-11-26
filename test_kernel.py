@@ -837,7 +837,9 @@ class textApplication(object):
         newDoc = self.__pyCadApplication.newDocument()
         intPoint = Point(2.0, 2.0)
         
+        # a = {'SEGMENT_0': intPoint, 'SEGMENT_1': Point(10.0, 0.0)}
         s1 = Segment(intPoint, Point(10.0, 0.0))
+        # s1 = Segment(a)
         s2 = Segment(intPoint, Point(0.0, 10.0))
         
         ent1 = newDoc.saveEntity(s1)
