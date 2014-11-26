@@ -123,7 +123,8 @@ def _sympy_intersection(ipts, obj1, obj2):
     print("try intersect ", sympySegment, sympyObj2)
     for p in sIntersection(sympySegment, sympyObj2):
         if isinstance(p, sPoint):
-            ipts.append((float(p[0]), float(p[1])))
+            # ipts.append((float(p[0]), float(p[1])))
+            ipts.append((float(p.x), float(p.y)))
     
     print("Intersection", ipts)
 

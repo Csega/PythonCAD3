@@ -433,12 +433,13 @@ class Arc(GeometricalEntity):
         """
             update the points cord from a sympyobject only avaiable for circle
         """
-        self.center.setFromSympy(sympyCircle[0])
-        self.radius = float(sympyCircle[1])
+        # self.center.setFromSympy(sympyCircle[0])
+        self.center.setFromSympy(sympyCircle.center)
+        # self.radius = float(sympyCircle[1])
+        self.radius = float(sympyCircle.radius)
         
     def __str__(self):
-        msg = "Arc\Circle: Center %s , Radius %s , StartAngle=%s, EndAngle=%s"%(
-            str(self.center), str(self.radius), str(self.startAngle), str(self.endAngle))
+        msg = "Arc\Circle: Center %s , Radius %s , StartAngle=%s, EndAngle=%s" % (str(self.center),str(self.radius),str(self.startAngle),str(self.endAngle))
         return msg
         
     def test_angle(s, e, a):

@@ -32,7 +32,7 @@ from .tolerance import TOL
 def get_float(val):
     _v = val
     if not isinstance(_v, float):
-        if not isinstance(_v, (int, long)):
+        if not isinstance(_v, int):
             raise TypeError("Invalid non-numeric type: " + str(type(_v)))
         _v = float(val)
     return _v

@@ -358,8 +358,11 @@ class Segment(GeometricalEntity):
         """
             update the points cord from a sympyobject
         """
-        self.p1.setFromSympy(sympySegment[0])
-        self.p2.setFromSympy(sympySegment[1])
+        # self.p1.setFromSympy(sympySegment[0])
+        self.p1.setFromSympy(sympySegment.p1)
+        # self.p2.setFromSympy(sympySegment[1])
+        self.p1.setFromSympy(sympySegment.p2)
+    
     @property
     def vector(self):
         """

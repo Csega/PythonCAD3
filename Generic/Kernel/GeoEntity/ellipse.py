@@ -28,7 +28,6 @@
 
 import math
 
-
 from Kernel.GeoUtil.tolerance import *
 from Kernel.GeoUtil.util import *
 from .point import Point
@@ -213,9 +212,12 @@ class Ellipse(GeometricalEntity):
         """
             update the points cord from a sympyobject only avaiable for circle
         """
-        self.center.setFromSympy(sympyEllipse[0])
-        self.horizontalRadius = float(sympyEllipse[1])
-        self.verticalRadius = float(sympyEllipse[2])
+        # self.center.setFromSympy(sympyEllipse[0])
+        self.center.setFromSympy(sympyEllipse.center)
+        # self.horizontalRadius = float(sympyEllipse[1])
+        self.horizontalRadius = float(sympyEllipse.hradius)
+        # self.verticalRadius = float(sympyEllipse[2])
+        self.verticalRadius = float(sympyEllipse.vradius)
         
     def __str__(self):
         msg = "Ellipse: Center %s , horizontalRadius Axi = %s, Mino Axi = %s"%(
