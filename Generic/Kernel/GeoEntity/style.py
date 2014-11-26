@@ -43,7 +43,7 @@ class Style(GeometricalEntity):
                     from Kernel.initsetting import getDefaultStyle
                     self.__styleProperty = getDefaultStyle()
             else:
-                from Kernel.initsetting import getDefaultStyle
+                from Generic.Kernel.initsetting import getDefaultStyle
                 self['STYLE_1'] = getDefaultStyle()
             #if self.has_key('STYLE_0'):  # old Python 2 syntax
             if 'STYLE_0' in self:

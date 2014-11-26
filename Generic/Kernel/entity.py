@@ -28,13 +28,13 @@ class Entity(PyCadObject):
     """
         basic PythonCad entity structure
     """
-    def __init__(self,entType,constructionElements,style,objId):
-        from Kernel.initsetting import PY_CAD_ENT
+    def __init__(self, entType, constructionElements, style, objId):
+        from Generic.Kernel.initsetting import PY_CAD_ENT
         if not entType in PY_CAD_ENT:
             raise TypeError('entType not supported')
         if not isinstance(constructionElements,dict):
             raise TypeError('type error in dictionary')
-        PyCadObject.__init__(self, eType = entType, objId = objId, style = style)
+        PyCadObject.__init__(self, eType=entType, objId=objId, style=style)
         self.setConstructionElements(constructionElements)
     
     def __str__(self):

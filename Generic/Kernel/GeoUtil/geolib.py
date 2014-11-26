@@ -22,7 +22,7 @@
 
 import math
 
-from Kernel.GeoEntity.point import Point
+from Generic.Kernel.GeoEntity.point import Point
 
 class Vector:
     """

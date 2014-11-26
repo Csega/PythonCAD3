@@ -26,8 +26,8 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoUtil.util import *
-from Kernel.GeoUtil.geolib import Vector
+from GeoUtil.util import *
+from GeoUtil.geolib import Vector
 from .point import Point
 from .cline import CLine
 from .geometricalentity import *
@@ -37,13 +37,13 @@ class Segment(GeometricalEntity):
     """
         A class representing a line segment.
     """
-    def __init__(self,kw):
+    def __init__(self, kw):
         """
             Initialize a Segment object.
             kw['SEGMENT_0'] must be a point 
             kw['SEGMENT_1'] must be a point 
         """
-        argDescription={
+        argDescription = {
                         "SEGMENT_0": Point,
                         "SEGMENT_1": Point
                         }
@@ -55,9 +55,11 @@ class Segment(GeometricalEntity):
     
     def __str__(self):
         return "Segment: %s to %s l=%s" % (self.p1, self.p2, self.length)
+    
     @property
     def info(self):
         return "Segment: %s to %s l=%s" % (self.p1, self.p2, self.length)    
+    
     def __eq__(self, obj):
         """
             Compare a Segment to another for equality.

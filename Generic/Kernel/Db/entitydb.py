@@ -287,8 +287,8 @@ class EntityDb(BaseDb):
             get all the entity from a given type 
         """
         _outObj = []
-        _dbEntRow = self.getMultiFilteredEntity(entityType = entityType)
-        for _row in _dbEntRow: 
+        _dbEntRow = self.getMultiFilteredEntity(entityType=entityType)
+        for _row in _dbEntRow:
             _style = pickle.loads(_row[4])
             _dumpObj = pickle.loads(_row[3])
             _objEnt = Entity(_row[2], _dumpObj, _style, _row[1])

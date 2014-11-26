@@ -12,10 +12,10 @@ sys.path.append(os.path.join(os.getcwd(), 'Generic', 'Kernel'))
     
 from random import random
 from Generic.Kernel.document import *
-from Generic.Kernel.application import Application
-from Generic.Kernel.Entity.point import Point
-from Generic.Kernel.Entity.style import Style
-from Generic.Kernel.Entity.segjoint import Chamfer
+from Generic.application import Application
+from Generic.Kernel.GeoEntity.point import Point
+from Generic.Kernel.GeoEntity.style import Style
+from Generic.Kernel.GeoComposedEntity.chamfer import Chamfer
 
 def printId(kernel, obj):
     """
@@ -541,9 +541,11 @@ class textApplication(object):
         while 1:
             imputstr = self.inputMsg("Insert a command (? for Help)")
             try:
-                if self.__command.has_key(imputstr):
+                # if self.__command.has_key(imputstr):
+                if imputstr in self.__command:
                     self.__command[imputstr](imputstr)
-                elif self.__applicationCommand.has_key(imputstr):
+                # elif self.__applicationCommand.has_key(imputstr):
+                elif imputstr in self.__applicationCommand:
                     self.__applicationCommand[imputstr]()
                 else:
                     self.outputMsg("Wrong Command !!")

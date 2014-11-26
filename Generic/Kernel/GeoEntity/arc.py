@@ -29,9 +29,9 @@ import math
 from .point import Point
 from .segment import Segment
 from .cline import CLine
-from Kernel.GeoUtil.geolib import Vector
+from Generic.Kernel.GeoUtil.geolib import Vector
 from .geometricalentity import *
-from Kernel.GeoUtil.util import *
+from Generic.Kernel.GeoUtil.util import *
 
 _dtr = math.pi / 180.0
 _rtd = 180.0 / math.pi

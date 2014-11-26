@@ -27,14 +27,14 @@
 
 import math
 
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.cline import CLine
-from Kernel.GeoEntity.ccircle import CCircle
-from Kernel.GeoEntity.polyline import Polyline
-from Kernel.GeoEntity.ellipse import Ellipse
-from .geolib import Vector
+from Generic.Kernel.GeoEntity.point import Point
+from Generic.Kernel.GeoEntity.segment import Segment
+from Generic.Kernel.GeoEntity.arc import Arc
+from Generic.Kernel.GeoEntity.cline import CLine
+from Generic.Kernel.GeoEntity.ccircle import CCircle
+from Generic.Kernel.GeoEntity.polyline import Polyline
+from Generic.Kernel.GeoEntity.ellipse import Ellipse
+from Generic.Kernel.GeoUtil.geolib import Vector
 #
 # common constants
 #

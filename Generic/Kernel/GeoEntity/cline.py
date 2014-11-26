@@ -29,10 +29,10 @@ import math
 
 
 from .geometricalentity import *
-from Kernel.GeoUtil.tolerance import *
-from Kernel.GeoUtil.util import *
+from Generic.Kernel.GeoUtil.tolerance import *
+from Generic.Kernel.GeoUtil.util import *
 from .point import Point
-from Kernel.GeoUtil.geolib import Vector
+from Generic.Kernel.GeoUtil.geolib import Vector
 
 class CLine(GeometricalEntity):
     """

@@ -28,8 +28,8 @@
 
 import math
 
-from Kernel.GeoUtil.tolerance import *
-from Kernel.GeoUtil.util import *
+from Generic.Kernel.GeoUtil.tolerance import *
+from Generic.Kernel.GeoUtil.util import *
 from .point import Point
 from .segment import Segment
 from .cline import CLine

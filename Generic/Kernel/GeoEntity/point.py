@@ -26,9 +26,7 @@ from __future__ import generators
 import math
 
 from .geometricalentity import *
-from Kernel.GeoUtil.util import *
-
-
+from GeoUtil.util import *
 
 class Point(GeometricalEntity):
     """

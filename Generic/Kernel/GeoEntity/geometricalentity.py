@@ -39,12 +39,12 @@ class GeometricalEntity(dict):
             raise TypeError("Wrong number of items ")
         for k in kw:
             if k in argNameType:
-                if isinstance(kw[k],argNameType[k]):
-                    self[k]=kw[k]
+                if isinstance(kw[k], argNameType[k]):
+                    self[k] = kw[k]
                 else:
-                    raise TypeError("Wrong Type for argument %s"%str(k))
+                    raise TypeError("Wrong Type for argument %s" % str(k))
             else:
-                raise TypeError("Wrong argument %s "%str(k))
+                raise TypeError("Wrong argument %s " % str(k))
         self.arguments = argNameType
         self._snapPoints = []
     

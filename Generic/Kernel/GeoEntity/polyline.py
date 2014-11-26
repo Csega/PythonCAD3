@@ -26,7 +26,7 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoUtil.tolerance import *
+from Generic.Kernel.GeoUtil.tolerance import *
 from .point import Point
 from .segment import Segment
 from .cline import CLine

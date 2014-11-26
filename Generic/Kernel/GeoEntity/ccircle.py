@@ -27,13 +27,13 @@ from __future__ import generators
 
 import math
 
-from Kernel.GeoUtil.tolerance import *
-from Kernel.GeoUtil.util import *
+from Generic.Kernel.GeoUtil.tolerance import *
+from Generic.Kernel.GeoUtil.util import *
 from .geometricalentity import *
 from .point import Point
 from .segment import Segment
 from .cline import CLine
-from Kernel.GeoUtil.geolib import Vector
+from Generic.Kernel.GeoUtil.geolib import Vector
 
 class CCircle(GeometricalEntity):
     """
