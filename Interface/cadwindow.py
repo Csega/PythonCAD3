@@ -627,7 +627,7 @@ class CadWindowMdi(QtWidgets.QMainWindow):
 #-----------------------ON COMMANDS in ABOUT
         
     def _onAbout(self):
-        QtGui.QMessageBox.about(self, "About PythonCAD",
+        QtWidgets.QMessageBox.about(self, "About PythonCAD",
                 """<b>PythonCAD</b> is a CAD package written, surprisingly enough, in Python using the PyQt4 interface.<p>
                    The PythonCAD project aims to produce a scriptable, open-source,
                    easy to use CAD package for any Python/PyQt supported Platforms

@@ -80,7 +80,8 @@ class FunctionHandler(object):
         command = expression.upper()
         # is it a command from the command table?
         self.__edit_ctrl.clear()
-        if self._command_table.has_key(command):    # Interface command evaluation
+        # if self._command_table.has_key(command):    # Interface command evaluation
+        if command in self._command_table:
             # call function
             # echo on the comand line
             self.printCommand(command)
@@ -89,7 +90,7 @@ class FunctionHandler(object):
             try:
                 # let python evaluate expression
                 self.printCommand(expression)
-                self._value=self._eval.evaluate(expression)
+                self._value = self._eval.evaluate(expression)
             except:
                 self._value ="*error*"
             finally:
