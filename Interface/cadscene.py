@@ -135,10 +135,10 @@ class CadScene(QtWidgets.QGraphicsScene):
         #This seems needed to preview commands
         #
             if self.activeICommand:
-                #scenePos=event.scenePos()
+                # scenePos = event.scenePos()
                 distance = None
                 point = Point(scenePos.x(), scenePos.y() * -1.0)
-                qtItem = [self.itemAt(scenePos)]
+                qtItem = [self.itemAt(scenePos, QtGui.QTransform())]
                 if self.__oldClickPoint:
                     distance = self.getDistance(event)
                 self.activeICommand.updateMauseEvent(point, distance, qtItem)
@@ -157,7 +157,7 @@ class CadScene(QtWidgets.QGraphicsScene):
             self.isInPan = True
             self.firePan(True, event.scenePos())
         if not self.isInPan:
-            qtItem = self.itemAt(event.scenePos())
+            qtItem = self.itemAt(event.scenePos(), QtGui.QTransform())
             p = QtCore.QPointF(event.scenePos().x(), event.scenePos().y())
             if qtItem:
                 qtItem.setSelected(True)
