@@ -20,11 +20,11 @@ class CadView(QtWidgets.QGraphicsView):
     def Pan(self, panActive, eventPoint):
         
         if panActive == True:
-            self.setDragMode(QtGui.QGraphicsView.NoDrag)
+            self.setDragMode(QtWidgets.QGraphicsView.NoDrag)
             self.firstPanPoint = eventPoint
         elif panActive == False:
             self.firstPanPoint = None
-            self.setDragMode(QtGui.QGraphicsView.RubberBandDrag)
+            self.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
         else:
             if self.controlPress == False:
                 c = QtCore.QPoint((self.width() / 2 - 10), (self.height() / 2 - 10))
@@ -41,7 +41,7 @@ class CadView(QtWidgets.QGraphicsView):
         pOnView = event.pos()
         pOnScene = self.mapToScene(pOnView)
         # old command
-        self.scaleFactor = math.pow(2.0, event.delta() / 240.0)
+        self.scaleFactor = math.pow(2.0, event.angleDelta().y() / 240.0)
         self.scaleView(self.scaleFactor)
 #        self.updateShape()  <<<prova
         
@@ -60,13 +60,13 @@ class CadView(QtWidgets.QGraphicsView):
         if event.key() == QtCore.Qt.Key_Control:
             self.controlPress = True
             self.scene().isInPan = True
-            self.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
+            self.setDragMode(QtWidgets.QGraphicsView.ScrollHandDrag)
         super(CadView, self).keyPressEvent(event)
     
     def keyReleaseEvent(self, event):
         self.controlPress = False
         self.scene().isInPan = False
-        self.setDragMode(QtGui.QGraphicsView.RubberBandDrag)
+        self.setDragMode(QtWidgets.QGraphicsView.RubberBandDrag)
         super(CadView, self).keyReleaseEvent(event)
     
     def fit(self):
@@ -114,7 +114,8 @@ class CadView(QtWidgets.QGraphicsView):
         """
             update the item shape tickness
         """
-        matrixScaleFactor = self.matrix().m11()
+        # matrixScaleFactor = self.matrix().m11()  # matrix method is deprecated
+        matrixScaleFactor = self.transform().m11()
         if matrixScaleFactor < 0.001:
             matrixScaleFactor = 0.001
         val = (1.0 / matrixScaleFactor) * 10

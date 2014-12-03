@@ -162,9 +162,9 @@ class CadScene(QtWidgets.QGraphicsScene):
             if qtItem:
                 qtItem.setSelected(True)
                 self.updateSelected()
-            #else:
-            #    print "No item selected"
-            #re fire the event
+            # else:
+            #     print "No item selected"
+            # re fire the event
         super(CadScene, self).mousePressEvent(event)
 
     def mouseReleaseEvent(self, event):

@@ -71,7 +71,7 @@ class DrawingFile(object):
             Read a generic file
         """
         dPrint("Debug: Read asci File")
-        self.__fb = open(self.__fn, 'r')
+        self.__fb = open(self.__fn[0], 'r')
         self.__reading = True
         self.__writing = False
 

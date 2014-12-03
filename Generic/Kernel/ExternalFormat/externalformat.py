@@ -37,8 +37,8 @@ class ExtFormat(object):
         """
            Open a generic file
         """
-        path, exte = os.path.splitext(fileName)
-        if( exte.upper() == ".dxf".upper()):
+        path, exte = os.path.splitext(fileName[0])
+        if(exte.upper() == ".dxf".upper()):
             dxf = Dxf(self.__kernel, fileName)
             dxf.importEntitis()
             if not dxf.getError() is None:

@@ -324,8 +324,8 @@ class EntityDb(BaseDb):
             pycad_visible
             FROM pycadent
         """
-        _style = pickle.loads(str(row[4]))
-        _dumpObj = pickle.loads(str(row[3]))
+        _style = pickle.loads(row[4])
+        _dumpObj = pickle.loads(row[3])
         _objEnt = Entity(row[2], _dumpObj, _style, row[1])
         _objEnt.state = row[5]
         _objEnt.index = row[6]
