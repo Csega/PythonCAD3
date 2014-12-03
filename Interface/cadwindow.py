@@ -384,7 +384,8 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         """
             get only the name of the filePath
         """
-        return QtCore.QFileInfo(fullFileName).fileName()    
+        fullFileName_str = fullFileName[0]
+        return QtCore.QFileInfo(fullFileName_str).fileName()    
         
         
 # ##########################################              ON COMMANDS
@@ -401,15 +402,17 @@ class CadWindowMdi(QtWidgets.QMainWindow):
         
     def _onOpenDrawing(self):
         # ask the user to select an existing drawing
-        drawing = QtGui.QFileDialog.getOpenFileName(parent=self,directory=self.lastDirectory,  caption ="Open Drawing", filter ="Drawings (*.pdr *.dxf)");
+        drawing = QtWidgets.QFileDialog.getOpenFileName(parent=self,directory=self.lastDirectory,  caption ="Open Drawing", filter ="Drawings (*.pdr *.dxf)");
         # open a document and load the drawing
-        if len(drawing)>0:
-            self.lastDirectory=os.path.split(drawing)[0]
-            (name, extension)=os.path.splitext(drawing)
-            if extension.upper()=='.DXF':
+        if len(drawing) > 0:
+            # self.lastDirectory = os.path.split(drawing)[0]
+            self.lastDirectory = os.path.split(drawing[0])
+            # (name, extension) = os.path.splitext(drawing)
+            (name, extension) = os.path.splitext(drawing[0])
+            if extension.upper() == '.DXF':
                 child = self.createMdiChild()
                 child.importExternalFormat(drawing)
-            elif extension.upper()=='.PDR':
+            elif extension.upper() == '.PDR':
                 child = self.createMdiChild(drawing)
             else:
                 self.critical("Wrong command selected")

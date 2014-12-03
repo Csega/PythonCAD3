@@ -12,7 +12,7 @@ class IDocument(QtWidgets.QMdiSubWindow):
         self.__document = document
         self.__cmdInf = cmdInf
         self.__cadwindow = parent
-        self.setWindowTitle(document.dbPath + '[*]')
+        self.setWindowTitle(document.dbPath[0] + '[*]')
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.isUntitled = True
         # layer list

@@ -45,7 +45,7 @@ class BaseDb(object):
             f = tempfile.NamedTemporaryFile(prefix = 'PyCad_', suffix = '.pdr')
             dbPath = f.name
             f.close()
-        self.__dbConnection = sql.connect(dbPath)
+        self.__dbConnection = sql.connect(dbPath[0])
         self.dbPath = dbPath
         
     def setConnection(self, dbConnection):
