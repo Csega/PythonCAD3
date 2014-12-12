@@ -22,12 +22,12 @@
 # classes for line segments
 #
 
-from __future__ import generators
+# from __future__ import generators
 
 import math
 
-from GeoUtil.util import *
-from GeoUtil.geolib import Vector
+from Generic.Kernel.GeoUtil.util import *
+from Generic.Kernel.GeoUtil.geolib import Vector
 from .point import Point
 from .cline import CLine
 from .geometricalentity import *
@@ -50,7 +50,7 @@ class Segment(GeometricalEntity):
         GeometricalEntity.__init__(self, kw, argDescription)
         if self.p1.dist(self.p2) < 0.000001:
             print("distance = 0", self)
-            #raise StructuralError("Wrong point imput distance between point mast be >0.000001")               
+            # raise StructuralError("Wrong point imput distance between point mast be >0.000001")               
 
     def __str__(self):
         return "Segment: %s to %s l=%s" % (self.p1, self.p2, self.length)
