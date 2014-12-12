@@ -1,13 +1,13 @@
 import sympy as mainSympy
 import sympy.geometry as geoSympy
 
-from Kernel.GeoEntity.point import Point
-from Kernel.GeoEntity.segment import Segment
-from Kernel.GeoEntity.arc import Arc
-from Kernel.GeoEntity.ellipse import Ellipse
-from Kernel.GeoEntity.cline import CLine
+from Generic.Kernel.GeoEntity.point import Point
+from Generic.Kernel.GeoEntity.segment import Segment
+from Generic.Kernel.GeoEntity.arc import Arc
+from Generic.Kernel.GeoEntity.ellipse import Ellipse
+from Generic.Kernel.GeoEntity.cline import CLine
 
-from Kernel.GeoUtil.intersection import *
+from Generic.Kernel.GeoUtil.intersection import *
 
 def testSympySegment():
     print("++ Sympy Segment ++")
