@@ -9,6 +9,7 @@ from Generic.Kernel.GeoEntity.cline import CLine
 
 from Generic.Kernel.GeoUtil.intersection import *
 
+
 def testSympySegment():
     print("++ Sympy Segment ++")
     p1 = Point(0, 1)
@@ -24,6 +25,7 @@ def testSympySegment():
     print("Segment ", seg1)
     print("-- Sympy Segment --")
 
+
 def testSympyCline():
     print("++ Sympy CLine ++")
     p1 = Point(0, 1)
@@ -38,7 +40,8 @@ def testSympyCline():
     seg1.setFromSympy(symSeg)
     print("CLine ", seg1)
     print("-- Sympy CLine --")
-    
+
+
 def testSympyCircle():
     print("++ Sympy Arc ++")
     p1 = Point(0, 1)
@@ -51,6 +54,7 @@ def testSympyCircle():
     print("Pythonca Arc ", arc)
     print("-- Sympy Arc --")
 
+
 def testSympyEllipse():
     print("++ Sympy Ellipse ++")
     p1 = Point(0, 1)
@@ -62,15 +66,20 @@ def testSympyEllipse():
     eli.setFromSympy(sympEli1)
     print("Pythonca Ellipse ", eli)
     print("-- Sympy Ellipse --")
-    
+
+
 def TestSympy():
     testSympySegment()
     testSympyCline()
     testSympyCircle()
     testSympyEllipse()
-#*****************************************************************
-#Test Intersection
-#*****************************************************************
+
+
+# *****************************************************************
+# Test Intersection
+# *****************************************************************
+
+
 def segment_segmet():
     print("++ segment_segmet ++")
     p1 = Point(0, 0)
@@ -81,9 +90,10 @@ def segment_segmet():
     p4 = Point(-1, 0)
     arg = {"SEGMENT_0": p3, "SEGMENT_1": p4}
     seg2 = Segment(arg)
-    
+
     print(find_intersections(seg1, seg2))
     print("-- segment_segmet --")
+
 
 def segment_cline():
     print("++ segment_cline ++")
@@ -99,6 +109,7 @@ def segment_cline():
     print(find_intersections(seg1, seg2))
     print("-- segment_cline --")
 
+
 def segment_circle():
     print("++ segment_circle ++")
     p1 = Point(0, 0)
@@ -111,6 +122,7 @@ def segment_circle():
     print(find_intersections(arc, seg1))
     print("-- segment_circle --")
 
+
 def segment_ellipse():
     print("++ segment_ellipse ++")
     p1 = Point(0, 0)
@@ -122,12 +134,14 @@ def segment_ellipse():
     seg1 = CLine(arg)
     print(find_intersections(eli, seg1))
     print("-- segment_ellipse --")
-    
+
+
 def TestIntersection():
     segment_segmet()
     segment_cline()
     segment_circle()
     segment_ellipse()
+
 
 if __name__ == "__main__":
     TestSympy()
