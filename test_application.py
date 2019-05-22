@@ -1,4 +1,3 @@
-import sympy as mainSympy
 import sympy.geometry as geoSympy
 
 from Generic.Kernel.GeoEntity.point import Point
@@ -7,7 +6,7 @@ from Generic.Kernel.GeoEntity.arc import Arc
 from Generic.Kernel.GeoEntity.ellipse import Ellipse
 from Generic.Kernel.GeoEntity.cline import CLine
 
-from Generic.Kernel.GeoUtil.intersection import *
+from Generic.Kernel.GeoUtil.intersection import find_intersections
 
 
 def testSympySegment():
@@ -105,7 +104,7 @@ def segment_cline():
     p4 = Point(-1, 0)
     arg = {"SEGMENT_0": p3, "SEGMENT_1": p4}
     seg2 = Segment(arg)
-    
+
     print(find_intersections(seg1, seg2))
     print("-- segment_cline --")
 
