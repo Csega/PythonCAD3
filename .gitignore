@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# Binary file with the database(?)
+C
+
 # C extensions
 *.so
 
@@ -64,7 +67,8 @@ target/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
