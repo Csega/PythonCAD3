@@ -26,7 +26,7 @@ from GeoEntity.point import Point
 
 class PointCommand(BaseCommand):
     """
-        this class rappresent the point command
+        this class represents the point command
     """
     def __init__(self, kernel):
         BaseCommand.__init__(self, kernel)
@@ -36,6 +36,6 @@ class PointCommand(BaseCommand):
 
     def applyCommand(self):
         if len(self.value) != 1:
-            raise PyCadWrongImputData("Wrong number of imput parameter")
+            raise PyCadWrongImputData("Wrong number of input parameters")
         point = Point(self.value[0])
         self.document.saveEntity(point)
