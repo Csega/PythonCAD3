@@ -124,7 +124,7 @@ class Application(object):
         # if self.__applicationCommand.has_key(commandType):
         if commandType in self.__applicationCommand:
             cmd = self.__applicationCommand[commandType]
-            cmdIstance = cmd(self.__ActiveDocument) 
+            cmdIstance = cmd(self.__ActiveDocument)
             return cmdIstance
         else:
             raise PyCadWrongCommand("") 

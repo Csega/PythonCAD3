@@ -281,9 +281,10 @@ class ioKernel(object):
             mainLoop operation
         """
         while 1:
-            imputstr = input("Insert a command (H for Help)>> :")
-            if self.__command.has_key(imputstr):
-                self.__command[imputstr]()
+            input_str = input("Insert a command (H for Help)>> :")
+            # if self.__command.has_key(imputstr):
+            if input_str in self.__command.keys():
+                self.__command[input_str]()
             else:
                 print("Wrong Command !!")
     
@@ -539,14 +540,14 @@ class textApplication(object):
             mainLoop operation
         """
         while 1:
-            imputstr = self.inputMsg("Insert a command (? for Help)")
+            input_str = self.inputMsg("Insert a command (? for Help)")
             try:
                 # if self.__command.has_key(imputstr):
-                if imputstr in self.__command:
-                    self.__command[imputstr](imputstr)
+                if input_str in self.__command:
+                    self.__command[input_str](input_str)
                 # elif self.__applicationCommand.has_key(imputstr):
-                elif imputstr in self.__applicationCommand:
-                    self.__applicationCommand[imputstr]()
+                elif input_str in self.__applicationCommand:
+                    self.__applicationCommand[input_str]()
                 else:
                     self.outputMsg("Wrong Command !!")
             except EntityMissing as err:
@@ -857,7 +858,7 @@ class textApplication(object):
         
     def performCommandRandomly(self, commandName, andLoop=10):
         """
-            set some random Value at the command imput
+            set some random Value at the command input
         """
         self.outputMsg("Start Command %s" % str(commandName))
         i = 0

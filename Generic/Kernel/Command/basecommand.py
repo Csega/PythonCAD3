@@ -95,7 +95,10 @@ class BaseCommand(object):
         TotNIter = len(self.exception)
         if self.index >= TotNIter:
             raise StopIteration
-        return (self.exception[self.index],self.message[self.index])
+        return (self.exception[self.index], self.message[self.index])
+
+    def __next__(self):
+        return self.next()
     
     def activeException(self):
         """
