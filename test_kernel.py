@@ -881,6 +881,8 @@ class textApplication(object):
                 raise 
             i += 1
         else:
+            # if cObject.message[0] == "Give Me the Point":
+            #     cObject.value = [self.getRandomPoint()]
             self.outputMsg("Apply Command")
             cObject.applyCommand()
             

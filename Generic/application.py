@@ -127,7 +127,7 @@ class Application(object):
             cmdIstance = cmd(self.__ActiveDocument)
             return cmdIstance
         else:
-            raise PyCadWrongCommand("") 
+            raise PyCadWrongCommand("Wrong PythonCAD command: {}".format(commandType))
 
     def getCommandList(self):
         """
