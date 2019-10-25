@@ -60,3 +60,5 @@ Csega is intended to modify the original module, which was written for
 Python 2 and has not been maintained since two years at least, to convert
 the whole source to Python 3 compatible with the additional goal to convert
 from PyQt4 to PyQt5 dependency.
+
+However, since the package is still not fully functional as of (25th October 2019), Csega is intended to do a deep revision of the whole code base using [Porting Python 2 Code to Python 3](https://docs.python.org/3/howto/pyporting.html) official guide.
