@@ -28,26 +28,32 @@ import sqlite3 as sql
 
 from exception import *
 
+
 class BaseDb(object):
     """
         this class provide base db operation
     """
     commit = True
+
     def __init__(self):
         self.__dbConnection = None
         self.dbPath = None
-        
-    def createConnection(self, dbPath = None):
+
+    def createConnection(self, dbPath=None):
         """
             create the connection with the database
         """
         if dbPath is None:
-            f = tempfile.NamedTemporaryFile(prefix = 'PyCad_', suffix = '.pdr')
+            f = tempfile.NamedTemporaryFile(prefix='PyCad_', suffix='.pdr')
             dbPath = f.name
             f.close()
+
+        if type(dbPath) == tuple:
+            dbPath = dbPath[0]
+
         self.__dbConnection = sql.connect(dbPath)
         self.dbPath = dbPath
-        
+
     def setConnection(self, dbConnection):
         """
             set the connection with the database
@@ -71,29 +77,31 @@ class BaseDb(object):
             _cursor = self.__dbConnection.cursor()
             _rows = _cursor.execute(statment)
         except sql.Error as _e:
-            msg = "Sql Phrase: %s" % str(statment) + "\nSql Error: %s" % str(_e.args[0])
+            msg = "Sql Phrase: %s" % str(
+                statment) + "\nSql Error: %s" % str(_e.args[0])
             raise StructuralError(msg)
-        except :
+        except:
             for s in sys.exc_info():
                 print("Generic Error: %s" % str(s))
             raise StructuralError
-        #_cursor.close()
+        # _cursor.close()
         return _rows
 
-    def fetchOneRow(self, sqlSelect, tupleArgs = None):
+    def fetchOneRow(self, sqlSelect, tupleArgs=None):
         """
             get the first row of the select
         """
         try:
             _cursor = self.__dbConnection.cursor()
             if tupleArgs:
-                _rows = _cursor.execute(sqlSelect,tupleArgs )
+                _rows = _cursor.execute(sqlSelect, tupleArgs)
             else:
                 _rows = _cursor.execute(sqlSelect)
         except sql.Error as _e:
-            msg = "Sql Phrase: %s" % str(sqlSelect) + "\nSql Error: %s" % str(_e.args[0])
+            msg = "Sql Phrase: %s" % str(
+                sqlSelect) + "\nSql Error: %s" % str(_e.args[0])
             raise StructuralError(msg)
-        except :
+        except:
             for s in sys.exc_info():
                 print("Generic Error: %s" % str(s))
             raise StructuralError
@@ -102,26 +110,27 @@ class BaseDb(object):
         if _row is None or _row[0] is None:
             return None
         return _row[0]
-            
-    def makeUpdateInsert(self, statment, tupleArgs = None):
+
+    def makeUpdateInsert(self, statment, tupleArgs=None):
         """
             make an update Inster operation
         """
-        #print "qui1 : sql ",statment
+        # print "qui1 : sql ",statment
         try:
             _cursor = self.__dbConnection.cursor()
             if tupleArgs:
-                _rows = _cursor.execute(statment,tupleArgs )
+                _rows = _cursor.execute(statment, tupleArgs)
             else:
                 _rows = _cursor.execute(statment)
-            #if self.__commit:
+            # if self.__commit:
             if BaseDb.commit:
                 self.performCommit()
                 _cursor.close()
         except sql.Error as _e:
-            msg = "Sql Phrase: %s" % str(statment) + "\nSql Error: %s" % str(_e.args[0])
+            msg = "Sql Phrase: %s" % str(
+                statment) + "\nSql Error: %s" % str(_e.args[0])
             raise sql.Error(msg)
-        except :
+        except:
             for s in sys.exc_info():
                 print("Generic Error: %s" % str(s))
             raise KeyError
@@ -136,14 +145,14 @@ class BaseDb(object):
         """
             suspend the commit in the update\insert
         """
-        #self.__commit=False
+        # self.__commit=False
         BaseDb.commit = False
 
     def reactiveCommit(self):
         """
             reactive the commit in the update\insert
         """
-        #self.__commit=True
+        # self.__commit=True
         BaseDb.commit = True
 
     def performCommit(self):
