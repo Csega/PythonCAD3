@@ -19,7 +19,7 @@
 #
 
 include NEWS
-include INSTALL
+include INSTALL.md
 include COPYING
 include TODO
 include gtkpycad.py
