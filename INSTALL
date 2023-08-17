@@ -4,9 +4,9 @@ Installation
 Windows from binary: Just use the installer provided
 
 From Source (All Platform)
-Install Python 2.6 or later
+Install Python 3.3 or later
 Install Sympy
-Install Pyqt
+Install PyQt5
 
 execute python pythoncad_qt.py (under the pythoncad Folder)
 
