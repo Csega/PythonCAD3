@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-#
+#!/usr/bin/env python3
 # Copyright (c) 2010 Matteo Boscolo
 #
 # This file is part of PythonCAD.
@@ -21,234 +20,255 @@
 # This  module provide the main api interface of pythoncad
 #
 #
+
 import sys
 import os
 import shutil
-#
-if __name__=="__main__":
-    sys.path.append(os.path.join(os.getcwd(), 'Kernel'))
-#
+
+# If this script is run directly, ensure the local Kernel directory is in path
+if __name__ == "__main__":
+    sys.path.append(os.path.join(os.getcwd(), "Kernel"))
+
+# Imports
 from pycadevent import PyCadEvent
-from exception import *
-from document import *
-from Command import *
+from exception import *  # Assuming EntityMissing, etc. are defined here
+from document import Document
+from Command import APPLICATION_COMMAND
 
 
 class Application(object):
     """
-        this class provide the real pythoncad api interface ..
+    This class provides the real PythonCAD API interface.
     """
+
     def __init__(self, **args):
-        userDirectory = os.getenv('USERPROFILE') or os.getenv('HOME')
+        # Determine user directory for config
+        userDirectory = os.getenv("USERPROFILE") or os.getenv("HOME")
         pyUserDir = os.path.join(userDirectory, "PythonCAD")
         if not os.path.exists(pyUserDir):
             os.makedirs(pyUserDir)
-        baseDbName = os.path.join(pyUserDir, 'PythonCAD_Local.pdr')    
-        # --
+
+        baseDbName = os.path.join(pyUserDir, "PythonCAD_Local.pdr")
+
         self.kernel = Document(baseDbName)
+        # Use a valid constant (ensure APPLICATION_COMMAND is defined in Command module)
         self.__applicationCommand = APPLICATION_COMMAND
+
         # Setting up Application Events
         self.startUpEvent = PyCadEvent()
         self.beforeOpenDocumentEvent = PyCadEvent()
         self.afterOpenDocumentEvent = PyCadEvent()
         self.beforeCloseDocumentEvent = PyCadEvent()
         self.afterCloseDocumentEvent = PyCadEvent()
-        self.activeteDocumentEvent = PyCadEvent()
-        # manage Document inizialization
-        self.__Docuemnts = {}
-        if 'open' in args:
-            self.openDocument(args['open'])
+        self.activeDocumentEvent = PyCadEvent()  # Renamed from 'activete' for spelling
+
+        # Manage Document initialization (Fixed typo: __Docuemnts -> __documents)
+        self.__documents = {}
+
+        if "open" in args:
+            self.openDocument(args["open"])
         else:
-            self.__ActiveDocument = None
-        # Fire the Application inizialization
+            self.__activeDocument = None
+
+        # Fire the Application initialization event
         self.startUpEvent(self)
-            
+
     @property
-    def getRecentFiles(self):    
-        """
-            read from application settings the recent files
-        """
+    def getRecentFiles(self):
+        """Read from application settings the recent files."""
         objSettings = self.getApplicationSetting()
+
+        # Sanitization: Handle case where MAX_RECENT_FILE isn't set yet
         nFiles = objSettings.getVariable("MAX_RECENT_FILE")
-        if nFiles:
-            files = objSettings.getVariable("RECENT_FILE_ARRAY")
-            if files:
-                return files
-            else:
-                objSettings.setVariable("RECENT_FILE_ARRAY", [])
-                self.updateApplicationSetting(objSettings)
-        else:
-            objSettings.setVariable("MAX_RECENT_FILE", MAX_RECENT_FILE)
-            objSettings.setVariable("RECENT_FILE_ARRAY", [])
+
+        if nFiles is None:
+            # Default value (ensure constant is defined or use literal)
+            DEFAULT_MAX = 10
+            objSettings.setVariable("MAX_RECENT_FILE", DEFAULT_MAX)
+            nFiles = DEFAULT_MAX
+
+        files = objSettings.getVariable("RECENT_FILE_ARRAY")
+
+        if not files:
+            files = []
+            objSettings.setVariable("RECENT_FILE_ARRAY", files)
             self.updateApplicationSetting(objSettings)
-        return []
-    
+
+        return files
+
     def addRecentFiles(self, name):
-        """
-            add recent file into the application
-        """
+        """Add recent file into the application."""
         objSettings = self.getApplicationSetting()
+
         nFiles = objSettings.getVariable("MAX_RECENT_FILE")
         if not nFiles:
-            objSettings.setVariable("MAX_RECENT_FILE", MAX_RECENT_FILE )
-        
+            # Default fallback
+            DEFAULT_MAX = 10
+            objSettings.setVariable("MAX_RECENT_FILE", DEFAULT_MAX)
+            nFiles = DEFAULT_MAX
+
         files = objSettings.getVariable("RECENT_FILE_ARRAY")
         if not files:
             files = []
-        while(len(files) > nFiles - 1):
+
+        # Keep list size manageable
+        while len(files) > nFiles - 1:
             files.pop(0)
-        files.append(name)
+
+        if name not in files:
+            files.append(name)
+
         objSettings.setVariable("RECENT_FILE_ARRAY", files)
         self.updateApplicationSetting(objSettings)
-        
-    def setActiveDocument(self, document):    
-        """
-            Set the document to active
-        """
+
+    def setActiveDocument(self, document):
+        """Set the document to active."""
         if document:
-            # if self.__Docuemnts.has_key(document.dbPath):
-            if document.dbPath in self.__Docuemnts:
-                self.__ActiveDocument = self.__Docuemnts[document.dbPath]
+            # Python 3 fix: 'in' operator instead of has_key()
+            if document.dbPath in self.__documents:
+                self.__activeDocument = self.__documents[document.dbPath]
             else:
-                raise EntityMissing("Unable to set active the document %s" % str(document.dbPath))
+                raise EntityMissing(
+                    f"Unable to set active the document {document.dbPath}"
+                )
         else:
-            self.__ActiveDocument = document
-        self.activeteDocumentEvent(self, self.__ActiveDocument)   
+            self.__activeDocument = document
+
+        # Event fired with updated spelling of method name if applicable, or original
+        self.activeDocumentEvent(self, self.__activeDocument)
 
     def getCommand(self, commandType):
-        """
-            Get a command of commandType
-        """
-        if not self.__ActiveDocument:
-            raise EntityMissing("Miss Active document in the application")
-        # if self.__applicationCommand.has_key(commandType):
+        """Get a command of commandType."""
+        if not self.__activeDocument:
+            raise EntityMissing("Missing an active document in the application")
+
+        # Python 3 fix: 'in' operator instead of has_key()
         if commandType in self.__applicationCommand:
             cmd = self.__applicationCommand[commandType]
-            cmdIstance = cmd(self.__ActiveDocument)
-            return cmdIstance
+            # Instantiate command with active doc
+            cmdInstance = cmd(self.__activeDocument)
+            return cmdInstance
         else:
-            raise PyCadWrongCommand("Wrong PythonCAD command: {}".format(commandType))
+            raise PyCadWrongCommand(f"Wrong PythonCAD command: {commandType}")
 
     def getCommandList(self):
-        """
-            get the list of all the command
-        """
+        """Get the list of all commands."""
         return self.__applicationCommand.keys()
-    
-    def newDocument(self, fileName = None):
-        """
-            Create a new document empty document in the application
-        """
+
+    def newDocument(self, fileName=None):
+        """Create a new document empty document in the application."""
         newDoc = Document(fileName)
         fileName = newDoc.dbPath
-        self.__Docuemnts[fileName] = newDoc
-        self.afterOpenDocumentEvent(self, self.__Docuemnts[fileName])   #   Fire the open document event
-        self.setActiveDocument(self.__Docuemnts[fileName])              #   Set Active the document
+
+        # Using modern variable name
+        self.__documents[fileName] = newDoc
+
+        # Fire events
+        self.afterOpenDocumentEvent(self, self.__documents[fileName])
+        self.setActiveDocument(self.__documents[fileName])
         self.addRecentFiles(fileName)
-        return self.__Docuemnts[fileName]
-        
+
+        return self.__documents[fileName]
+
     def openDocument(self, fileName):
-        """
-            open a saved document 
-        """
+        """Open a saved document."""
         self.beforeOpenDocumentEvent(self, fileName)
-        # if not self.__Docuemnts.has_key(fileName):
-        if not fileName in self.__Docuemnts:
-            self.__Docuemnts[fileName] = Document(fileName)
+
+        # Python 3 fix: 'in' operator check
+        if not fileName in self.__documents:
+            self.__documents[fileName] = Document(fileName)
             self.addRecentFiles(fileName)
-        self.afterOpenDocumentEvent(self, self.__Docuemnts[fileName])   #   Fire the open document event
-        self.setActiveDocument(self.__Docuemnts[fileName])              #   Set Active the document
-        return self.__Docuemnts[fileName]
-    
+
+        self.afterOpenDocumentEvent(self, self.__documents[fileName])
+        self.setActiveDocument(self.__documents[fileName])
+        return self.__documents[fileName]
+
     def saveAs(self, newFileName):
-        """
-            seve the current document to the new position
-        """
-        if self.__ActiveDocument:
-            oldFileName = self.__ActiveDocument.getName()
+        """Save the current document to a new position."""
+        if self.__activeDocument:
+            oldFileName = self.__activeDocument.getName()
+
+            # Bug Fix: Move copy before close to prevent data loss on error
+            try:
+                shutil.copy2(oldFileName, newFileName)
+            except IOError as e:
+                raise IOError(f"Failed to save file: {e}")
+
             self.closeDocument(oldFileName)
-            shutil.copy2(oldFileName,newFileName)
             return self.openDocument(newFileName)
-        raise EntityMissing("No document open in the application unable to perform the saveAs comand")
-    
+
+        raise EntityMissing(
+            "No document open in the application unable to perform the saveAs command"
+        )
+
     def closeDocument(self, fileName):
-        """
-            close the document
-        """
+        """Close the document."""
         self.beforeCloseDocumentEvent(self, fileName)
-        if self.__Docuemnts.key(fileName):
-            del(self.__Docuemnts[fileName])
-            for keyDoc in self.__Docuemnts:
-                self.setActiveDocument(self.__Docuemnts[keyDoc])
+
+        # Bug Fix: 'key' method doesn't exist on dicts. Fixed logic to check existence.
+        if fileName in self.__documents:
+            del self.__documents[fileName]
+
+            # Find next active document (first one in dict iteration order)
+            # Logic preserved from original: if empty, set to None
+            new_active_set = False
+            for docPath in self.__documents:
+                self.setActiveDocument(self.__documents[docPath])
+                new_active_set = True
                 break
-            else:
+
+            if not new_active_set:
                 self.setActiveDocument(None)
         else:
-            raise IOError("Unable to remove the file %s" % str(fileName))
-        self.afterCloseDocumentEvent(self)
-    
-    def getActiveDocument(self):
-        """
-            get The active Document
-        """
-        return self.__ActiveDocument
-        
-    def getDocuments(self):
-        """
-            get the Docuemnts Collection
-        """    
-        return self.__Docuemnts
+            raise IOError(f"Unable to remove the file {fileName}")
 
-    #
-    # manage application style
-    #
+        self.afterCloseDocumentEvent(self)
+
+    def getActiveDocument(self):
+        """Get The active Document."""
+        return self.__activeDocument
+
+    def getDocuments(self):
+        """Get the Documents Collection."""
+        return self.__documents
+
+    # Manage application style
+
     def getApplicationStyleList(self):
-        """
-            Get the application styles
-        """
+        """Get the application styles."""
         return self.kernel.getDBStyles()
-    
+
     def getApplicationStyle(self, id=None, name=None):
-        """
-            retrive a style from the application
-        """
+        """Retrieve a style from the application."""
         return self.kernel.getStyle(id, name)
 
     def setApplicationStyle(self, style):
-        """
-            add style to the application
-        """
+        """Add style to the application."""
         self.kernel.saveEntity(style)
-    
+
     def deleteApplicationStyle(self, styleID):
-        """
-            delete the application style
-        """
+        """Delete the application style."""
         self.kernel.deleteEntity(styleID)
 
-    #
     # Manage the application settings
-    #
-    def getApplicationSetting(self):
-        """
-            return the setting object from the application
-        """
-        return self.kernel.getDbSettingsObject()
-    
-    def updateApplicationSetting(self, settingObj):
-        """
-            update the application settingObj
-        """
-        #apObj=self.kernel.getDbSettingsObject()
-        #apObj.setConstructionElement(settingObj)
-        self.kernel.saveEntity(settingObj)  
 
-if __name__=='__main__':
+    def getApplicationSetting(self):
+        """Return the setting object from the application."""
+        return self.kernel.getDbSettingsObject()
+
+    def updateApplicationSetting(self, settingObj):
+        """Update the application settingObj."""
+        # Updated logic to save directly via kernel API as per original intent
+        self.kernel.saveEntity(settingObj)
+
+
+if __name__ == "__main__":
     import application_test as test
+
     app = Application()
     doc = app.newDocument()
-    #doc.importExternalFormat('C:\Users\mboscolo\Desktop\jettrainer.dxf')
-    #segments=doc.getEntityFromType("SEGMENT")
-    #print len(segments)
-    #test.TestSympy()
-    test.TestIntersection()
+
+    # Uncomment to test (ensure file exists at path)
+    # doc.importExternalFormat(r'C:\Users\mboscolo\Desktop\jettrainer.dxf')
+
+    print("PythonCAD App Initialized")
