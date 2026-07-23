@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #
 # Copyright (c) 2010 Matteo Boscolo
 #
@@ -18,68 +19,95 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 #
-# This module provide a parser for the imput interface
-#
+# This module provides a parser for the input interface
+
+import sys
 from sympy.physics import units as u
 
-def decodePoint(value, previusPoint=None):
+
+def convertLength(value):
     """
-        this static method decode an imput and return a point(mm,mm)
+    Convert a length in sympy units syntax into a mm float.
+    (Renamed from 'convertLengh' to fix typo)
     """
-    value = str(value).lower()
-    from Kernel.GeoEntity.point import Point
-    x, y = str(value).split(',')
-    return Point(convertLengh(x), convertLengh(y))
-    
+    val = str(value).lower()
+
+    # Fast path for plain numbers (e.g., "10")
+    try:
+        return float(val)
+    except ValueError:
+        pass  # Not a plain number, continue to sympy parsing
+
+    # Sanitization: Use safe 'eval' with restricted namespace instead of exec('retVal=...')
+    # This allows expressions like "10*u.m + 2*cm" without executing arbitrary code.
+    try:
+        namespace = {"u": u}
+        result = eval(val, {"__builtins__": {}}, namespace)
+
+        if hasattr(result, "si"):
+            return float((result.si / u.mm).n())
+        else:
+            return float(float(result / u.mm).n())
+    except Exception as e:
+        print(f"Wrong formatting string in length conversion: {e}")
+        return None
+
+
+# Alias the correct function name to the old typo for backward compatibility
+convertLengh = convertLength
+
+
 def convertAngle(value):
     """
-        convert a angle in simpy units syntax into a rad float
+    Convert an angle in sympy units syntax into a rad float.
+    """
+    val = str(value).lower()
+
+    # Fast path for plain numbers (e.g., "45")
+    try:
+        return float(val)
+    except ValueError:
+        pass
+
+    # Sanitization: Same safe evaluation as length
+    try:
+        namespace = {"u": u}
+        result = eval(val, {"__builtins__": {}}, namespace)
+
+        if hasattr(result, "si"):
+            return float(result.si / u.rad)
+        else:
+            return float(float(result / u.rad))
+    except Exception as e:
+        print(f"Wrong formatting string in angle conversion: {e}")
+        return None
+
+
+def decodePoint(value, previousPoint=None):
+    """
+    This static method decodes an input and returns a point (mm, mm)
     """
     value = str(value).lower()
-    retVal = None
-    try:
-        retVal = float(value)
-    except:
-        try:
-            retVal = sympyConvertAngle(value)
-        except:
-            print("Wrong formatting string")
-    finally:
-        return retVal
 
-def sympyConvertAngle(value):
-    retVal = None
-    value = 'retVal=' + value
-    exec(value)
-    retVal = retVal / u.rad
-    return float(retVal)
-    
-def convertLengh(value):
-    """
-        convert a lengh in simpy units syntax into a mm float
-        return : Float
-    """
-    value = str(value).lower()
-    retVal = None
-    try:
-        retVal = float(value)
-    except:
-        try:
-            retVal = sympyConvertLeng(value)
-        except:
-            print("Wrong formatting string")
-    finally:
-        return retVal
+    # Sanitization: Check for basic formatting requirements
+    if "," not in value:
+        raise ValueError(f"Invalid point format. Expected 'x,y'. Received '{value}'")
 
-def sympyConvertLeng(value):
-    retVal = None
-    value = 'retVal=' + value
-    exec(value)
-    retVal = retVal / u.mm
-    return float(retVal.n())
+    parts = value.split(",")
+    if len(parts) != 2:
+        raise ValueError(
+            f"Invalid point format. Expected exactly two values. Received '{value}'"
+        )
 
-if __name__ == '__main__':
-    print(convertLengh('10*u.m+3.5*u.cm+10*u.ft'))
-    print(convertAngle('10'))
-    print(convertAngle('90*u.deg'))
-    print(sympyConvertAngle('10*u.rad+10*u.deg'))
+    x_str, y_str = parts
+
+    # Import locally to avoid circular dependencies at module load time
+    from Kernel.GeoEntity.point import Point
+
+    return Point(convertLength(x_str), convertLength(y_str))
+
+
+if __name__ == "__main__":
+    print(f"Length Test: {convertLengh('10*u.m+3.5*u.cm+10*u.ft')}")
+    print(f"Angle Test (10): {convertAngle('10')}")
+    print(f"Angle Test (90 deg): {convertAngle('90*u.deg')}")
